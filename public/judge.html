@@ -350,6 +350,57 @@
       }
     }
 
+    
+    function isJuniorGrade(g) {
+      if (!g) return false;
+      return !['Grade 7', 'Grade 8', 'Grade 10', 'Grade 11'].includes(g);
+    }
+
+    const JUNIOR_RUBRIC_CRITERIA = [
+      {
+        id: 'costume',
+        number: 1,
+        title: '1. Costume & Visuals (Sash / Flag)',
+        desc: 'National costume of chosen country, sash, or national flag. (VN costume capped at 1.5 pts unless Official Emcee)',
+        getOptions: (isVn, isEmcee) => {
+          if (isVn && !isEmcee) {
+            return [
+              { score: 1.5, label: '1.5 Pts (VN Max Base)', text: 'Standard Vietnam costume / Ao Dai (Base rule: non-emcee capped at 1.5 pts).' },
+              { score: 1.0, label: '1.0 Pt (Satisfactory)', text: 'Partial national costume or simple visual element.' },
+              { score: 0.5, label: '0.5 Pt (Basic)', text: 'Regular school uniform with simple flag.' }
+            ];
+          }
+          return [
+            { score: 3.0, label: '3.0 Pts (Full Honors)', text: 'Complete authentic national costume with sash and flag displayed.' },
+            { score: 2.0, label: '2.0 Pts (Good Visuals)', text: 'Clear national costume with minor missing accessories.' },
+            { score: 1.0, label: '1.0 Pt (Basic Attire)', text: 'Simple national accents or basic visual flag.' }
+          ];
+        }
+      },
+      {
+        id: 'script',
+        number: 2,
+        title: '2. Script: Clear Voice & Pronunciation',
+        desc: 'Clear voice, good pronunciation of greeting, name, country, and nationality',
+        options: [
+          { score: 3.0, label: '3.0 Pts (Clear & Confident)', text: 'Clear, audible voice. Confident national greeting + name + country + nationality.' },
+          { score: 2.0, label: '2.0 Pts (Good Delivery)', text: 'Spoke clearly with minor pronunciation hesitation.' },
+          { score: 1.0, label: '1.0 Pt (Quiet / Needs Help)', text: 'Quiet or needed teacher encouragement.' }
+        ]
+      },
+      {
+        id: 'presentation',
+        number: 3,
+        title: '3. Presentation: Walk & Bow',
+        desc: 'Stage presence, confident walk, polite national bow or greeting gesture',
+        options: [
+          { score: 2.0, label: '2.0 Pts (Excellent Stage Walk)', text: 'Walked with poise, polite national greeting gesture or bow, stage smile.' },
+          { score: 1.5, label: '1.5 Pts (Good Stage Walk)', text: 'Good posture and walk, minor shyness in greeting gesture.' },
+          { score: 1.0, label: '1.0 Pt (Hesitant Walk)', text: 'Rushed walk across stage or omitted bow/greeting.' }
+        ]
+      }
+    ];
+
     const RUBRIC_CRITERIA = [
       {
         id: 'preparation',
@@ -412,6 +463,7 @@
       try {
         const res = await fetch('/api/teams');
         teamsByGrade = await res.json();
+        populateJudgeGrades();
       } catch (e) {
         console.error('Failed to load teams:', e);
       }
@@ -616,6 +668,7 @@
       tabs.innerHTML = '';
 
       const teams = teamsByGrade[selectedGrade] || [];
+      const isJunior = isJuniorGrade(selectedGrade);
 
       let scoredCount = 0;
 
@@ -631,29 +684,55 @@
         let borderClass = isCurrent ? 'border-amber-400 bg-amber-950/40 ring-2 ring-amber-400/40' : 'border-slate-800 bg-slate-900/70 hover:border-slate-600';
         btn.className = `p-2.5 rounded-xl border text-left transition flex items-center space-x-2.5 ${borderClass}`;
 
+        const displayName = isJunior ? c.studentName : c.name;
+        const subText = isJunior ? `${c.country}${c.isEmcee ? ' • 🎙️' : ''}` : (scoreData ? `${scoreData.totalScore} pts` : 'Pending');
+
         btn.innerHTML = `
-          <img src="${c.flag}" alt="${c.name}" class="w-8 h-5 object-cover rounded flag-box flex-shrink-0">
+          <img src="${c.flag}" alt="${displayName}" class="w-8 h-5 object-cover rounded flag-box flex-shrink-0">
           <div class="overflow-hidden flex-grow">
-            <div class="text-xs font-bold text-white truncate">${c.name}</div>
-            <div class="text-[10px] ${scoreData ? 'text-emerald-400 font-semibold' : 'text-slate-500'}">
-              ${scoreData ? `✓ ${scoreData.totalScore} pts` : 'Pending'}
+            <div class="text-xs font-bold text-white truncate">${displayName}</div>
+            <div class="text-[10px] ${scoreData ? 'text-emerald-400 font-semibold' : 'text-slate-500'} truncate">
+              ${scoreData ? `✓ ${scoreData.totalScore} pts` : subText}
             </div>
           </div>
         `;
         tabs.appendChild(btn);
       });
 
-      document.getElementById('judgeProgressText').textContent = `Evaluated: ${scoredCount} / ${teams.length} Countries`;
+      const prog = document.getElementById('judgeProgressText');
+      if (prog) prog.textContent = `Evaluated: ${scoredCount} / ${teams.length} ${isJunior ? 'Students' : 'Delegations'}`;
 
       const curr = teams.find(c => c.id === currentCountryId);
       if (curr) {
         document.getElementById('currentFlag').src = curr.flag;
-        document.getElementById('currentCountryName').textContent = `${curr.name} (${selectedGrade})`;
-        const delStr = curr.delegates ? curr.delegates.join(', ') : '';
-        const mStr = curr.mentor ? `Mentor: ${curr.mentor}` : '';
-        const descDiv = document.querySelector('#currentCountryName + div');
-        if (descDiv) {
-          descDiv.innerHTML = `<span class="text-amber-400 font-semibold mr-2">${mStr}</span> <span>Delegates: ${delStr}</span>`;
+        if (isJunior) {
+          document.getElementById('currentCountryName').innerHTML = `
+            <div class="flex items-center space-x-2">
+              <span>${curr.studentName} — ${curr.country}</span>
+              ${curr.isEmcee ? '<span class="px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-300 text-[10px] font-black border border-amber-500/40">🎙️ Official Emcee</span>' : ''}
+            </div>
+          `;
+          const descDiv = document.querySelector('#currentCountryName + div');
+          if (descDiv) {
+            descDiv.innerHTML = `
+              <div class="mt-2 space-y-2">
+                <div class="text-xs text-amber-300"><strong class="text-slate-300">Costume:</strong> ${curr.costume} ${curr.countryKey === 'vietnam' && !curr.isEmcee ? '<span class="text-rose-400 font-bold ml-1.5 bg-rose-500/10 px-2 py-0.5 rounded border border-rose-500/30">⚠️ VN Base Rule: Capped at 1.5 pts</span>' : ''}</div>
+                <div class="p-3.5 rounded-xl bg-slate-950/80 border border-slate-800 text-xs text-slate-200">
+                  <div class="font-bold text-amber-400 mb-1 flex items-center space-x-1.5"><i class="fa-solid fa-microphone-lines text-xs"></i><span>Student Presentation Script:</span></div>
+                  <div class="italic text-slate-100 font-serif-quote mb-1.5 text-xs sm:text-sm">"${curr.basicScript}"</div>
+                  <div class="text-[11px] text-sky-300 font-medium flex items-center space-x-1"><i class="fa-solid fa-star text-amber-400"></i><span>Bonus Script Facts: "${curr.addedScript}"</span></div>
+                </div>
+              </div>
+            `;
+          }
+        } else {
+          document.getElementById('currentCountryName').textContent = `${curr.name} (${selectedGrade})`;
+          const delStr = curr.delegates ? curr.delegates.join(', ') : '';
+          const mStr = curr.mentor ? `Mentor: ${curr.mentor}` : '';
+          const descDiv = document.querySelector('#currentCountryName + div');
+          if (descDiv) {
+            descDiv.innerHTML = `<span class="text-amber-400 font-semibold mr-2">${mStr}</span> <span>Delegates: ${delStr}</span>`;
+          }
         }
       }
     }
@@ -662,12 +741,23 @@
       const container = document.getElementById('rubricContainer');
       container.innerHTML = '';
 
-      RUBRIC_CRITERIA.forEach(crit => {
+      const isJunior = isJuniorGrade(selectedGrade);
+      const teams = teamsByGrade[selectedGrade] || [];
+      const curr = teams.find(c => c.id === currentCountryId);
+      const isVn = curr && (curr.countryKey === 'vietnam' || curr.country === 'Vietnam');
+      const isEmcee = curr && curr.isEmcee;
+
+      const criteriaList = isJunior ? JUNIOR_RUBRIC_CRITERIA : RUBRIC_CRITERIA;
+
+      criteriaList.forEach(crit => {
         const block = document.createElement('div');
         block.className = 'bg-slate-900/60 rounded-xl p-4 sm:p-5 border border-slate-800';
 
+        const options = crit.getOptions ? crit.getOptions(isVn, isEmcee) : crit.options;
+        const maxPts = crit.max || 3;
+
         let optionsHtml = '';
-        crit.options.forEach(opt => {
+        options.forEach(opt => {
           optionsHtml += `
             <label class="relative flex flex-col p-3 rounded-lg border border-slate-700/80 bg-slate-900 hover:bg-slate-800/80 hover:border-slate-600 cursor-pointer transition select-none has-[:checked]:border-blue-400 has-[:checked]:bg-blue-950/40 has-[:checked]:ring-1 has-[:checked]:ring-blue-400/50">
               <div class="flex items-center justify-between mb-1.5">
@@ -685,7 +775,7 @@
               <h4 class="text-sm font-bold text-white">${crit.title}</h4>
               <p class="text-[11px] text-slate-400">${crit.desc}</p>
             </div>
-            <span id="scoreBadge_${crit.id}" class="text-xs font-bold px-2 py-0.5 rounded bg-slate-800 text-slate-400 border border-slate-700">-- / 3</span>
+            <span id="scoreBadge_${crit.id}" class="text-xs font-bold px-2 py-0.5 rounded bg-slate-800 text-slate-400 border border-slate-700">-- / ${maxPts}</span>
           </div>
           <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
             ${optionsHtml}
@@ -693,43 +783,74 @@
         `;
         container.appendChild(block);
       });
+
+      // Update Bonus Card Labels based on division
+      const bonusTitle = document.querySelector('label[for="advancedBonusCheck"] .text-amber-400');
+      const bonusTag = document.querySelector('label[for="advancedBonusCheck"] .text-\\[10px\\]');
+      const bonusDesc = document.querySelector('label[for="advancedBonusCheck"] p');
+      const bonusHint = document.querySelector('label[for="advancedBonusCheck"] .font-mono');
+
+      if (isJunior) {
+        if (bonusTitle) bonusTitle.textContent = '🌟 Added Script Bonus (+2.0 Bonus Points)';
+        if (bonusDesc) bonusDesc.textContent = 'Awarded +2.0 bonus points if the student recites extended script or interesting facts about their chosen country (e.g. islands, geography, culture, famous landmarks).';
+        if (bonusHint) bonusHint.textContent = 'Calculation: Costume (/3.0 or /1.5) + Script (/3.0) + Presentation (/2.0) = Base (/8.0) + Bonus (+2.0) = Total Score (Max 10 Points)';
+      } else {
+        if (bonusTitle) bonusTitle.textContent = '🌟 Advanced Challenge Bonus (+5 Bonus Points)';
+        if (bonusDesc) bonusDesc.textContent = 'Awarded +5 bonus points if the delegation chooses and successfully answers more than 1 advanced challenge question (>1 Advanced Question) during presentation or Q&A.';
+        if (bonusHint) bonusHint.textContent = 'Calculation: Base Score (out of 15) + Advanced Bonus (+5) = Total Score (out of 20)';
+      }
     }
 
     function calculateScore() {
+      const isJunior = isJuniorGrade(selectedGrade);
+      const criteriaList = isJunior ? JUNIOR_RUBRIC_CRITERIA : RUBRIC_CRITERIA;
+
       let base = 0;
       let allSelected = true;
 
-      RUBRIC_CRITERIA.forEach(crit => {
+      criteriaList.forEach(crit => {
         const checked = document.querySelector(`input[name="crit_${crit.id}"]:checked`);
         const badge = document.getElementById(`scoreBadge_${crit.id}`);
+        const maxPts = crit.max || 3;
         if (checked) {
-          const val = parseInt(checked.value, 10);
+          const val = parseFloat(checked.value);
           base += val;
-          badge.textContent = `${val} / 3`;
-          badge.className = 'text-xs font-bold px-2 py-0.5 rounded bg-blue-500/20 text-blue-300 border border-blue-500/30';
+          if (badge) {
+            badge.textContent = `${val} / ${maxPts}`;
+            badge.className = 'text-xs font-bold px-2 py-0.5 rounded bg-blue-500/20 text-blue-300 border border-blue-500/30';
+          }
         } else {
           allSelected = false;
-          badge.textContent = '-- / 3';
-          badge.className = 'text-xs font-bold px-2 py-0.5 rounded bg-slate-800 text-slate-400 border border-slate-700';
+          if (badge) {
+            badge.textContent = `-- / ${maxPts}`;
+            badge.className = 'text-xs font-bold px-2 py-0.5 rounded bg-slate-800 text-slate-400 border border-slate-700';
+          }
         }
       });
 
       const bonusChecked = document.getElementById('advancedBonusCheck').checked;
-      const bonus = bonusChecked ? 5 : 0;
-      const total = base + bonus;
+      const bonus = bonusChecked ? (isJunior ? 2.0 : 5.0) : 0;
+      const total = Number((base + bonus).toFixed(1));
 
-      document.getElementById('displayBaseScore').textContent = `${base} / 15`;
-      document.getElementById('displayBonusScore').textContent = bonusChecked ? '+5' : '0';
-      document.getElementById('displayTotalScore').innerHTML = `${total} <span class="text-xs text-slate-400 font-normal">/ 20</span>`;
+      const baseMax = isJunior ? 8.0 : 15.0;
+      const totalMax = isJunior ? 10.0 : 20.0;
+
+      document.getElementById('displayBaseScore').textContent = `${Number(base.toFixed(1))} / ${baseMax}`;
+      document.getElementById('displayBonusScore').textContent = `${bonus}`;
+      document.getElementById('displayTotalScore').innerHTML = `${total} <span class="text-xs text-slate-400 font-normal">/ ${totalMax}</span>`;
 
       return { base, bonus, total, allSelected };
     }
 
     function loadCountryScoreData(cid) {
+      renderRubric();
+
       const scoreKey = `${selectedGrade}_${cid}`;
       const data = judgeScoresCache[scoreKey];
+      const isJunior = isJuniorGrade(selectedGrade);
+      const criteriaList = isJunior ? JUNIOR_RUBRIC_CRITERIA : RUBRIC_CRITERIA;
 
-      RUBRIC_CRITERIA.forEach(crit => {
+      criteriaList.forEach(crit => {
         const radios = document.querySelectorAll(`input[name="crit_${crit.id}"]`);
         radios.forEach(r => {
           r.checked = data && data.scores && data.scores[crit.id] == r.value;
@@ -760,16 +881,23 @@
       }
       saveJudgeIdentity();
 
+      const isJunior = isJuniorGrade(selectedGrade);
       const { base, bonus, total, allSelected } = calculateScore();
+
       if (!allSelected) {
-        munToast.warning('Please score all 5 rubric criteria (Preparation, Speaking, Vocabulary, Teamwork, Active Listening Q&A)!');
+        if (isJunior) {
+          munToast.warning('Please score all 3 criteria (Costume & Visuals, Script, and Presentation)!');
+        } else {
+          munToast.warning('Please score all 5 rubric criteria (Preparation, Speaking, Vocabulary, Teamwork, Active Listening Q&A)!');
+        }
         return;
       }
 
       const scores = {};
-      RUBRIC_CRITERIA.forEach(crit => {
+      const criteriaList = isJunior ? JUNIOR_RUBRIC_CRITERIA : RUBRIC_CRITERIA;
+      criteriaList.forEach(crit => {
         const checked = document.querySelector(`input[name="crit_${crit.id}"]:checked`);
-        scores[crit.id] = parseInt(checked.value, 10);
+        scores[crit.id] = parseFloat(checked.value);
       });
 
       const payload = {
@@ -794,11 +922,12 @@
           const scoreKey = `${selectedGrade}_${currentCountryId}`;
           judgeScoresCache[scoreKey] = data.score;
           renderCountryTabs();
-          renderOverviewTable();
 
           const teams = teamsByGrade[selectedGrade] || [];
-          const cName = teams.find(c => c.id === currentCountryId)?.name || currentCountryId;
-          munToast.success(`Score saved successfully for ${cName} (${selectedGrade}): ${data.score.totalScore} Points!`);
+          const curr = teams.find(c => c.id === currentCountryId);
+          const cName = curr ? (curr.studentName || curr.name) : currentCountryId;
+          const maxPts = isJunior ? 10 : 20;
+          munToast.success(`Score saved for ${cName} (${selectedGrade}): ${data.score.totalScore} / ${maxPts} Points!`);
 
           const unscored = teams.find(c => !judgeScoresCache[`${selectedGrade}_${c.id}`]);
           if (unscored) {

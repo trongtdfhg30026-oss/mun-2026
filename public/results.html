@@ -242,6 +242,10 @@
   <!-- LEADERBOARD SCRIPT -->
   <script>
     let currentGrade = 'Grade 11';
+    function isJuniorGrade(g) {
+      if (!g) return false;
+      return !['Grade 7', 'Grade 8', 'Grade 10', 'Grade 11'].includes(g);
+    }
     let leaderboardCache = null;
     let presentationTimerCache = null;
     let roundTimerCache = null;
@@ -370,9 +374,25 @@
       const gradeList = leaderboardCache.grades || leaderboardCache.resultsByGrade || {};
       const gData = gradeList[currentGrade] || {};
 
+      const isJunior = isJuniorGrade(currentGrade);
       document.getElementById('liveChamberBadge').textContent = currentGrade;
       document.getElementById('displayGradeTitle').textContent = currentGrade;
       document.getElementById('modalGradeName').textContent = currentGrade;
+
+      const scalePill = document.querySelector('span.font-mono.px-2.py-0\\.5') || document.querySelector('span:has-text("Scale:")');
+      const champSubtitle = document.querySelector('h2.font-mun + p');
+      const awardsStripTitle = document.querySelector('#topicsAwardCards')?.parentElement?.querySelector('h3');
+      const awardsStripDesc = document.querySelector('#topicsAwardCards')?.parentElement?.querySelector('span.text-\\[10px\\]');
+
+      if (isJunior) {
+        if (champSubtitle) champSubtitle.textContent = 'Top 3 students by Official Judge Scoring (Base 8 + Added Script Bonus 2 = Max 10 Points)';
+        if (awardsStripTitle) awardsStripTitle.textContent = 'Parade of Nations Special Honors & Student Choice';
+        if (awardsStripDesc) awardsStripDesc.textContent = 'Special awards for National Costumes, Cultural Scripts, and Class Votes';
+      } else {
+        if (champSubtitle) champSubtitle.textContent = 'Top 3 delegations by Official Judge Scoring (Base 15 + Advanced Bonus 5 = Max 20 Points)';
+        if (awardsStripTitle) awardsStripTitle.textContent = 'Students' Choice Global Solutions Awards';
+        if (awardsStripDesc) awardsStripDesc.textContent = 'Decided independently by peer delegation ballots';
+      }
 
       renderOlympicPodium(gData.judgeTop3);
       renderTopicsAwards(gData.topicRankings);
@@ -453,7 +473,12 @@
       const container = document.getElementById('topicsAwardCards');
       container.innerHTML = '';
 
-      const topics = [
+      const isJunior = isJuniorGrade(currentGrade);
+      const topics = isJunior ? [
+        { id: 'climate', name: '🌟 Best National Costume', award: 'Authentic Costume & Visuals Award', icon: 'fa-shirt', color: 'text-amber-400', border: 'border-amber-500/40' },
+        { id: 'education', name: '🎤 Best Script & Delivery', award: 'Clear Voice, Pronunciation & Cultural Facts', icon: 'fa-microphone', color: 'text-sky-400', border: 'border-sky-500/40' },
+        { id: 'health', name: '💖 Students' Choice Favorite', award: 'Most Peer Votes in Class', icon: 'fa-heart', color: 'text-rose-400', border: 'border-rose-500/40' }
+      ] : [
         { id: 'climate', name: 'Topic 1: Climate Change', award: 'Best Climate Solution', icon: 'fa-earth-americas', color: 'text-emerald-400', border: 'border-emerald-500/30' },
         { id: 'education', name: 'Topic 2: Education', award: 'Best Education Solution', icon: 'fa-book-open', color: 'text-sky-400', border: 'border-sky-500/30' },
         { id: 'health', name: 'Topic 3: Health Issues', award: 'Best Health Solution', icon: 'fa-heart-pulse', color: 'text-rose-400', border: 'border-rose-500/30' }

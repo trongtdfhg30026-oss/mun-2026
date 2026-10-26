@@ -81,7 +81,7 @@
         Students' Choice Award Voting
       </h1>
       <p class="text-slate-300 text-xs sm:text-sm max-w-xl mx-auto leading-relaxed">
-        Select your <strong>Grade</strong> first, then choose your <strong>Country</strong>. Vote for the best presentation in each topic.
+        Select your <strong>Grade</strong> first. Primary grades (1-3) vote for favorite costumes & presentations in <strong>Parade of Nations</strong>; Senior grades (7-11) vote across 3 strategic topics.
         <span class="text-amber-400 font-semibold block sm:inline">Self-voting is strictly forbidden!</span>
       </p>
     </div>
@@ -116,7 +116,7 @@
 
           <div>
             <label class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-2">
-              2. Country Delegation <span class="text-rose-400">*</span>
+              <span id="voterCountryLabel">2. Country Delegation <span class="text-rose-400">*</span></span>
             </label>
             <select id="voterCountrySelect" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-sm font-semibold text-white focus:outline-none focus:border-amber-400 transition" disabled onchange="handleCountryChange()">
               <option value="" disabled selected>-- Choose Grade First --</option>
@@ -126,7 +126,7 @@
           <div>
             <label class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-2 flex items-center justify-between">
               <span>3. Country Passcode <span class="text-rose-400">*</span></span>
-              <span class="text-[10px] text-amber-400 font-normal">Ask Mentor</span>
+              <span class="text-[10px] text-amber-400 font-normal"><span id="passcodeSublabel">Ask Mentor</span></span>
             </label>
             <div class="relative">
               <input type="password" id="voterPasscode" placeholder="Enter country passcode"
@@ -189,8 +189,8 @@
               2
             </div>
             <div>
-              <h2 class="text-lg font-bold text-white">Vote For The Best Solutions By Topic</h2>
-              <p class="text-xs text-slate-400">Select 2 delegations per topic across all 3 topics (Total 6 votes). You cannot vote for your own country.</p>
+              <h2 id="step2SectionTitle" class="text-lg font-bold text-white">Vote For The Best Solutions By Topic</h2>
+              <p id="step2SectionDesc" class="text-xs text-slate-400">Select 2 delegations per topic across all 3 topics (Total 6 votes). You cannot vote for your own country.</p>
             </div>
           </div>
         </div>
@@ -281,7 +281,61 @@
 
     const PHASE_ORDER = ['climate', 'education', 'health'];
 
+    function isJuniorGrade(g) {
+      if (!g) return false;
+      return !['Grade 7', 'Grade 8', 'Grade 10', 'Grade 11'].includes(g);
+    }
+
+    function populateGradeSelect() {
+      const gSelect = document.getElementById('voterGradeSelect');
+      if (!gSelect || !appConfig.grades) return;
+
+      const currentVal = gSelect.value;
+      gSelect.innerHTML = '<option value="" disabled selected>-- Select Grade Level --</option>';
+
+      const juniorGrades = (appConfig.juniorGrades || ['Grade 1A1', 'Grade 1A2', 'Grade 2A1', 'Grade 2A2', 'Grade 3']).filter(g => teamsByGrade[g]);
+      const seniorGrades = (appConfig.seniorGrades || ['Grade 7', 'Grade 8', 'Grade 10', 'Grade 11']).filter(g => teamsByGrade[g]);
+
+      if (juniorGrades.length > 0) {
+        const optgJunior = document.createElement('optgroup');
+        optgJunior.label = '🌟 Primary: Parade of Nations (Grade 1 - 3)';
+        juniorGrades.forEach(g => {
+          const opt = document.createElement('option');
+          opt.value = g;
+          opt.textContent = `${g} • Parade of Nations (${teamsByGrade[g].length} Students)`;
+          optgJunior.appendChild(opt);
+        });
+        gSelect.appendChild(optgJunior);
+      }
+
+      if (seniorGrades.length > 0) {
+        const optgSenior = document.createElement('optgroup');
+        optgSenior.label = '🏛️ Senior: Model UN Showcase (Grade 7 - 11)';
+        seniorGrades.forEach(g => {
+          const opt = document.createElement('option');
+          opt.value = g;
+          opt.textContent = `${g} • Global Solutions Showcase (${teamsByGrade[g].length} Delegations)`;
+          optgSenior.appendChild(opt);
+        });
+        gSelect.appendChild(optgSenior);
+      }
+
+      if (currentVal && teamsByGrade[currentVal]) {
+        gSelect.value = currentVal;
+      }
+    }
+
     async function init() {
+      try {
+        const res = await fetch('/api/config');
+        appConfig = await res.json();
+        teamsByGrade = appConfig.teamsByGrade || {};
+        activePhase = appConfig.settings.activePhase || 'all';
+        updatePhaseBadge();
+        populateGradeSelect();
+      } catch (e) {
+        console.error('Failed to load config:', e);
+      }
       try {
         const res = await fetch('/api/config');
         appConfig = await res.json();
@@ -443,16 +497,46 @@
       selectedVoterCountry = '';
       currentPasscode = '';
       isPasscodeVerified = false;
-      topicVotes = { climate: [], education: [], health: [] };
+      topicVotes = { climate: [], education: [], health: [], favorites: [] };
+
+      const isJunior = isJuniorGrade(selectedGrade);
+      const cLabel = document.getElementById('voterCountryLabel');
+      if (cLabel) {
+        cLabel.innerHTML = isJunior ? '2. Your Name & Country <span class="text-rose-400">*</span>' : '2. Country Delegation <span class="text-rose-400">*</span>';
+      }
+
+      const pLabel = document.getElementById('passcodeSublabel');
+      if (pLabel) {
+        pLabel.textContent = isJunior ? `Ask Teacher or use ${selectedGrade.replace(/Grade\s*/i, 'G').replace(/\s+/g, '')}` : 'Ask Mentor';
+      }
+
+      const step2Title = document.getElementById('step2SectionTitle');
+      const step2Desc = document.getElementById('step2SectionDesc');
+      if (step2Title && step2Desc) {
+        if (isJunior) {
+          step2Title.textContent = '🌟 Vote For 2 Favorite Classmates & Costumes';
+          step2Desc.textContent = 'Choose exactly 2 classmates who presented their country best. You cannot vote for yourself.';
+        } else {
+          step2Title.textContent = 'Vote For The Best Solutions By Topic';
+          step2Desc.textContent = 'Select 2 delegations per topic across all 3 topics (Total 6 votes). You cannot vote for your own country.';
+        }
+      }
 
       const cSelect = document.getElementById('voterCountrySelect');
-      cSelect.innerHTML = '<option value="" disabled selected>-- Select Your Country Delegation --</option>';
+      cSelect.innerHTML = isJunior
+        ? '<option value="" disabled selected>-- Select Your Name & Country --</option>'
+        : '<option value="" disabled selected>-- Select Your Country Delegation --</option>';
 
       const teams = teamsByGrade[selectedGrade] || [];
       teams.forEach(t => {
         const opt = document.createElement('option');
         opt.value = t.id;
-        opt.textContent = `${t.name} (Mentor: ${t.mentor})`;
+        if (isJunior) {
+          const emceeTag = t.isEmcee ? ' [🎙️ Emcee]' : '';
+          opt.textContent = `No. ${t.no} • ${t.studentName} — ${t.country}${emceeTag}`;
+        } else {
+          opt.textContent = `${t.name} (Mentor: ${t.mentor})`;
+        }
         cSelect.appendChild(opt);
       });
       cSelect.disabled = false;
@@ -461,27 +545,6 @@
       if (pInput) {
         pInput.value = '';
         pInput.disabled = true;
-      }
-
-      document.getElementById('delegationRosterCard').classList.add('hidden');
-      document.getElementById('passcodeError').classList.add('hidden');
-      renderTopics();
-      checkFormReady();
-    }
-
-    function handleCountryChange() {
-      const cSelect = document.getElementById('voterCountrySelect');
-      selectedVoterCountry = cSelect.value;
-      currentPasscode = '';
-      isPasscodeVerified = false;
-      topicVotes = { climate: [], education: [], health: [] };
-
-      const pInput = document.getElementById('voterPasscode');
-      if (pInput) {
-        pInput.value = '';
-        pInput.disabled = false;
-        pInput.placeholder = `Passcode for ${selectedVoterCountry.toUpperCase()}`;
-        pInput.focus();
       }
 
       document.getElementById('delegationRosterCard').classList.add('hidden');
@@ -563,7 +626,114 @@
       }
     }
 
+    function renderJuniorBallot() {
+      const container = document.getElementById('topicsContainer');
+      container.innerHTML = '';
+
+      const teams = teamsByGrade[selectedGrade] || [];
+      const currentChoices = Array.isArray(topicVotes.favorites) ? topicVotes.favorites : (Array.isArray(topicVotes.climate) ? topicVotes.climate : []);
+
+      const card = document.createElement('div');
+      card.className = 'p-5 sm:p-6 rounded-2xl bg-slate-900/90 border border-amber-500/30 shadow-xl';
+
+      let statusBadge = '';
+      if (currentChoices.length === 2) {
+        statusBadge = '<span class="text-xs text-emerald-400 font-bold bg-emerald-500/20 px-3 py-1 rounded-full border border-emerald-500/30"><i class="fa-solid fa-check mr-1.5"></i>2 Classmates Selected (Complete)</span>';
+      } else {
+        statusBadge = `<span class="text-xs text-amber-400 font-bold bg-amber-500/20 px-3 py-1 rounded-full border border-amber-500/30 animate-pulse"><i class="fa-solid fa-circle-dot mr-1.5"></i>Select 2 Classmates (${currentChoices.length}/2)</span>`;
+      }
+
+      card.innerHTML = `
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 mb-4 border-b border-slate-800">
+          <div class="flex items-center space-x-3">
+            <div class="w-10 h-10 rounded-xl bg-amber-500/20 border border-amber-500/30 flex items-center justify-center text-amber-400 text-lg shadow">
+              <i class="fa-solid fa-award"></i>
+            </div>
+            <div>
+              <h3 class="text-base font-bold text-white font-mun">Parade of Nations • Students' Favorite Award</h3>
+              <p class="text-xs text-slate-400">Vote for the 2 best national costumes and country presentations in your class</p>
+            </div>
+          </div>
+          <div>${statusBadge}</div>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3" id="juniorGrid"></div>
+      `;
+
+      container.appendChild(card);
+      const grid = card.querySelector('#juniorGrid');
+
+      teams.forEach(t => {
+        const isMe = t.id === selectedVoterCountry;
+        const isSelected = currentChoices.includes(t.id);
+
+        const btn = document.createElement('button');
+        btn.type = 'button';
+
+        let btnClass = 'p-3.5 rounded-xl border text-left transition flex items-start space-x-3 relative ';
+
+        if (isMe) {
+          btnClass += 'card-disabled border-slate-800 bg-slate-950/80 cursor-not-allowed opacity-40';
+          btn.title = 'Rule: Cannot vote for yourself';
+          btn.disabled = true;
+        } else {
+          if (isSelected) {
+            btnClass += 'border-amber-400 bg-amber-500/15 ring-2 ring-amber-400/50 shadow-lg cursor-pointer transform -translate-y-0.5';
+          } else {
+            btnClass += 'border-slate-800 bg-slate-900/70 hover:border-slate-600 hover:bg-slate-800 cursor-pointer';
+          }
+          btn.onclick = () => toggleJuniorChoice(t.id);
+        }
+
+        btn.className = btnClass;
+
+        btn.innerHTML = `
+          <div class="flex-shrink-0 mt-0.5">
+            <img src="${t.flag}" alt="${t.country}" class="w-12 h-8 object-cover rounded shadow border border-slate-700">
+          </div>
+          <div class="flex-1 min-w-0">
+            <div class="flex items-center justify-between gap-1">
+              <span class="text-xs font-bold text-white truncate">${t.studentName}</span>
+              ${isSelected ? '<span class="text-amber-400 text-xs"><i class="fa-solid fa-circle-check"></i></span>' : ''}
+              ${isMe ? '<span class="text-[9px] text-rose-400 font-bold bg-rose-500/10 px-1.5 py-0.2 rounded">You</span>' : ''}
+            </div>
+            <div class="text-[11px] text-amber-300 font-medium">${t.country} ${t.isEmcee ? '• 🎙️ Emcee' : ''}</div>
+            <div class="text-[10px] text-slate-400 mt-1 truncate">${t.costume}</div>
+            <div class="text-[10px] text-slate-500 italic mt-0.5 truncate font-serif-quote">"${t.basicScript.split('.')[0]}..."</div>
+          </div>
+        `;
+
+        grid.appendChild(btn);
+      });
+    }
+
+    function toggleJuniorChoice(studentId) {
+      if (!topicVotes.favorites) topicVotes.favorites = [];
+      const current = topicVotes.favorites;
+      const idx = current.indexOf(studentId);
+
+      if (idx >= 0) {
+        current.splice(idx, 1);
+      } else {
+        if (current.length >= 2) {
+          munToast.warning('You can select exactly 2 classmates. Click a selected classmate to change your vote.');
+          return;
+        }
+        current.push(studentId);
+      }
+
+      topicVotes.climate = [...current];
+      topicVotes.education = [...current];
+      topicVotes.health = [...current];
+
+      renderJuniorBallot();
+      checkFormReady();
+    }
+
     function renderTopics() {
+      if (isJuniorGrade(selectedGrade)) {
+        renderJuniorBallot();
+        return;
+      }
       const container = document.getElementById('topicsContainer');
       container.innerHTML = '';
 
@@ -785,13 +955,21 @@
         return;
       }
 
-      const cCount = (topicVotes.climate || []).length;
-      const eCount = (topicVotes.education || []).length;
-      const hCount = (topicVotes.health || []).length;
-
-      if (cCount !== 2 || eCount !== 2 || hCount !== 2) {
-        munToast.warning('You must select exactly 2 delegations for EACH of the 3 topics before submitting.');
-        return;
+      const isJunior = isJuniorGrade(selectedGrade);
+      if (isJunior) {
+        const favCount = (topicVotes.favorites || topicVotes.climate || []).length;
+        if (favCount !== 2) {
+          munToast.warning('Please select exactly 2 favorite classmates before submitting.');
+          return;
+        }
+      } else {
+        const cCount = (topicVotes.climate || []).length;
+        const eCount = (topicVotes.education || []).length;
+        const hCount = (topicVotes.health || []).length;
+        if (cCount !== 2 || eCount !== 2 || hCount !== 2) {
+          munToast.warning('You must select exactly 2 delegations for EACH of the 3 topics before submitting.');
+          return;
+        }
       }
 
       const teams = teamsByGrade[selectedGrade] || [];

@@ -263,6 +263,48 @@ const TOPICS = [
   }
 ];
 
+const JUNIOR_GRADES = ['Grade 1A1', 'Grade 1A2', 'Grade 2A1', 'Grade 2A2', 'Grade 3'];
+function isJuniorGrade(grade) {
+  if (!grade) return false;
+  return JUNIOR_GRADES.includes(grade) || /^Grade [123]/i.test(grade);
+}
+
+const JUNIOR_RUBRIC = {
+  title: 'Parade of Nations Junior Rubric',
+  division: 'junior',
+  theme: 'We live differently, but we have the same hope.',
+  baseMax: 8,
+  bonusValue: 2,
+  maxTotal: 10,
+  criteria: [
+    {
+      id: 'costume',
+      name: 'Costume & Visuals (Sash / Flag)',
+      max: 3,
+      vnCap: 1.5,
+      description: 'National costume of chosen country, flag or sash. (Note: Vietnam costume max 1.5 pts unless Official Emcee).'
+    },
+    {
+      id: 'script',
+      name: 'Script: Voice & Pronunciation',
+      max: 3,
+      description: 'Clear voice and good pronunciation. Basic script: Greeting + Name + Country + Nationality.'
+    },
+    {
+      id: 'presentation',
+      name: 'Presentation: Walk & Bow',
+      max: 2,
+      description: 'Stage presence, confident walk, polite national bow/greeting gesture.'
+    }
+  ],
+  bonus: {
+    id: 'addedScriptBonus',
+    title: 'Added Script Bonus (+2 Points)',
+    description: 'Awarded +2 bonus points if student expands script with interesting country facts (e.g. islands, geography, culture, famous landmarks).',
+    points: 2
+  }
+};
+
 const RUBRIC = {
   title: 'MUN Simple Grading Rubric',
   theme: 'We live differently, but we have the same hope.',
@@ -410,15 +452,24 @@ function verifyPasscodeInternal(passcode, targetGrade, targetCountry) {
   if (!passcode) return { valid: false };
   const clean = String(passcode).trim().replace(/\s+/g, '').toUpperCase();
 
-  // Check master or judge passcodes
-  if (isJudgeMasterPasscode(clean)) {
+  // Check master, admin, or judge passcodes
+  if (isJudgeMasterPasscode(clean) || clean === "JUDGE2026" || clean === "ADMIN2026") {
     return { valid: true, isMaster: true };
+  }
+
+  // Class-level shortcut for Junior Division
+  if (targetGrade && isJuniorGrade(targetGrade)) {
+    const classShort = targetGrade.replace(/Grade\s*/i, 'G').replace(/\s+/g, '').toUpperCase();
+    const classNum = targetGrade.replace(/Grade\s*/i, '').replace(/\s+/g, '').toUpperCase();
+    if (clean === classShort || clean === classNum || clean === "JUNIOR" || clean === "KIDS") {
+      return { valid: true, isMaster: false, grade: targetGrade, countryId: targetCountry };
+    }
   }
 
   // Check country passcodes
   for (const g of Object.keys(COUNTRY_PASSCODES)) {
     for (const cid of Object.keys(COUNTRY_PASSCODES[g])) {
-      const assigned = COUNTRY_PASSCODES[g][cid].toUpperCase();
+      const assigned = String(COUNTRY_PASSCODES[g][cid]).trim().toUpperCase();
       if (clean === assigned) {
         return {
           valid: true,
@@ -442,10 +493,14 @@ app.get('/api/config', (req, res) => {
     theme: 'We live differently, but we have the same hope.',
     eventTitle: 'UN Day Special Event: Global Solutions Showcase: MUN',
     grades: Object.keys(TEAMS_BY_GRADE),
+    juniorGrades: JUNIOR_GRADES,
+    seniorGrades: ['Grade 7', 'Grade 8', 'Grade 10', 'Grade 11'],
     teamsByGrade: TEAMS_BY_GRADE,
     topics: TOPICS,
     settings: db.settings,
-    rubric: RUBRIC
+    rubric: RUBRIC,
+    seniorRubric: RUBRIC,
+    juniorRubric: JUNIOR_RUBRIC
   });
 });
 
@@ -530,9 +585,14 @@ app.post("/api/student/verify", (req, res) => {
   }
   const clean = String(passcode || "").trim();
   const expected = String((COUNTRY_PASSCODES[grade] && COUNTRY_PASSCODES[grade][voterCountry]) || "").trim();
-  const isAdmin = safeCompare(clean.toUpperCase(), "ADMIN2026");
+  const isAdmin = safeCompare(clean.toUpperCase(), "ADMIN2026") || safeCompare(clean.toUpperCase(), "JUDGE2026");
+  const isClassPin = isJuniorGrade(grade) && (
+    safeCompare(clean.toUpperCase(), grade.replace(/Grade\s*/i, 'G').replace(/\s+/g, '').toUpperCase()) ||
+    safeCompare(clean.toUpperCase(), grade.replace(/Grade\s*/i, '').replace(/\s+/g, '').toUpperCase()) ||
+    safeCompare(clean.toUpperCase(), "JUNIOR") || safeCompare(clean.toUpperCase(), "KIDS")
+  );
 
-  if (clean && (safeCompare(clean.toUpperCase(), expected.toUpperCase()) || isAdmin)) {
+  if (clean && (safeCompare(clean.toUpperCase(), expected.toUpperCase()) || isAdmin || isClassPin)) {
     recordAuthSuccess(ip);
     const teams = TEAMS_BY_GRADE[grade] || [];
     const team = teams.find(t => t.id === voterCountry);
@@ -559,17 +619,6 @@ app.post('/api/student/vote', (req, res) => {
 
   const { grade, voterCountry, passcode, delegates, topicVotes, comment } = req.body;
 
-  // Passcode verification for voter country
-  const cleanPass = (passcode || "").trim().toUpperCase();
-  const expectedPass = ((COUNTRY_PASSCODES[grade] && COUNTRY_PASSCODES[grade][voterCountry]) || "").toUpperCase();
-  const isAdmin = cleanPass === "ADMIN2026";
-  if (!cleanPass || (cleanPass !== expectedPass && !isAdmin)) {
-    return res.status(401).json({
-      success: false,
-      error: `Invalid Passcode for ${String(voterCountry).toUpperCase()} (${grade}). Please enter the correct delegation password.`
-    });
-  }
-
   if (!grade) {
     return res.status(400).json({ success: false, error: 'Please select your Grade first.' });
   }
@@ -578,45 +627,103 @@ app.post('/api/student/vote', (req, res) => {
   const validIds = teams.map(t => t.id);
 
   if (!voterCountry || !validIds.includes(voterCountry)) {
-    return res.status(400).json({ success: false, error: 'Invalid delegation country for ' + grade });
+    return res.status(400).json({ success: false, error: 'Invalid delegation / student for ' + grade });
   }
 
-  const activePhase = db.settings.activePhase || 'all';
+  // Passcode verification for voter
+  const cleanPass = (passcode || "").trim().toUpperCase();
+  const expectedPass = ((COUNTRY_PASSCODES[grade] && COUNTRY_PASSCODES[grade][voterCountry]) || "").toUpperCase();
+  const isAdmin = cleanPass === "ADMIN2026" || cleanPass === "JUDGE2026";
+  const isClassPin = isJuniorGrade(grade) && (
+    cleanPass === grade.replace(/Grade\s*/i, 'G').replace(/\s+/g, '').toUpperCase() ||
+    cleanPass === grade.replace(/Grade\s*/i, '').replace(/\s+/g, '').toUpperCase() ||
+    cleanPass === "JUNIOR" || cleanPass === "KIDS"
+  );
 
-  // Must complete ALL 3 TOPICS before submission (2 votes per topic)
+  if (!cleanPass || (cleanPass !== expectedPass && !isAdmin && !isClassPin)) {
+    return res.status(401).json({
+      success: false,
+      error: `Invalid Passcode for ${String(voterCountry).toUpperCase()} (${grade}). Please enter the correct password.`
+    });
+  }
+
+  const isJunior = isJuniorGrade(grade);
   const validatedTopicVotes = {};
-  for (const topId of ['climate', 'education', 'health']) {
-    const choices = (topicVotes && topicVotes[topId]) || [];
+
+  if (isJunior) {
+    // Junior Division: simplified peer voting (2 favorite classmates)
+    let choices = [];
+    if (Array.isArray(topicVotes)) {
+      choices = topicVotes;
+    } else if (topicVotes && Array.isArray(topicVotes.favorites)) {
+      choices = topicVotes.favorites;
+    } else if (topicVotes && Array.isArray(topicVotes.climate)) {
+      choices = topicVotes.climate;
+    }
+
     if (!Array.isArray(choices) || choices.length !== 2) {
       return res.status(400).json({
         success: false,
-        error: `Phải hoàn thành chọn đủ cả 3 Topic mới được nộp phiếu. Topic ${topId.toUpperCase()} cần đủ 2 lựa chọn.`
+        error: 'Vui lòng chọn đúng 2 bạn trong lớp để bình chọn.'
       });
     }
     if (choices[0] === choices[1]) {
       return res.status(400).json({
         success: false,
-        error: `Topic ${topId.toUpperCase()}: Không được chọn 2 lần cùng một quốc gia.`
+        error: 'Không được chọn trùng 1 bạn 2 lần.'
       });
     }
     if (choices.includes(voterCountry)) {
       return res.status(400).json({
         success: false,
-        error: `Luật MUN: Không được vote cho chính nước của mình ở Topic ${topId.toUpperCase()}.`
+        error: 'Không được tự bình chọn cho chính bản thân mình.'
       });
     }
     for (const cid of choices) {
       if (!validIds.includes(cid)) {
-        return res.status(400).json({ success: false, error: 'Invalid selected country: ' + cid });
+        return res.status(400).json({ success: false, error: 'Học sinh được chọn không hợp lệ: ' + cid });
       }
     }
-    validatedTopicVotes[topId] = choices;
+    validatedTopicVotes['favorites'] = choices;
+    validatedTopicVotes['climate'] = choices;
+    validatedTopicVotes['education'] = choices;
+    validatedTopicVotes['health'] = choices;
+  } else {
+    // Senior Division: 3 topics x 2 countries
+    for (const topId of ['climate', 'education', 'health']) {
+      const choices = (topicVotes && topicVotes[topId]) || [];
+      if (!Array.isArray(choices) || choices.length !== 2) {
+        return res.status(400).json({
+          success: false,
+          error: `Phải hoàn thành chọn đủ cả 3 Topic mới được nộp phiếu. Topic ${topId.toUpperCase()} cần đủ 2 lựa chọn.`
+        });
+      }
+      if (choices[0] === choices[1]) {
+        return res.status(400).json({
+          success: false,
+          error: `Topic ${topId.toUpperCase()}: Không được chọn 2 lần cùng một quốc gia.`
+        });
+      }
+      if (choices.includes(voterCountry)) {
+        return res.status(400).json({
+          success: false,
+          error: `Luật MUN: Không được vote cho chính nước của mình ở Topic ${topId.toUpperCase()}.`
+        });
+      }
+      for (const cid of choices) {
+        if (!validIds.includes(cid)) {
+          return res.status(400).json({ success: false, error: 'Invalid selected country: ' + cid });
+        }
+      }
+      validatedTopicVotes[topId] = choices;
+    }
   }
 
   const existingIndex = db.studentVotes.findIndex(v => v.grade === grade && v.voterCountry === voterCountry);
   const ballot = {
     id: 'ballot_' + Date.now() + '_' + Math.random().toString(36).substr(2, 5),
     grade,
+    division: isJunior ? 'junior' : 'senior',
     voterCountry,
     delegates: delegates || '',
     topicVotes: validatedTopicVotes,
@@ -627,9 +734,6 @@ app.post('/api/student/vote', (req, res) => {
 
   if (existingIndex >= 0) {
     if (db.settings.allowVoteUpdate !== false) {
-      // Merge previous topics if submitting one topic at a time
-      const prev = db.studentVotes[existingIndex];
-      ballot.topicVotes = { ...(prev.topicVotes || {}), ...validatedTopicVotes };
       db.studentVotes[existingIndex] = ballot;
     } else {
       return res.status(409).json({ success: false, error: 'Your delegation has already submitted an official ballot.' });
@@ -853,31 +957,98 @@ app.post('/api/judge/score', (req, res) => {
 
   const { judgeName, grade, countryId, scores, advancedBonus, comments, passcode } = req.body;
 
-  // Passcode verification: must match master or country's own passcode
   const auth = verifyPasscodeInternal(passcode, grade, countryId);
   if (!auth.valid) {
-    return res.status(401).json({ success: false, error: 'Unauthorized: Invalid Judge Passcode for this country.' });
+    return res.status(401).json({ success: false, error: 'Unauthorized: Invalid Judge Passcode for this room.' });
   }
 
   if (!judgeName || !judgeName.trim()) {
     return res.status(400).json({ success: false, error: 'Judge name is required.' });
   }
-
   if (!grade) {
     return res.status(400).json({ success: false, error: 'Grade is required.' });
   }
 
   const teams = TEAMS_BY_GRADE[grade] || [];
   const validIds = teams.map(t => t.id);
-
   if (!countryId || !validIds.includes(countryId)) {
-    return res.status(400).json({ success: false, error: 'Invalid target country for ' + grade });
+    return res.status(400).json({ success: false, error: 'Invalid target student / country for ' + grade });
   }
-
   if (!scores || typeof scores !== 'object') {
     return res.status(400).json({ success: false, error: 'Scores object is required.' });
   }
 
+  const isJunior = isJuniorGrade(grade);
+
+  if (isJunior) {
+    const targetStudent = teams.find(t => t.id === countryId);
+    const isVn = targetStudent && (targetStudent.countryKey === 'vietnam' || targetStudent.country === 'Vietnam');
+    const isEmcee = targetStudent && targetStudent.isEmcee;
+
+    const costumeScore = parseFloat(scores.costume !== undefined ? scores.costume : (scores.preparation || 0));
+    const scriptScore = parseFloat(scores.script !== undefined ? scores.script : (scores.speaking || 0));
+    const presScore = parseFloat(scores.presentation !== undefined ? scores.presentation : (scores.teamwork || 0));
+
+    const maxCostume = (isVn && !isEmcee) ? 1.5 : 3.0;
+    if (isNaN(costumeScore) || costumeScore < 0 || costumeScore > maxCostume) {
+      return res.status(400).json({
+        success: false,
+        error: `Điểm Trang phục & Hình ảnh phải từ 0 đến ${maxCostume} điểm.`
+      });
+    }
+    if (isNaN(scriptScore) || scriptScore < 0 || scriptScore > 3.0) {
+      return res.status(400).json({ success: false, error: 'Điểm Lời thoại & Phát âm phải từ 0 đến 3.0 điểm.' });
+    }
+    if (isNaN(presScore) || presScore < 0 || presScore > 2.0) {
+      return res.status(400).json({ success: false, error: 'Điểm Phong thái (dáng đi, cúi chào) phải từ 0 đến 2.0 điểm.' });
+    }
+
+    const baseScore = Number((costumeScore + scriptScore + presScore).toFixed(1));
+    const hasBonus = Boolean(advancedBonus || scores.addedScriptBonus);
+    const bonusPoints = hasBonus ? 2.0 : 0.0;
+    const totalScore = Number((baseScore + bonusPoints).toFixed(1));
+
+    const validatedScores = {
+      costume: costumeScore,
+      script: scriptScore,
+      presentation: presScore,
+      preparation: costumeScore,
+      speaking: scriptScore,
+      vocabulary: presScore,
+      teamwork: presScore,
+      qna: bonusPoints
+    };
+
+    const scoreEntry = {
+      id: 'score_' + Date.now() + '_' + Math.random().toString(36).substr(2, 5),
+      judgeName: judgeName.trim(),
+      grade,
+      countryId,
+      scores: validatedScores,
+      baseScore,
+      advancedBonus: hasBonus,
+      bonusPoints,
+      totalScore,
+      comments: comments || '',
+      division: 'junior',
+      timestamp: new Date().toISOString()
+    };
+
+    const existingIdx = db.judgeScores.findIndex(
+      s => s.judgeName.toLowerCase() === judgeName.trim().toLowerCase() && s.grade === grade && s.countryId === countryId
+    );
+
+    if (existingIdx >= 0) {
+      db.judgeScores[existingIdx] = scoreEntry;
+    } else {
+      db.judgeScores.push(scoreEntry);
+    }
+
+    saveDb(db);
+    return res.json({ success: true, message: 'Junior Score saved successfully!', score: scoreEntry });
+  }
+
+  // Senior Division Scoring
   const criteriaIds = ['preparation', 'speaking', 'vocabulary', 'teamwork', 'qna'];
   let baseScore = 0;
   const validatedScores = {};
@@ -906,6 +1077,7 @@ app.post('/api/judge/score', (req, res) => {
     bonusPoints,
     totalScore,
     comments: comments || '',
+    division: 'senior',
     timestamp: new Date().toISOString()
   };
 
@@ -959,28 +1131,31 @@ app.get('/api/leaderboard', (req, res) => {
 
   gradesToProcess.forEach(g => {
     const teams = TEAMS_BY_GRADE[g] || [];
+    const isJunior = isJuniorGrade(g);
 
-    // 1. Topic Votes Tallies
+    // 1. Peer Votes Tallies
     const topicStats = {
       climate: {},
       education: {},
-      health: {}
+      health: {},
+      favorites: {}
     };
 
     teams.forEach(t => {
       topicStats.climate[t.id] = { team: t, votes: 0 };
       topicStats.education[t.id] = { team: t, votes: 0 };
       topicStats.health[t.id] = { team: t, votes: 0 };
+      topicStats.favorites[t.id] = { team: t, votes: 0 };
     });
 
     const gradeBallots = db.studentVotes.filter(v => v.grade === g);
     gradeBallots.forEach(ballot => {
       if (ballot.topicVotes) {
-        ['climate', 'education', 'health'].forEach(top => {
+        ['climate', 'education', 'health', 'favorites'].forEach(top => {
           const list = ballot.topicVotes[top];
           if (Array.isArray(list)) {
             list.forEach(chosen => {
-              if (topicStats[top][chosen]) {
+              if (topicStats[top] && topicStats[top][chosen]) {
                 topicStats[top][chosen].votes += 1;
               }
             });
@@ -988,12 +1163,6 @@ app.get('/api/leaderboard', (req, res) => {
         });
       }
     });
-
-    const topicRankings = {
-      climate: rankWithTies(Object.values(topicStats.climate), 'votes'),
-      education: rankWithTies(Object.values(topicStats.education), 'votes'),
-      health: rankWithTies(Object.values(topicStats.health), 'votes')
-    };
 
     // 2. Judge Scores Tally
     const judgeStats = {};
@@ -1004,7 +1173,9 @@ app.get('/api/leaderboard', (req, res) => {
         totalScoreSum: 0,
         baseScoreSum: 0,
         bonusCount: 0,
-        criteriaSums: { preparation: 0, speaking: 0, vocabulary: 0, teamwork: 0, qna: 0 },
+        criteriaSums: isJunior
+          ? { costume: 0, script: 0, presentation: 0, preparation: 0, speaking: 0, vocabulary: 0, teamwork: 0, qna: 0 }
+          : { preparation: 0, speaking: 0, vocabulary: 0, teamwork: 0, qna: 0 },
         feedbacks: []
       };
     });
@@ -1030,6 +1201,11 @@ app.get('/api/leaderboard', (req, res) => {
 
     const judgeList = Object.values(judgeStats).map(item => {
       const count = item.evaluationsCount;
+      const avgCrit = {};
+      for (const k of Object.keys(item.criteriaSums)) {
+        avgCrit[k] = count > 0 ? Number((item.criteriaSums[k] / count).toFixed(2)) : 0;
+      }
+
       return {
         team: item.team,
         evaluationsCount: count,
@@ -1037,24 +1213,51 @@ app.get('/api/leaderboard', (req, res) => {
         avgBaseScore: count > 0 ? Number((item.baseScoreSum / count).toFixed(2)) : 0,
         bonusCount: item.bonusCount,
         bonusRate: count > 0 ? Math.round((item.bonusCount / count) * 100) : 0,
-        avgCriteria: {
-          preparation: count > 0 ? Number((item.criteriaSums.preparation / count).toFixed(2)) : 0,
-          speaking: count > 0 ? Number((item.criteriaSums.speaking / count).toFixed(2)) : 0,
-          vocabulary: count > 0 ? Number((item.criteriaSums.vocabulary / count).toFixed(2)) : 0,
-          teamwork: count > 0 ? Number((item.criteriaSums.teamwork / count).toFixed(2)) : 0,
-          qna: count > 0 ? Number((item.criteriaSums.qna / count).toFixed(2)) : 0
-        },
+        avgCriteria: avgCrit,
         feedbacks: item.feedbacks
       };
     });
 
     const judgeRanked = rankWithTies(judgeList, 'avgTotalScore');
-
-    // Top 3 Grand Champions (including all tied teams with ranks <= 3)
     const judgeTop3 = judgeRanked.filter(item => item.rank <= 3 && item.avgTotalScore > 0);
+
+    let topicRankings = {};
+    if (isJunior) {
+      // Junior Awards:
+      // Climate column -> Best National Costume (ranked by avgCriteria.costume)
+      // Education column -> Best Script & Delivery (ranked by avgCriteria.script)
+      // Health column -> Students' Choice (ranked by peer votes in favorites)
+      const costumeRanked = rankWithTies(
+        judgeList.map(j => ({ team: j.team, votes: j.avgCriteria.costume || 0 })),
+        'votes'
+      );
+      const scriptRanked = rankWithTies(
+        judgeList.map(j => ({ team: j.team, votes: Number(((j.avgCriteria.script || 0) + (j.bonusCount > 0 ? 2 : 0)).toFixed(1)) })),
+        'votes'
+      );
+      const peerRanked = rankWithTies(Object.values(topicStats.favorites), 'votes');
+
+      topicRankings = {
+        climate: costumeRanked,
+        education: scriptRanked,
+        health: peerRanked,
+        costume: costumeRanked,
+        script: scriptRanked,
+        favorites: peerRanked
+      };
+    } else {
+      // Senior Topics
+      topicRankings = {
+        climate: rankWithTies(Object.values(topicStats.climate), 'votes'),
+        education: rankWithTies(Object.values(topicStats.education), 'votes'),
+        health: rankWithTies(Object.values(topicStats.health), 'votes')
+      };
+    }
 
     resultsByGrade[g] = {
       grade: g,
+      division: isJunior ? 'junior' : 'senior',
+      maxScore: isJunior ? 10 : 20,
       totalBallots: gradeBallots.length,
       totalJudgeEvaluations: gradeScores.length,
       topicRankings,

@@ -1,4 +1,1914 @@
 {
+  "Grade 1A1": [
+    {
+      "no": 1,
+      "id": "grade_1a1_1_hong_anh",
+      "name": "Hong Anh (France)",
+      "studentName": "Hong Anh",
+      "country": "France",
+      "countryKey": "france",
+      "flag": "/assets/flags/france.svg",
+      "color": "#0072CE",
+      "isEmcee": false,
+      "emceeNote": "Nha Ky ./ Dang Khoa",
+      "costume": "National Costume of France",
+      "basicScript": "Bonjour! My name is Hong Anh. I am from France. I am French.",
+      "addedScript": "France is famous for the Eiffel Tower, the Louvre museum, and delicious pastries.",
+      "division": "junior",
+      "mentor": "Class Homeroom Teacher",
+      "delegates": [
+        "Hong Anh"
+      ]
+    },
+    {
+      "no": 2,
+      "id": "grade_1a1_2_viet_anh",
+      "name": "Viet Anh (New Zealand)",
+      "studentName": "Viet Anh",
+      "country": "New Zealand",
+      "countryKey": "new_zealand",
+      "flag": "/assets/flags/new_zealand.svg",
+      "color": "#0072CE",
+      "isEmcee": false,
+      "emceeNote": "",
+      "costume": "National Costume of New Zealand",
+      "basicScript": "Kia Ora! My name is Viet Anh. I am from New Zealand. I am New Zealander.",
+      "addedScript": "New Zealand has green mountains, kiwi birds, and traditional Maori culture.",
+      "division": "junior",
+      "mentor": "Class Homeroom Teacher",
+      "delegates": [
+        "Viet Anh"
+      ]
+    },
+    {
+      "no": 3,
+      "id": "grade_1a1_3_thien_hao",
+      "name": "Thien Hao (United Kingdom)",
+      "studentName": "Thien Hao",
+      "country": "United Kingdom",
+      "countryKey": "england",
+      "flag": "/assets/flags/uk.svg",
+      "color": "#0072CE",
+      "isEmcee": false,
+      "emceeNote": "",
+      "costume": "National Costume of United Kingdom",
+      "basicScript": "Good day! My name is Thien Hao. I am from United Kingdom. I am British.",
+      "addedScript": "The United Kingdom is famous for Big Ben, London red buses, and the royal castle.",
+      "division": "junior",
+      "mentor": "Class Homeroom Teacher",
+      "delegates": [
+        "Thien Hao"
+      ]
+    },
+    {
+      "no": 4,
+      "id": "grade_1a1_4_bao_khang",
+      "name": "Bao Khang (Portugal)",
+      "studentName": "Bao Khang",
+      "country": "Portugal",
+      "countryKey": "portugal",
+      "flag": "/assets/flags/portugal.svg",
+      "color": "#0072CE",
+      "isEmcee": false,
+      "emceeNote": "",
+      "costume": "National Costume of Portugal",
+      "basicScript": "Olá! My name is Bao Khang. I am from Portugal. I am Portuguese.",
+      "addedScript": "Portugal is celebrated for seafaring history, sunny beaches, and custard tarts.",
+      "division": "junior",
+      "mentor": "Class Homeroom Teacher",
+      "delegates": [
+        "Bao Khang"
+      ]
+    },
+    {
+      "no": 5,
+      "id": "grade_1a1_5_thien_ngan",
+      "name": "Thien Ngan (China)",
+      "studentName": "Thien Ngan",
+      "country": "China",
+      "countryKey": "china",
+      "flag": "/assets/flags/china.svg",
+      "color": "#0072CE",
+      "isEmcee": false,
+      "emceeNote": "",
+      "costume": "National Costume of China",
+      "basicScript": "Nǐ hǎo! My name is Thien Ngan. I am from China. I am Chinese.",
+      "addedScript": "China is home to the majestic Great Wall, tea gardens, and giant pandas.",
+      "division": "junior",
+      "mentor": "Class Homeroom Teacher",
+      "delegates": [
+        "Thien Ngan"
+      ]
+    },
+    {
+      "no": 6,
+      "id": "grade_1a1_6_kim_ngoc",
+      "name": "Kim Ngoc (Japan)",
+      "studentName": "Kim Ngoc",
+      "country": "Japan",
+      "countryKey": "japan",
+      "flag": "/assets/flags/japan.svg",
+      "color": "#0072CE",
+      "isEmcee": false,
+      "emceeNote": "",
+      "costume": "National Costume of Japan",
+      "basicScript": "Konnichiwa! My name is Kim Ngoc. I am from Japan. I am Japanese.",
+      "addedScript": "Japan is known for Mount Fuji, cherry blossoms, origami, and high-speed trains.",
+      "division": "junior",
+      "mentor": "Class Homeroom Teacher",
+      "delegates": [
+        "Kim Ngoc"
+      ]
+    },
+    {
+      "no": 7,
+      "id": "grade_1a1_7_an_nhien",
+      "name": "An Nhien (Brazil)",
+      "studentName": "An Nhien",
+      "country": "Brazil",
+      "countryKey": "brazil",
+      "flag": "/assets/flags/brazil.svg",
+      "color": "#0072CE",
+      "isEmcee": false,
+      "emceeNote": "",
+      "costume": "National Costume of Brazil",
+      "basicScript": "Olá! My name is An Nhien. I am from Brazil. I am Brazilian.",
+      "addedScript": "Brazil has the vast Amazon rainforest, samba music, and world-class soccer.",
+      "division": "junior",
+      "mentor": "Class Homeroom Teacher",
+      "delegates": [
+        "An Nhien"
+      ]
+    },
+    {
+      "no": 8,
+      "id": "grade_1a1_8_dang_quan",
+      "name": "Dang Quan (Japan)",
+      "studentName": "Dang Quan",
+      "country": "Japan",
+      "countryKey": "japan",
+      "flag": "/assets/flags/japan.svg",
+      "color": "#0072CE",
+      "isEmcee": false,
+      "emceeNote": "",
+      "costume": "National Costume of Japan",
+      "basicScript": "Konnichiwa! My name is Dang Quan. I am from Japan. I am Japanese.",
+      "addedScript": "Japan is known for Mount Fuji, cherry blossoms, origami, and high-speed trains.",
+      "division": "junior",
+      "mentor": "Class Homeroom Teacher",
+      "delegates": [
+        "Dang Quan"
+      ]
+    },
+    {
+      "no": 9,
+      "id": "grade_1a1_9_gia_tue",
+      "name": "Gia Tue (Singapore)",
+      "studentName": "Gia Tue",
+      "country": "Singapore",
+      "countryKey": "singapore",
+      "flag": "/assets/flags/singapore.svg",
+      "color": "#0072CE",
+      "isEmcee": false,
+      "emceeNote": "",
+      "costume": "National Costume of Singapore",
+      "basicScript": "Hello! My name is Gia Tue. I am from Singapore. I am Singaporean.",
+      "addedScript": "Singapore is a garden city state known for Supertree Grove and clean parks.",
+      "division": "junior",
+      "mentor": "Class Homeroom Teacher",
+      "delegates": [
+        "Gia Tue"
+      ]
+    },
+    {
+      "no": 10,
+      "id": "grade_1a1_10_kai_yu",
+      "name": "Kai Yu (Vietnam)",
+      "studentName": "Kai Yu",
+      "country": "Vietnam",
+      "countryKey": "vietnam",
+      "flag": "/assets/flags/vietnam.svg",
+      "color": "#DA251D",
+      "isEmcee": false,
+      "emceeNote": "",
+      "costume": "Traditional Ao Dai",
+      "basicScript": "Xin chào! My name is Kai Yu. I am from Vietnam. I am Vietnamese.",
+      "addedScript": "Vietnam has stunning Ha Long Bay, rich culture, and delicious Pho.",
+      "division": "junior",
+      "mentor": "Class Homeroom Teacher",
+      "delegates": [
+        "Kai Yu"
+      ]
+    },
+    {
+      "no": 11,
+      "id": "grade_1a1_11_nha_ky",
+      "name": "Nha Ky (Vietnam)",
+      "studentName": "Nha Ky",
+      "country": "Vietnam",
+      "countryKey": "vietnam",
+      "flag": "/assets/flags/vietnam.svg",
+      "color": "#DA251D",
+      "isEmcee": false,
+      "emceeNote": "",
+      "costume": "Traditional Ao Dai",
+      "basicScript": "Xin chào! My name is Nha Ky. I am from Vietnam. I am Vietnamese.",
+      "addedScript": "Vietnam has stunning Ha Long Bay, rich culture, and delicious Pho.",
+      "division": "junior",
+      "mentor": "Class Homeroom Teacher",
+      "delegates": [
+        "Nha Ky"
+      ]
+    },
+    {
+      "no": 12,
+      "id": "grade_1a1_12_hung_vuong",
+      "name": "Hung Vuong (Vietnam)",
+      "studentName": "Hung Vuong",
+      "country": "Vietnam",
+      "countryKey": "vietnam",
+      "flag": "/assets/flags/vietnam.svg",
+      "color": "#DA251D",
+      "isEmcee": false,
+      "emceeNote": "",
+      "costume": "Traditional Ao Dai",
+      "basicScript": "Xin chào! My name is Hung Vuong. I am from Vietnam. I am Vietnamese.",
+      "addedScript": "Vietnam has stunning Ha Long Bay, rich culture, and delicious Pho.",
+      "division": "junior",
+      "mentor": "Class Homeroom Teacher",
+      "delegates": [
+        "Hung Vuong"
+      ]
+    },
+    {
+      "no": 13,
+      "id": "grade_1a1_13_to_hong_anh",
+      "name": "To Hong Anh (Vietnam)",
+      "studentName": "To Hong Anh",
+      "country": "Vietnam",
+      "countryKey": "vietnam",
+      "flag": "/assets/flags/vietnam.svg",
+      "color": "#DA251D",
+      "isEmcee": false,
+      "emceeNote": "",
+      "costume": "Traditional Ao Dai",
+      "basicScript": "Xin chào! My name is To Hong Anh. I am from Vietnam. I am Vietnamese.",
+      "addedScript": "Vietnam has stunning Ha Long Bay, rich culture, and delicious Pho.",
+      "division": "junior",
+      "mentor": "Class Homeroom Teacher",
+      "delegates": [
+        "To Hong Anh"
+      ]
+    },
+    {
+      "no": 14,
+      "id": "grade_1a1_14_thanh_hau",
+      "name": "Thanh Hau (Vietnam)",
+      "studentName": "Thanh Hau",
+      "country": "Vietnam",
+      "countryKey": "vietnam",
+      "flag": "/assets/flags/vietnam.svg",
+      "color": "#DA251D",
+      "isEmcee": false,
+      "emceeNote": "",
+      "costume": "Traditional Ao Dai",
+      "basicScript": "Xin chào! My name is Thanh Hau. I am from Vietnam. I am Vietnamese.",
+      "addedScript": "Vietnam has stunning Ha Long Bay, rich culture, and delicious Pho.",
+      "division": "junior",
+      "mentor": "Class Homeroom Teacher",
+      "delegates": [
+        "Thanh Hau"
+      ]
+    },
+    {
+      "no": 15,
+      "id": "grade_1a1_15_huynh_nguyen",
+      "name": "Huynh Nguyen (Vietnam)",
+      "studentName": "Huynh Nguyen",
+      "country": "Vietnam",
+      "countryKey": "vietnam",
+      "flag": "/assets/flags/vietnam.svg",
+      "color": "#DA251D",
+      "isEmcee": false,
+      "emceeNote": "",
+      "costume": "Traditional Ao Dai",
+      "basicScript": "Xin chào! My name is Huynh Nguyen. I am from Vietnam. I am Vietnamese.",
+      "addedScript": "Vietnam has stunning Ha Long Bay, rich culture, and delicious Pho.",
+      "division": "junior",
+      "mentor": "Class Homeroom Teacher",
+      "delegates": [
+        "Huynh Nguyen"
+      ]
+    },
+    {
+      "no": 16,
+      "id": "grade_1a1_16_gia_phat",
+      "name": "Gia Phat (Vietnam)",
+      "studentName": "Gia Phat",
+      "country": "Vietnam",
+      "countryKey": "vietnam",
+      "flag": "/assets/flags/vietnam.svg",
+      "color": "#DA251D",
+      "isEmcee": false,
+      "emceeNote": "",
+      "costume": "Traditional Ao Dai",
+      "basicScript": "Xin chào! My name is Gia Phat. I am from Vietnam. I am Vietnamese.",
+      "addedScript": "Vietnam has stunning Ha Long Bay, rich culture, and delicious Pho.",
+      "division": "junior",
+      "mentor": "Class Homeroom Teacher",
+      "delegates": [
+        "Gia Phat"
+      ]
+    }
+  ],
+  "Grade 1A2": [
+    {
+      "no": 1,
+      "id": "grade_1a2_1_tue_anh",
+      "name": "Tue Anh (Japan)",
+      "studentName": "Tue Anh",
+      "country": "Japan",
+      "countryKey": "japan",
+      "flag": "/assets/flags/japan.svg",
+      "color": "#0072CE",
+      "isEmcee": false,
+      "emceeNote": "",
+      "costume": "National Costume of Japan",
+      "basicScript": "Konnichiwa! My name is Tue Anh. I am from Japan. I am Japanese.",
+      "addedScript": "Japan is known for Mount Fuji, cherry blossoms, origami, and high-speed trains.",
+      "division": "junior",
+      "mentor": "Class Homeroom Teacher",
+      "delegates": [
+        "Tue Anh"
+      ]
+    },
+    {
+      "no": 2,
+      "id": "grade_1a2_2_thanh_du",
+      "name": "Thanh Du (Japan)",
+      "studentName": "Thanh Du",
+      "country": "Japan",
+      "countryKey": "japan",
+      "flag": "/assets/flags/japan.svg",
+      "color": "#0072CE",
+      "isEmcee": false,
+      "emceeNote": "",
+      "costume": "National Costume of Japan",
+      "basicScript": "Konnichiwa! My name is Thanh Du. I am from Japan. I am Japanese.",
+      "addedScript": "Japan is known for Mount Fuji, cherry blossoms, origami, and high-speed trains.",
+      "division": "junior",
+      "mentor": "Class Homeroom Teacher",
+      "delegates": [
+        "Thanh Du"
+      ]
+    },
+    {
+      "no": 3,
+      "id": "grade_1a2_3_dang_khoa",
+      "name": "Dang Khoa (United States)",
+      "studentName": "Dang Khoa",
+      "country": "United States",
+      "countryKey": "us",
+      "flag": "/assets/flags/usa.svg",
+      "color": "#0072CE",
+      "isEmcee": false,
+      "emceeNote": "",
+      "costume": "National Costume of United States",
+      "basicScript": "Hello! My name is Dang Khoa. I am from United States. I am American.",
+      "addedScript": "The United States is home to the Statue of Liberty and diverse communities.",
+      "division": "junior",
+      "mentor": "Class Homeroom Teacher",
+      "delegates": [
+        "Dang Khoa"
+      ]
+    },
+    {
+      "no": 4,
+      "id": "grade_1a2_4_an_nhi",
+      "name": "An Nhi (India)",
+      "studentName": "An Nhi",
+      "country": "India",
+      "countryKey": "india",
+      "flag": "/assets/flags/india.svg",
+      "color": "#0072CE",
+      "isEmcee": false,
+      "emceeNote": "",
+      "costume": "National Costume of India",
+      "basicScript": "Namaste! My name is An Nhi. I am from India. I am Indian.",
+      "addedScript": "India is celebrated for the white marble Taj Mahal, yoga, and vibrant festivals.",
+      "division": "junior",
+      "mentor": "Class Homeroom Teacher",
+      "delegates": [
+        "An Nhi"
+      ]
+    },
+    {
+      "no": 5,
+      "id": "grade_1a2_5_cat_tuong",
+      "name": "Cat Tuong (United States)",
+      "studentName": "Cat Tuong",
+      "country": "United States",
+      "countryKey": "us",
+      "flag": "/assets/flags/usa.svg",
+      "color": "#0072CE",
+      "isEmcee": false,
+      "emceeNote": "",
+      "costume": "National Costume of United States",
+      "basicScript": "Hello! My name is Cat Tuong. I am from United States. I am American.",
+      "addedScript": "The United States is home to the Statue of Liberty and diverse communities.",
+      "division": "junior",
+      "mentor": "Class Homeroom Teacher",
+      "delegates": [
+        "Cat Tuong"
+      ]
+    },
+    {
+      "no": 6,
+      "id": "grade_1a2_6_nhut_anh",
+      "name": "Nhut Anh (Vietnam)",
+      "studentName": "Nhut Anh",
+      "country": "Vietnam",
+      "countryKey": "vietnam",
+      "flag": "/assets/flags/vietnam.svg",
+      "color": "#DA251D",
+      "isEmcee": false,
+      "emceeNote": "",
+      "costume": "Traditional Ao Dai",
+      "basicScript": "Xin chào! My name is Nhut Anh. I am from Vietnam. I am Vietnamese.",
+      "addedScript": "Vietnam has stunning Ha Long Bay, rich culture, and delicious Pho.",
+      "division": "junior",
+      "mentor": "Class Homeroom Teacher",
+      "delegates": [
+        "Nhut Anh"
+      ]
+    },
+    {
+      "no": 7,
+      "id": "grade_1a2_7_long",
+      "name": "Long (Vietnam)",
+      "studentName": "Long",
+      "country": "Vietnam",
+      "countryKey": "vietnam",
+      "flag": "/assets/flags/vietnam.svg",
+      "color": "#DA251D",
+      "isEmcee": false,
+      "emceeNote": "",
+      "costume": "Traditional Ao Dai",
+      "basicScript": "Xin chào! My name is Long. I am from Vietnam. I am Vietnamese.",
+      "addedScript": "Vietnam has stunning Ha Long Bay, rich culture, and delicious Pho.",
+      "division": "junior",
+      "mentor": "Class Homeroom Teacher",
+      "delegates": [
+        "Long"
+      ]
+    },
+    {
+      "no": 8,
+      "id": "grade_1a2_8_gia_minh",
+      "name": "Gia Minh (Vietnam)",
+      "studentName": "Gia Minh",
+      "country": "Vietnam",
+      "countryKey": "vietnam",
+      "flag": "/assets/flags/vietnam.svg",
+      "color": "#DA251D",
+      "isEmcee": false,
+      "emceeNote": "",
+      "costume": "Traditional Ao Dai",
+      "basicScript": "Xin chào! My name is Gia Minh. I am from Vietnam. I am Vietnamese.",
+      "addedScript": "Vietnam has stunning Ha Long Bay, rich culture, and delicious Pho.",
+      "division": "junior",
+      "mentor": "Class Homeroom Teacher",
+      "delegates": [
+        "Gia Minh"
+      ]
+    },
+    {
+      "no": 9,
+      "id": "grade_1a2_9_gia_my",
+      "name": "Gia My (Vietnam)",
+      "studentName": "Gia My",
+      "country": "Vietnam",
+      "countryKey": "vietnam",
+      "flag": "/assets/flags/vietnam.svg",
+      "color": "#DA251D",
+      "isEmcee": false,
+      "emceeNote": "",
+      "costume": "Traditional Ao Dai",
+      "basicScript": "Xin chào! My name is Gia My. I am from Vietnam. I am Vietnamese.",
+      "addedScript": "Vietnam has stunning Ha Long Bay, rich culture, and delicious Pho.",
+      "division": "junior",
+      "mentor": "Class Homeroom Teacher",
+      "delegates": [
+        "Gia My"
+      ]
+    },
+    {
+      "no": 10,
+      "id": "grade_1a2_10_thao_nguyen",
+      "name": "Thao Nguyen (Vietnam)",
+      "studentName": "Thao Nguyen",
+      "country": "Vietnam",
+      "countryKey": "vietnam",
+      "flag": "/assets/flags/vietnam.svg",
+      "color": "#DA251D",
+      "isEmcee": false,
+      "emceeNote": "",
+      "costume": "Traditional Ao Dai",
+      "basicScript": "Xin chào! My name is Thao Nguyen. I am from Vietnam. I am Vietnamese.",
+      "addedScript": "Vietnam has stunning Ha Long Bay, rich culture, and delicious Pho.",
+      "division": "junior",
+      "mentor": "Class Homeroom Teacher",
+      "delegates": [
+        "Thao Nguyen"
+      ]
+    },
+    {
+      "no": 11,
+      "id": "grade_1a2_11_anh_thao",
+      "name": "Anh Thao (Vietnam)",
+      "studentName": "Anh Thao",
+      "country": "Vietnam",
+      "countryKey": "vietnam",
+      "flag": "/assets/flags/vietnam.svg",
+      "color": "#DA251D",
+      "isEmcee": false,
+      "emceeNote": "",
+      "costume": "Traditional Ao Dai",
+      "basicScript": "Xin chào! My name is Anh Thao. I am from Vietnam. I am Vietnamese.",
+      "addedScript": "Vietnam has stunning Ha Long Bay, rich culture, and delicious Pho.",
+      "division": "junior",
+      "mentor": "Class Homeroom Teacher",
+      "delegates": [
+        "Anh Thao"
+      ]
+    },
+    {
+      "no": 12,
+      "id": "grade_1a2_12_kien_tri",
+      "name": "Kien Tri (Vietnam)",
+      "studentName": "Kien Tri",
+      "country": "Vietnam",
+      "countryKey": "vietnam",
+      "flag": "/assets/flags/vietnam.svg",
+      "color": "#DA251D",
+      "isEmcee": false,
+      "emceeNote": "",
+      "costume": "Traditional Ao Dai",
+      "basicScript": "Xin chào! My name is Kien Tri. I am from Vietnam. I am Vietnamese.",
+      "addedScript": "Vietnam has stunning Ha Long Bay, rich culture, and delicious Pho.",
+      "division": "junior",
+      "mentor": "Class Homeroom Teacher",
+      "delegates": [
+        "Kien Tri"
+      ]
+    },
+    {
+      "no": 13,
+      "id": "grade_1a2_13_thao_vy",
+      "name": "Thao Vy (Vietnam)",
+      "studentName": "Thao Vy",
+      "country": "Vietnam",
+      "countryKey": "vietnam",
+      "flag": "/assets/flags/vietnam.svg",
+      "color": "#DA251D",
+      "isEmcee": false,
+      "emceeNote": "",
+      "costume": "Traditional Ao Dai",
+      "basicScript": "Xin chào! My name is Thao Vy. I am from Vietnam. I am Vietnamese.",
+      "addedScript": "Vietnam has stunning Ha Long Bay, rich culture, and delicious Pho.",
+      "division": "junior",
+      "mentor": "Class Homeroom Teacher",
+      "delegates": [
+        "Thao Vy"
+      ]
+    },
+    {
+      "no": 14,
+      "id": "grade_1a2_14_phuc_hung",
+      "name": "Phuc Hung (Vietnam)",
+      "studentName": "Phuc Hung",
+      "country": "Vietnam",
+      "countryKey": "vietnam",
+      "flag": "/assets/flags/vietnam.svg",
+      "color": "#DA251D",
+      "isEmcee": false,
+      "emceeNote": "",
+      "costume": "Traditional Ao Dai",
+      "basicScript": "Xin chào! My name is Phuc Hung. I am from Vietnam. I am Vietnamese.",
+      "addedScript": "Vietnam has stunning Ha Long Bay, rich culture, and delicious Pho.",
+      "division": "junior",
+      "mentor": "Class Homeroom Teacher",
+      "delegates": [
+        "Phuc Hung"
+      ]
+    },
+    {
+      "no": 15,
+      "id": "grade_1a2_15_phuc_thinh",
+      "name": "Phuc Thinh (Vietnam)",
+      "studentName": "Phuc Thinh",
+      "country": "Vietnam",
+      "countryKey": "vietnam",
+      "flag": "/assets/flags/vietnam.svg",
+      "color": "#DA251D",
+      "isEmcee": false,
+      "emceeNote": "",
+      "costume": "Traditional Ao Dai",
+      "basicScript": "Xin chào! My name is Phuc Thinh. I am from Vietnam. I am Vietnamese.",
+      "addedScript": "Vietnam has stunning Ha Long Bay, rich culture, and delicious Pho.",
+      "division": "junior",
+      "mentor": "Class Homeroom Teacher",
+      "delegates": [
+        "Phuc Thinh"
+      ]
+    },
+    {
+      "no": 16,
+      "id": "grade_1a2_16_loc",
+      "name": "Loc (Vietnam)",
+      "studentName": "Loc",
+      "country": "Vietnam",
+      "countryKey": "vietnam",
+      "flag": "/assets/flags/vietnam.svg",
+      "color": "#DA251D",
+      "isEmcee": false,
+      "emceeNote": "",
+      "costume": "Traditional Ao Dai",
+      "basicScript": "Xin chào! My name is Loc. I am from Vietnam. I am Vietnamese.",
+      "addedScript": "Vietnam has stunning Ha Long Bay, rich culture, and delicious Pho.",
+      "division": "junior",
+      "mentor": "Class Homeroom Teacher",
+      "delegates": [
+        "Loc"
+      ]
+    },
+    {
+      "no": 17,
+      "id": "grade_1a2_17_h_phuc_thinh",
+      "name": "H Phuc Thinh (Vietnam)",
+      "studentName": "H Phuc Thinh",
+      "country": "Vietnam",
+      "countryKey": "vietnam",
+      "flag": "/assets/flags/vietnam.svg",
+      "color": "#DA251D",
+      "isEmcee": false,
+      "emceeNote": "",
+      "costume": "Traditional Ao Dai",
+      "basicScript": "Xin chào! My name is H Phuc Thinh. I am from Vietnam. I am Vietnamese.",
+      "addedScript": "Vietnam has stunning Ha Long Bay, rich culture, and delicious Pho.",
+      "division": "junior",
+      "mentor": "Class Homeroom Teacher",
+      "delegates": [
+        "H Phuc Thinh"
+      ]
+    }
+  ],
+  "Grade 2A1": [
+    {
+      "no": 1,
+      "id": "grade_2a1_1_eric",
+      "name": "Eric (Thailand)",
+      "studentName": "Eric",
+      "country": "Thailand",
+      "countryKey": "thailand",
+      "flag": "/assets/flags/thailand.svg",
+      "color": "#0072CE",
+      "isEmcee": false,
+      "emceeNote": "Hoang Thinh / Kha Han / Nha Y",
+      "costume": "National Costume of Thailand",
+      "basicScript": "Sawatdee! My name is Eric. I am from Thailand. I am Thai.",
+      "addedScript": "Thailand is the Land of Smiles, famous for golden temples, floating markets, and elephants.",
+      "division": "junior",
+      "mentor": "Class Homeroom Teacher",
+      "delegates": [
+        "Eric"
+      ]
+    },
+    {
+      "no": 2,
+      "id": "grade_2a1_2_minh_thu",
+      "name": "Minh Thu (Japan)",
+      "studentName": "Minh Thu",
+      "country": "Japan",
+      "countryKey": "japan",
+      "flag": "/assets/flags/japan.svg",
+      "color": "#0072CE",
+      "isEmcee": false,
+      "emceeNote": "",
+      "costume": "National Costume of Japan",
+      "basicScript": "Konnichiwa! My name is Minh Thu. I am from Japan. I am Japanese.",
+      "addedScript": "Japan is known for Mount Fuji, cherry blossoms, origami, and high-speed trains.",
+      "division": "junior",
+      "mentor": "Class Homeroom Teacher",
+      "delegates": [
+        "Minh Thu"
+      ]
+    },
+    {
+      "no": 3,
+      "id": "grade_2a1_3_hoang_thinh",
+      "name": "Hoang Thinh (Japan)",
+      "studentName": "Hoang Thinh",
+      "country": "Japan",
+      "countryKey": "japan",
+      "flag": "/assets/flags/japan.svg",
+      "color": "#0072CE",
+      "isEmcee": false,
+      "emceeNote": "",
+      "costume": "National Costume of Japan",
+      "basicScript": "Konnichiwa! My name is Hoang Thinh. I am from Japan. I am Japanese.",
+      "addedScript": "Japan is known for Mount Fuji, cherry blossoms, origami, and high-speed trains.",
+      "division": "junior",
+      "mentor": "Class Homeroom Teacher",
+      "delegates": [
+        "Hoang Thinh"
+      ]
+    },
+    {
+      "no": 4,
+      "id": "grade_2a1_4_nhat_long",
+      "name": "Nhat Long (China)",
+      "studentName": "Nhat Long",
+      "country": "China",
+      "countryKey": "china",
+      "flag": "/assets/flags/china.svg",
+      "color": "#0072CE",
+      "isEmcee": false,
+      "emceeNote": "",
+      "costume": "National Costume of China",
+      "basicScript": "Nǐ hǎo! My name is Nhat Long. I am from China. I am Chinese.",
+      "addedScript": "China is home to the majestic Great Wall, tea gardens, and giant pandas.",
+      "division": "junior",
+      "mentor": "Class Homeroom Teacher",
+      "delegates": [
+        "Nhat Long"
+      ]
+    },
+    {
+      "no": 5,
+      "id": "grade_2a1_5_minh_khang",
+      "name": "Minh Khang (Brazil)",
+      "studentName": "Minh Khang",
+      "country": "Brazil",
+      "countryKey": "brazil",
+      "flag": "/assets/flags/brazil.svg",
+      "color": "#0072CE",
+      "isEmcee": false,
+      "emceeNote": "",
+      "costume": "National Costume of Brazil",
+      "basicScript": "Olá! My name is Minh Khang. I am from Brazil. I am Brazilian.",
+      "addedScript": "Brazil has the vast Amazon rainforest, samba music, and world-class soccer.",
+      "division": "junior",
+      "mentor": "Class Homeroom Teacher",
+      "delegates": [
+        "Minh Khang"
+      ]
+    },
+    {
+      "no": 6,
+      "id": "grade_2a1_6_dang",
+      "name": "Dang (Japan)",
+      "studentName": "Dang",
+      "country": "Japan",
+      "countryKey": "japan",
+      "flag": "/assets/flags/japan.svg",
+      "color": "#0072CE",
+      "isEmcee": false,
+      "emceeNote": "",
+      "costume": "National Costume of Japan",
+      "basicScript": "Konnichiwa! My name is Dang. I am from Japan. I am Japanese.",
+      "addedScript": "Japan is known for Mount Fuji, cherry blossoms, origami, and high-speed trains.",
+      "division": "junior",
+      "mentor": "Class Homeroom Teacher",
+      "delegates": [
+        "Dang"
+      ]
+    },
+    {
+      "no": 7,
+      "id": "grade_2a1_7_kha_han",
+      "name": "Kha Han (Vietnam)",
+      "studentName": "Kha Han",
+      "country": "Vietnam",
+      "countryKey": "vietnam",
+      "flag": "/assets/flags/vietnam.svg",
+      "color": "#DA251D",
+      "isEmcee": false,
+      "emceeNote": "",
+      "costume": "Traditional Ao Dai",
+      "basicScript": "Xin chào! My name is Kha Han. I am from Vietnam. I am Vietnamese.",
+      "addedScript": "Vietnam has stunning Ha Long Bay, rich culture, and delicious Pho.",
+      "division": "junior",
+      "mentor": "Class Homeroom Teacher",
+      "delegates": [
+        "Kha Han"
+      ]
+    },
+    {
+      "no": 8,
+      "id": "grade_2a1_8_gia_bao",
+      "name": "Gia Bao (Vietnam)",
+      "studentName": "Gia Bao",
+      "country": "Vietnam",
+      "countryKey": "vietnam",
+      "flag": "/assets/flags/vietnam.svg",
+      "color": "#DA251D",
+      "isEmcee": false,
+      "emceeNote": "",
+      "costume": "Traditional Ao Dai",
+      "basicScript": "Xin chào! My name is Gia Bao. I am from Vietnam. I am Vietnamese.",
+      "addedScript": "Vietnam has stunning Ha Long Bay, rich culture, and delicious Pho.",
+      "division": "junior",
+      "mentor": "Class Homeroom Teacher",
+      "delegates": [
+        "Gia Bao"
+      ]
+    },
+    {
+      "no": 9,
+      "id": "grade_2a1_9_nha_y",
+      "name": "Nha Y (Vietnam)",
+      "studentName": "Nha Y",
+      "country": "Vietnam",
+      "countryKey": "vietnam",
+      "flag": "/assets/flags/vietnam.svg",
+      "color": "#DA251D",
+      "isEmcee": false,
+      "emceeNote": "",
+      "costume": "Traditional Ao Dai",
+      "basicScript": "Xin chào! My name is Nha Y. I am from Vietnam. I am Vietnamese.",
+      "addedScript": "Vietnam has stunning Ha Long Bay, rich culture, and delicious Pho.",
+      "division": "junior",
+      "mentor": "Class Homeroom Teacher",
+      "delegates": [
+        "Nha Y"
+      ]
+    },
+    {
+      "no": 10,
+      "id": "grade_2a1_10_thuan",
+      "name": "Thuan (Vietnam)",
+      "studentName": "Thuan",
+      "country": "Vietnam",
+      "countryKey": "vietnam",
+      "flag": "/assets/flags/vietnam.svg",
+      "color": "#DA251D",
+      "isEmcee": false,
+      "emceeNote": "",
+      "costume": "Traditional Ao Dai",
+      "basicScript": "Xin chào! My name is Thuan. I am from Vietnam. I am Vietnamese.",
+      "addedScript": "Vietnam has stunning Ha Long Bay, rich culture, and delicious Pho.",
+      "division": "junior",
+      "mentor": "Class Homeroom Teacher",
+      "delegates": [
+        "Thuan"
+      ]
+    },
+    {
+      "no": 11,
+      "id": "grade_2a1_11_bao_an",
+      "name": "Bao An (Vietnam)",
+      "studentName": "Bao An",
+      "country": "Vietnam",
+      "countryKey": "vietnam",
+      "flag": "/assets/flags/vietnam.svg",
+      "color": "#DA251D",
+      "isEmcee": false,
+      "emceeNote": "",
+      "costume": "Traditional Ao Dai",
+      "basicScript": "Xin chào! My name is Bao An. I am from Vietnam. I am Vietnamese.",
+      "addedScript": "Vietnam has stunning Ha Long Bay, rich culture, and delicious Pho.",
+      "division": "junior",
+      "mentor": "Class Homeroom Teacher",
+      "delegates": [
+        "Bao An"
+      ]
+    },
+    {
+      "no": 12,
+      "id": "grade_2a1_12_ngan_anh",
+      "name": "Ngan Anh (Vietnam)",
+      "studentName": "Ngan Anh",
+      "country": "Vietnam",
+      "countryKey": "vietnam",
+      "flag": "/assets/flags/vietnam.svg",
+      "color": "#DA251D",
+      "isEmcee": false,
+      "emceeNote": "",
+      "costume": "Traditional Ao Dai",
+      "basicScript": "Xin chào! My name is Ngan Anh. I am from Vietnam. I am Vietnamese.",
+      "addedScript": "Vietnam has stunning Ha Long Bay, rich culture, and delicious Pho.",
+      "division": "junior",
+      "mentor": "Class Homeroom Teacher",
+      "delegates": [
+        "Ngan Anh"
+      ]
+    },
+    {
+      "no": 13,
+      "id": "grade_2a1_13_thien_di",
+      "name": "Thien Di (Vietnam)",
+      "studentName": "Thien Di",
+      "country": "Vietnam",
+      "countryKey": "vietnam",
+      "flag": "/assets/flags/vietnam.svg",
+      "color": "#DA251D",
+      "isEmcee": false,
+      "emceeNote": "",
+      "costume": "Traditional Ao Dai",
+      "basicScript": "Xin chào! My name is Thien Di. I am from Vietnam. I am Vietnamese.",
+      "addedScript": "Vietnam has stunning Ha Long Bay, rich culture, and delicious Pho.",
+      "division": "junior",
+      "mentor": "Class Homeroom Teacher",
+      "delegates": [
+        "Thien Di"
+      ]
+    },
+    {
+      "no": 14,
+      "id": "grade_2a1_14_gia_huy",
+      "name": "Gia Huy (Vietnam)",
+      "studentName": "Gia Huy",
+      "country": "Vietnam",
+      "countryKey": "vietnam",
+      "flag": "/assets/flags/vietnam.svg",
+      "color": "#DA251D",
+      "isEmcee": false,
+      "emceeNote": "",
+      "costume": "Traditional Ao Dai",
+      "basicScript": "Xin chào! My name is Gia Huy. I am from Vietnam. I am Vietnamese.",
+      "addedScript": "Vietnam has stunning Ha Long Bay, rich culture, and delicious Pho.",
+      "division": "junior",
+      "mentor": "Class Homeroom Teacher",
+      "delegates": [
+        "Gia Huy"
+      ]
+    },
+    {
+      "no": 15,
+      "id": "grade_2a1_15_thu_ky",
+      "name": "Thu Ky (Vietnam)",
+      "studentName": "Thu Ky",
+      "country": "Vietnam",
+      "countryKey": "vietnam",
+      "flag": "/assets/flags/vietnam.svg",
+      "color": "#DA251D",
+      "isEmcee": false,
+      "emceeNote": "",
+      "costume": "Traditional Ao Dai",
+      "basicScript": "Xin chào! My name is Thu Ky. I am from Vietnam. I am Vietnamese.",
+      "addedScript": "Vietnam has stunning Ha Long Bay, rich culture, and delicious Pho.",
+      "division": "junior",
+      "mentor": "Class Homeroom Teacher",
+      "delegates": [
+        "Thu Ky"
+      ]
+    },
+    {
+      "no": 16,
+      "id": "grade_2a1_16_thien_lac",
+      "name": "Thien Lac (Vietnam)",
+      "studentName": "Thien Lac",
+      "country": "Vietnam",
+      "countryKey": "vietnam",
+      "flag": "/assets/flags/vietnam.svg",
+      "color": "#DA251D",
+      "isEmcee": false,
+      "emceeNote": "",
+      "costume": "Traditional Ao Dai",
+      "basicScript": "Xin chào! My name is Thien Lac. I am from Vietnam. I am Vietnamese.",
+      "addedScript": "Vietnam has stunning Ha Long Bay, rich culture, and delicious Pho.",
+      "division": "junior",
+      "mentor": "Class Homeroom Teacher",
+      "delegates": [
+        "Thien Lac"
+      ]
+    },
+    {
+      "no": 17,
+      "id": "grade_2a1_17_gia_phuc",
+      "name": "Gia Phuc (Vietnam)",
+      "studentName": "Gia Phuc",
+      "country": "Vietnam",
+      "countryKey": "vietnam",
+      "flag": "/assets/flags/vietnam.svg",
+      "color": "#DA251D",
+      "isEmcee": false,
+      "emceeNote": "",
+      "costume": "Traditional Ao Dai",
+      "basicScript": "Xin chào! My name is Gia Phuc. I am from Vietnam. I am Vietnamese.",
+      "addedScript": "Vietnam has stunning Ha Long Bay, rich culture, and delicious Pho.",
+      "division": "junior",
+      "mentor": "Class Homeroom Teacher",
+      "delegates": [
+        "Gia Phuc"
+      ]
+    },
+    {
+      "no": 18,
+      "id": "grade_2a1_18_phuong_thao",
+      "name": "Phuong Thao (Vietnam)",
+      "studentName": "Phuong Thao",
+      "country": "Vietnam",
+      "countryKey": "vietnam",
+      "flag": "/assets/flags/vietnam.svg",
+      "color": "#DA251D",
+      "isEmcee": false,
+      "emceeNote": "",
+      "costume": "Traditional Ao Dai",
+      "basicScript": "Xin chào! My name is Phuong Thao. I am from Vietnam. I am Vietnamese.",
+      "addedScript": "Vietnam has stunning Ha Long Bay, rich culture, and delicious Pho.",
+      "division": "junior",
+      "mentor": "Class Homeroom Teacher",
+      "delegates": [
+        "Phuong Thao"
+      ]
+    },
+    {
+      "no": 19,
+      "id": "grade_2a1_19_cat_tuong",
+      "name": "Cat Tuong (Vietnam)",
+      "studentName": "Cat Tuong",
+      "country": "Vietnam",
+      "countryKey": "vietnam",
+      "flag": "/assets/flags/vietnam.svg",
+      "color": "#DA251D",
+      "isEmcee": false,
+      "emceeNote": "",
+      "costume": "Traditional Ao Dai",
+      "basicScript": "Xin chào! My name is Cat Tuong. I am from Vietnam. I am Vietnamese.",
+      "addedScript": "Vietnam has stunning Ha Long Bay, rich culture, and delicious Pho.",
+      "division": "junior",
+      "mentor": "Class Homeroom Teacher",
+      "delegates": [
+        "Cat Tuong"
+      ]
+    },
+    {
+      "no": 20,
+      "id": "grade_2a1_20_nhu_y",
+      "name": "Nhu Y (Vietnam)",
+      "studentName": "Nhu Y",
+      "country": "Vietnam",
+      "countryKey": "vietnam",
+      "flag": "/assets/flags/vietnam.svg",
+      "color": "#DA251D",
+      "isEmcee": false,
+      "emceeNote": "",
+      "costume": "Traditional Ao Dai",
+      "basicScript": "Xin chào! My name is Nhu Y. I am from Vietnam. I am Vietnamese.",
+      "addedScript": "Vietnam has stunning Ha Long Bay, rich culture, and delicious Pho.",
+      "division": "junior",
+      "mentor": "Class Homeroom Teacher",
+      "delegates": [
+        "Nhu Y"
+      ]
+    },
+    {
+      "no": 21,
+      "id": "grade_2a1_21_kai_en",
+      "name": "Kai En (Vietnam)",
+      "studentName": "Kai En",
+      "country": "Vietnam",
+      "countryKey": "vietnam",
+      "flag": "/assets/flags/vietnam.svg",
+      "color": "#DA251D",
+      "isEmcee": false,
+      "emceeNote": "",
+      "costume": "Traditional Ao Dai",
+      "basicScript": "Xin chào! My name is Kai En. I am from Vietnam. I am Vietnamese.",
+      "addedScript": "Vietnam has stunning Ha Long Bay, rich culture, and delicious Pho.",
+      "division": "junior",
+      "mentor": "Class Homeroom Teacher",
+      "delegates": [
+        "Kai En"
+      ]
+    }
+  ],
+  "Grade 2A2": [
+    {
+      "no": 1,
+      "id": "grade_2a2_1_bao_anh",
+      "name": "Bao Anh (Cambodia)",
+      "studentName": "Bao Anh",
+      "country": "Cambodia",
+      "countryKey": "cambodia",
+      "flag": "/assets/flags/cambodia.svg",
+      "color": "#0072CE",
+      "isEmcee": false,
+      "emceeNote": "My Sang / Chan Hao",
+      "costume": "National Costume of Cambodia",
+      "basicScript": "Sous-dey! My name is Bao Anh. I am from Cambodia. I am Cambodian.",
+      "addedScript": "Cambodia is famous worldwide for the ancient stone temples of Angkor Wat.",
+      "division": "junior",
+      "mentor": "Class Homeroom Teacher",
+      "delegates": [
+        "Bao Anh"
+      ]
+    },
+    {
+      "no": 2,
+      "id": "grade_2a2_2_bach",
+      "name": "Bach (Portugal)",
+      "studentName": "Bach",
+      "country": "Portugal",
+      "countryKey": "portugal",
+      "flag": "/assets/flags/portugal.svg",
+      "color": "#0072CE",
+      "isEmcee": false,
+      "emceeNote": "",
+      "costume": "National Costume of Portugal",
+      "basicScript": "Olá! My name is Bach. I am from Portugal. I am Portuguese.",
+      "addedScript": "Portugal is celebrated for seafaring history, sunny beaches, and custard tarts.",
+      "division": "junior",
+      "mentor": "Class Homeroom Teacher",
+      "delegates": [
+        "Bach"
+      ]
+    },
+    {
+      "no": 3,
+      "id": "grade_2a2_3_long",
+      "name": "Long (Brazil)",
+      "studentName": "Long",
+      "country": "Brazil",
+      "countryKey": "brazil",
+      "flag": "/assets/flags/brazil.svg",
+      "color": "#0072CE",
+      "isEmcee": false,
+      "emceeNote": "",
+      "costume": "National Costume of Brazil",
+      "basicScript": "Olá! My name is Long. I am from Brazil. I am Brazilian.",
+      "addedScript": "Brazil has the vast Amazon rainforest, samba music, and world-class soccer.",
+      "division": "junior",
+      "mentor": "Class Homeroom Teacher",
+      "delegates": [
+        "Long"
+      ]
+    },
+    {
+      "no": 4,
+      "id": "grade_2a2_4_my_sang",
+      "name": "My Sang (Vietnam)",
+      "studentName": "My Sang",
+      "country": "Vietnam",
+      "countryKey": "vietnam",
+      "flag": "/assets/flags/vietnam.svg",
+      "color": "#DA251D",
+      "isEmcee": false,
+      "emceeNote": "",
+      "costume": "Traditional Ao Dai",
+      "basicScript": "Xin chào! My name is My Sang. I am from Vietnam. I am Vietnamese.",
+      "addedScript": "Vietnam has stunning Ha Long Bay, rich culture, and delicious Pho.",
+      "division": "junior",
+      "mentor": "Class Homeroom Teacher",
+      "delegates": [
+        "My Sang"
+      ]
+    },
+    {
+      "no": 5,
+      "id": "grade_2a2_5_chan_hao",
+      "name": "Chan Hao (Vietnam)",
+      "studentName": "Chan Hao",
+      "country": "Vietnam",
+      "countryKey": "vietnam",
+      "flag": "/assets/flags/vietnam.svg",
+      "color": "#DA251D",
+      "isEmcee": false,
+      "emceeNote": "",
+      "costume": "Traditional Ao Dai",
+      "basicScript": "Xin chào! My name is Chan Hao. I am from Vietnam. I am Vietnamese.",
+      "addedScript": "Vietnam has stunning Ha Long Bay, rich culture, and delicious Pho.",
+      "division": "junior",
+      "mentor": "Class Homeroom Teacher",
+      "delegates": [
+        "Chan Hao"
+      ]
+    },
+    {
+      "no": 6,
+      "id": "grade_2a2_6_trieu_dong",
+      "name": "Trieu Dong (Vietnam)",
+      "studentName": "Trieu Dong",
+      "country": "Vietnam",
+      "countryKey": "vietnam",
+      "flag": "/assets/flags/vietnam.svg",
+      "color": "#DA251D",
+      "isEmcee": false,
+      "emceeNote": "",
+      "costume": "Traditional Ao Dai",
+      "basicScript": "Xin chào! My name is Trieu Dong. I am from Vietnam. I am Vietnamese.",
+      "addedScript": "Vietnam has stunning Ha Long Bay, rich culture, and delicious Pho.",
+      "division": "junior",
+      "mentor": "Class Homeroom Teacher",
+      "delegates": [
+        "Trieu Dong"
+      ]
+    },
+    {
+      "no": 7,
+      "id": "grade_2a2_7_gia_han",
+      "name": "Gia Han (Vietnam)",
+      "studentName": "Gia Han",
+      "country": "Vietnam",
+      "countryKey": "vietnam",
+      "flag": "/assets/flags/vietnam.svg",
+      "color": "#DA251D",
+      "isEmcee": false,
+      "emceeNote": "",
+      "costume": "Traditional Ao Dai",
+      "basicScript": "Xin chào! My name is Gia Han. I am from Vietnam. I am Vietnamese.",
+      "addedScript": "Vietnam has stunning Ha Long Bay, rich culture, and delicious Pho.",
+      "division": "junior",
+      "mentor": "Class Homeroom Teacher",
+      "delegates": [
+        "Gia Han"
+      ]
+    },
+    {
+      "no": 8,
+      "id": "grade_2a2_8_mai_hoa",
+      "name": "Mai Hoa (Vietnam)",
+      "studentName": "Mai Hoa",
+      "country": "Vietnam",
+      "countryKey": "vietnam",
+      "flag": "/assets/flags/vietnam.svg",
+      "color": "#DA251D",
+      "isEmcee": false,
+      "emceeNote": "",
+      "costume": "Traditional Ao Dai",
+      "basicScript": "Xin chào! My name is Mai Hoa. I am from Vietnam. I am Vietnamese.",
+      "addedScript": "Vietnam has stunning Ha Long Bay, rich culture, and delicious Pho.",
+      "division": "junior",
+      "mentor": "Class Homeroom Teacher",
+      "delegates": [
+        "Mai Hoa"
+      ]
+    },
+    {
+      "no": 9,
+      "id": "grade_2a2_9_gia_huy",
+      "name": "Gia Huy (Vietnam)",
+      "studentName": "Gia Huy",
+      "country": "Vietnam",
+      "countryKey": "vietnam",
+      "flag": "/assets/flags/vietnam.svg",
+      "color": "#DA251D",
+      "isEmcee": false,
+      "emceeNote": "",
+      "costume": "Traditional Ao Dai",
+      "basicScript": "Xin chào! My name is Gia Huy. I am from Vietnam. I am Vietnamese.",
+      "addedScript": "Vietnam has stunning Ha Long Bay, rich culture, and delicious Pho.",
+      "division": "junior",
+      "mentor": "Class Homeroom Teacher",
+      "delegates": [
+        "Gia Huy"
+      ]
+    },
+    {
+      "no": 10,
+      "id": "grade_2a2_10_khue",
+      "name": "Khue (Vietnam)",
+      "studentName": "Khue",
+      "country": "Vietnam",
+      "countryKey": "vietnam",
+      "flag": "/assets/flags/vietnam.svg",
+      "color": "#DA251D",
+      "isEmcee": false,
+      "emceeNote": "",
+      "costume": "Traditional Ao Dai",
+      "basicScript": "Xin chào! My name is Khue. I am from Vietnam. I am Vietnamese.",
+      "addedScript": "Vietnam has stunning Ha Long Bay, rich culture, and delicious Pho.",
+      "division": "junior",
+      "mentor": "Class Homeroom Teacher",
+      "delegates": [
+        "Khue"
+      ]
+    },
+    {
+      "no": 11,
+      "id": "grade_2a2_11_boi_ky",
+      "name": "Boi Ky (Vietnam)",
+      "studentName": "Boi Ky",
+      "country": "Vietnam",
+      "countryKey": "vietnam",
+      "flag": "/assets/flags/vietnam.svg",
+      "color": "#DA251D",
+      "isEmcee": false,
+      "emceeNote": "",
+      "costume": "Traditional Ao Dai",
+      "basicScript": "Xin chào! My name is Boi Ky. I am from Vietnam. I am Vietnamese.",
+      "addedScript": "Vietnam has stunning Ha Long Bay, rich culture, and delicious Pho.",
+      "division": "junior",
+      "mentor": "Class Homeroom Teacher",
+      "delegates": [
+        "Boi Ky"
+      ]
+    },
+    {
+      "no": 12,
+      "id": "grade_2a2_12_phuong_nam",
+      "name": "Phuong Nam (Vietnam)",
+      "studentName": "Phuong Nam",
+      "country": "Vietnam",
+      "countryKey": "vietnam",
+      "flag": "/assets/flags/vietnam.svg",
+      "color": "#DA251D",
+      "isEmcee": false,
+      "emceeNote": "",
+      "costume": "Traditional Ao Dai",
+      "basicScript": "Xin chào! My name is Phuong Nam. I am from Vietnam. I am Vietnamese.",
+      "addedScript": "Vietnam has stunning Ha Long Bay, rich culture, and delicious Pho.",
+      "division": "junior",
+      "mentor": "Class Homeroom Teacher",
+      "delegates": [
+        "Phuong Nam"
+      ]
+    },
+    {
+      "no": 13,
+      "id": "grade_2a2_13_bao_ngoc",
+      "name": "Bao Ngoc (Vietnam)",
+      "studentName": "Bao Ngoc",
+      "country": "Vietnam",
+      "countryKey": "vietnam",
+      "flag": "/assets/flags/vietnam.svg",
+      "color": "#DA251D",
+      "isEmcee": false,
+      "emceeNote": "",
+      "costume": "Traditional Ao Dai",
+      "basicScript": "Xin chào! My name is Bao Ngoc. I am from Vietnam. I am Vietnamese.",
+      "addedScript": "Vietnam has stunning Ha Long Bay, rich culture, and delicious Pho.",
+      "division": "junior",
+      "mentor": "Class Homeroom Teacher",
+      "delegates": [
+        "Bao Ngoc"
+      ]
+    },
+    {
+      "no": 14,
+      "id": "grade_2a2_14_phat",
+      "name": "Phat (Vietnam)",
+      "studentName": "Phat",
+      "country": "Vietnam",
+      "countryKey": "vietnam",
+      "flag": "/assets/flags/vietnam.svg",
+      "color": "#DA251D",
+      "isEmcee": false,
+      "emceeNote": "",
+      "costume": "Traditional Ao Dai",
+      "basicScript": "Xin chào! My name is Phat. I am from Vietnam. I am Vietnamese.",
+      "addedScript": "Vietnam has stunning Ha Long Bay, rich culture, and delicious Pho.",
+      "division": "junior",
+      "mentor": "Class Homeroom Teacher",
+      "delegates": [
+        "Phat"
+      ]
+    },
+    {
+      "no": 15,
+      "id": "grade_2a2_15_thien",
+      "name": "Thien (Vietnam)",
+      "studentName": "Thien",
+      "country": "Vietnam",
+      "countryKey": "vietnam",
+      "flag": "/assets/flags/vietnam.svg",
+      "color": "#DA251D",
+      "isEmcee": false,
+      "emceeNote": "",
+      "costume": "Traditional Ao Dai",
+      "basicScript": "Xin chào! My name is Thien. I am from Vietnam. I am Vietnamese.",
+      "addedScript": "Vietnam has stunning Ha Long Bay, rich culture, and delicious Pho.",
+      "division": "junior",
+      "mentor": "Class Homeroom Teacher",
+      "delegates": [
+        "Thien"
+      ]
+    },
+    {
+      "no": 16,
+      "id": "grade_2a2_16_phu_thinh",
+      "name": "Phu Thinh (Vietnam)",
+      "studentName": "Phu Thinh",
+      "country": "Vietnam",
+      "countryKey": "vietnam",
+      "flag": "/assets/flags/vietnam.svg",
+      "color": "#DA251D",
+      "isEmcee": false,
+      "emceeNote": "",
+      "costume": "Traditional Ao Dai",
+      "basicScript": "Xin chào! My name is Phu Thinh. I am from Vietnam. I am Vietnamese.",
+      "addedScript": "Vietnam has stunning Ha Long Bay, rich culture, and delicious Pho.",
+      "division": "junior",
+      "mentor": "Class Homeroom Teacher",
+      "delegates": [
+        "Phu Thinh"
+      ]
+    },
+    {
+      "no": 17,
+      "id": "grade_2a2_17_phuc",
+      "name": "Phuc (Vietnam)",
+      "studentName": "Phuc",
+      "country": "Vietnam",
+      "countryKey": "vietnam",
+      "flag": "/assets/flags/vietnam.svg",
+      "color": "#DA251D",
+      "isEmcee": false,
+      "emceeNote": "",
+      "costume": "Traditional Ao Dai",
+      "basicScript": "Xin chào! My name is Phuc. I am from Vietnam. I am Vietnamese.",
+      "addedScript": "Vietnam has stunning Ha Long Bay, rich culture, and delicious Pho.",
+      "division": "junior",
+      "mentor": "Class Homeroom Teacher",
+      "delegates": [
+        "Phuc"
+      ]
+    },
+    {
+      "no": 18,
+      "id": "grade_2a2_18_uyen",
+      "name": "Uyen (Vietnam)",
+      "studentName": "Uyen",
+      "country": "Vietnam",
+      "countryKey": "vietnam",
+      "flag": "/assets/flags/vietnam.svg",
+      "color": "#DA251D",
+      "isEmcee": false,
+      "emceeNote": "",
+      "costume": "Traditional Ao Dai",
+      "basicScript": "Xin chào! My name is Uyen. I am from Vietnam. I am Vietnamese.",
+      "addedScript": "Vietnam has stunning Ha Long Bay, rich culture, and delicious Pho.",
+      "division": "junior",
+      "mentor": "Class Homeroom Teacher",
+      "delegates": [
+        "Uyen"
+      ]
+    },
+    {
+      "no": 19,
+      "id": "grade_2a2_19_nhu_y",
+      "name": "Nhu Y (Vietnam)",
+      "studentName": "Nhu Y",
+      "country": "Vietnam",
+      "countryKey": "vietnam",
+      "flag": "/assets/flags/vietnam.svg",
+      "color": "#DA251D",
+      "isEmcee": false,
+      "emceeNote": "",
+      "costume": "Traditional Ao Dai",
+      "basicScript": "Xin chào! My name is Nhu Y. I am from Vietnam. I am Vietnamese.",
+      "addedScript": "Vietnam has stunning Ha Long Bay, rich culture, and delicious Pho.",
+      "division": "junior",
+      "mentor": "Class Homeroom Teacher",
+      "delegates": [
+        "Nhu Y"
+      ]
+    }
+  ],
+  "Grade 3": [
+    {
+      "no": 1,
+      "id": "grade_3_1_huynh_gia_an",
+      "name": "Huynh Gia An (Philippines)",
+      "studentName": "Huynh Gia An",
+      "country": "Philippines",
+      "countryKey": "philippines",
+      "flag": "/assets/flags/philippines.svg",
+      "color": "#0072CE",
+      "isEmcee": false,
+      "emceeNote": "",
+      "costume": "National Costume of Philippines",
+      "basicScript": "Magandang umaga! My name is Huynh Gia An. I am from Philippines. I am Filipino.",
+      "addedScript": "The Philippines has more than 7,000 tropical islands and is located on the east of Vietnam.",
+      "division": "junior",
+      "mentor": "Class Homeroom Teacher",
+      "delegates": [
+        "Huynh Gia An"
+      ]
+    },
+    {
+      "no": 2,
+      "id": "grade_3_2_nguyen_ho_ngoc_anh",
+      "name": "Nguyen Ho Ngoc Anh (Japan)",
+      "studentName": "Nguyen Ho Ngoc Anh",
+      "country": "Japan",
+      "countryKey": "japan",
+      "flag": "/assets/flags/japan.svg",
+      "color": "#0072CE",
+      "isEmcee": false,
+      "emceeNote": "",
+      "costume": "National Costume of Japan",
+      "basicScript": "Konnichiwa! My name is Nguyen Ho Ngoc Anh. I am from Japan. I am Japanese.",
+      "addedScript": "Japan is known for Mount Fuji, cherry blossoms, origami, and high-speed trains.",
+      "division": "junior",
+      "mentor": "Class Homeroom Teacher",
+      "delegates": [
+        "Nguyen Ho Ngoc Anh"
+      ]
+    },
+    {
+      "no": 3,
+      "id": "grade_3_3_nguyen_pham_bao_anh",
+      "name": "Nguyen Pham Bao Anh (France)",
+      "studentName": "Nguyen Pham Bao Anh",
+      "country": "France",
+      "countryKey": "france",
+      "flag": "/assets/flags/france.svg",
+      "color": "#0072CE",
+      "isEmcee": false,
+      "emceeNote": "",
+      "costume": "National Costume of France",
+      "basicScript": "Bonjour! My name is Nguyen Pham Bao Anh. I am from France. I am French.",
+      "addedScript": "France is famous for the Eiffel Tower, the Louvre museum, and delicious pastries.",
+      "division": "junior",
+      "mentor": "Class Homeroom Teacher",
+      "delegates": [
+        "Nguyen Pham Bao Anh"
+      ]
+    },
+    {
+      "no": 4,
+      "id": "grade_3_4_do_tran_phuc_bao",
+      "name": "Do Tran Phuc Bao (Brazil)",
+      "studentName": "Do Tran Phuc Bao",
+      "country": "Brazil",
+      "countryKey": "brazil",
+      "flag": "/assets/flags/brazil.svg",
+      "color": "#0072CE",
+      "isEmcee": false,
+      "emceeNote": "",
+      "costume": "National Costume of Brazil",
+      "basicScript": "Olá! My name is Do Tran Phuc Bao. I am from Brazil. I am Brazilian.",
+      "addedScript": "Brazil has the vast Amazon rainforest, samba music, and world-class soccer.",
+      "division": "junior",
+      "mentor": "Class Homeroom Teacher",
+      "delegates": [
+        "Do Tran Phuc Bao"
+      ]
+    },
+    {
+      "no": 5,
+      "id": "grade_3_5_phan_vu_minh_chao",
+      "name": "Phan Vu Minh Chao (Spain)",
+      "studentName": "Phan Vu Minh Chao",
+      "country": "Spain",
+      "countryKey": "spain",
+      "flag": "/assets/flags/spain.svg",
+      "color": "#0072CE",
+      "isEmcee": false,
+      "emceeNote": "",
+      "costume": "National Costume of Spain",
+      "basicScript": "¡Hola!! My name is Phan Vu Minh Chao. I am from Spain. I am Spanish.",
+      "addedScript": "Spain is celebrated for historic castles, flamenco art, and sunny coasts.",
+      "division": "junior",
+      "mentor": "Class Homeroom Teacher",
+      "delegates": [
+        "Phan Vu Minh Chao"
+      ]
+    },
+    {
+      "no": 6,
+      "id": "grade_3_6_nguyen_van_ha",
+      "name": "Nguyen Van Ha (Thailand)",
+      "studentName": "Nguyen Van Ha",
+      "country": "Thailand",
+      "countryKey": "thailand",
+      "flag": "/assets/flags/thailand.svg",
+      "color": "#0072CE",
+      "isEmcee": false,
+      "emceeNote": "",
+      "costume": "National Costume of Thailand",
+      "basicScript": "Sawatdee! My name is Nguyen Van Ha. I am from Thailand. I am Thai.",
+      "addedScript": "Thailand is the Land of Smiles, famous for golden temples, floating markets, and elephants.",
+      "division": "junior",
+      "mentor": "Class Homeroom Teacher",
+      "delegates": [
+        "Nguyen Van Ha"
+      ]
+    },
+    {
+      "no": 7,
+      "id": "grade_3_7_ho_ngoc_han",
+      "name": "Ho Ngoc Han (Cambodia)",
+      "studentName": "Ho Ngoc Han",
+      "country": "Cambodia",
+      "countryKey": "cambodia",
+      "flag": "/assets/flags/cambodia.svg",
+      "color": "#0072CE",
+      "isEmcee": false,
+      "emceeNote": "",
+      "costume": "National Costume of Cambodia",
+      "basicScript": "Sous-dey! My name is Ho Ngoc Han. I am from Cambodia. I am Cambodian.",
+      "addedScript": "Cambodia is famous worldwide for the ancient stone temples of Angkor Wat.",
+      "division": "junior",
+      "mentor": "Class Homeroom Teacher",
+      "delegates": [
+        "Ho Ngoc Han"
+      ]
+    },
+    {
+      "no": 8,
+      "id": "grade_3_8_nguyen_ngoc_kha_han",
+      "name": "Nguyen Ngoc Kha Han (Singapore)",
+      "studentName": "Nguyen Ngoc Kha Han",
+      "country": "Singapore",
+      "countryKey": "singapore",
+      "flag": "/assets/flags/singapore.svg",
+      "color": "#0072CE",
+      "isEmcee": false,
+      "emceeNote": "",
+      "costume": "National Costume of Singapore",
+      "basicScript": "Hello! My name is Nguyen Ngoc Kha Han. I am from Singapore. I am Singaporean.",
+      "addedScript": "Singapore is a garden city state known for Supertree Grove and clean parks.",
+      "division": "junior",
+      "mentor": "Class Homeroom Teacher",
+      "delegates": [
+        "Nguyen Ngoc Kha Han"
+      ]
+    },
+    {
+      "no": 9,
+      "id": "grade_3_9_low_jun_heng",
+      "name": "Low Jun Heng (India)",
+      "studentName": "Low Jun Heng",
+      "country": "India",
+      "countryKey": "india",
+      "flag": "/assets/flags/india.svg",
+      "color": "#0072CE",
+      "isEmcee": false,
+      "emceeNote": "",
+      "costume": "National Costume of India",
+      "basicScript": "Namaste! My name is Low Jun Heng. I am from India. I am Indian.",
+      "addedScript": "India is celebrated for the white marble Taj Mahal, yoga, and vibrant festivals.",
+      "division": "junior",
+      "mentor": "Class Homeroom Teacher",
+      "delegates": [
+        "Low Jun Heng"
+      ]
+    },
+    {
+      "no": 10,
+      "id": "grade_3_10_bui_gia_huy",
+      "name": "Bui Gia Huy (South Korea)",
+      "studentName": "Bui Gia Huy",
+      "country": "South Korea",
+      "countryKey": "south_korea",
+      "flag": "/assets/flags/south_korea.svg",
+      "color": "#0072CE",
+      "isEmcee": false,
+      "emceeNote": "",
+      "costume": "National Costume of South Korea",
+      "basicScript": "Annyeonghaseyo! My name is Bui Gia Huy. I am from South Korea. I am Korean.",
+      "addedScript": "South Korea is famous for K-pop, historic palaces, and high technology.",
+      "division": "junior",
+      "mentor": "Class Homeroom Teacher",
+      "delegates": [
+        "Bui Gia Huy"
+      ]
+    },
+    {
+      "no": 11,
+      "id": "grade_3_11_nguyen_hoang_khoi",
+      "name": "Nguyen Hoang Khoi (New Zealand)",
+      "studentName": "Nguyen Hoang Khoi",
+      "country": "New Zealand",
+      "countryKey": "new_zealand",
+      "flag": "/assets/flags/new_zealand.svg",
+      "color": "#0072CE",
+      "isEmcee": false,
+      "emceeNote": "",
+      "costume": "National Costume of New Zealand",
+      "basicScript": "Kia Ora! My name is Nguyen Hoang Khoi. I am from New Zealand. I am New Zealander.",
+      "addedScript": "New Zealand has green mountains, kiwi birds, and traditional Maori culture.",
+      "division": "junior",
+      "mentor": "Class Homeroom Teacher",
+      "delegates": [
+        "Nguyen Hoang Khoi"
+      ]
+    },
+    {
+      "no": 12,
+      "id": "grade_3_12_nguyen_minh_khoi",
+      "name": "Nguyen Minh Khoi (Vietnam)",
+      "studentName": "Nguyen Minh Khoi",
+      "country": "Vietnam",
+      "countryKey": "vietnam",
+      "flag": "/assets/flags/vietnam.svg",
+      "color": "#DA251D",
+      "isEmcee": false,
+      "emceeNote": "",
+      "costume": "Traditional Ao Dai",
+      "basicScript": "Xin chào! My name is Nguyen Minh Khoi. I am from Vietnam. I am Vietnamese.",
+      "addedScript": "Vietnam has stunning Ha Long Bay, rich culture, and delicious Pho.",
+      "division": "junior",
+      "mentor": "Class Homeroom Teacher",
+      "delegates": [
+        "Nguyen Minh Khoi"
+      ]
+    },
+    {
+      "no": 13,
+      "id": "grade_3_13_nguyen_hoang_long",
+      "name": "Nguyen Hoang Long (United States)",
+      "studentName": "Nguyen Hoang Long",
+      "country": "United States",
+      "countryKey": "us",
+      "flag": "/assets/flags/usa.svg",
+      "color": "#0072CE",
+      "isEmcee": false,
+      "emceeNote": "",
+      "costume": "National Costume of United States",
+      "basicScript": "Hello! My name is Nguyen Hoang Long. I am from United States. I am American.",
+      "addedScript": "The United States is home to the Statue of Liberty and diverse communities.",
+      "division": "junior",
+      "mentor": "Class Homeroom Teacher",
+      "delegates": [
+        "Nguyen Hoang Long"
+      ]
+    },
+    {
+      "no": 14,
+      "id": "grade_3_14_tran_tuan_phat",
+      "name": "Tran Tuan Phat (United Kingdom)",
+      "studentName": "Tran Tuan Phat",
+      "country": "United Kingdom",
+      "countryKey": "england",
+      "flag": "/assets/flags/uk.svg",
+      "color": "#0072CE",
+      "isEmcee": false,
+      "emceeNote": "",
+      "costume": "National Costume of United Kingdom",
+      "basicScript": "Good day! My name is Tran Tuan Phat. I am from United Kingdom. I am British.",
+      "addedScript": "The United Kingdom is famous for Big Ben, London red buses, and the royal castle.",
+      "division": "junior",
+      "mentor": "Class Homeroom Teacher",
+      "delegates": [
+        "Tran Tuan Phat"
+      ]
+    },
+    {
+      "no": 15,
+      "id": "grade_3_15_nguyen_dang_quang",
+      "name": "Nguyen Dang Quang (Portugal)",
+      "studentName": "Nguyen Dang Quang",
+      "country": "Portugal",
+      "countryKey": "portugal",
+      "flag": "/assets/flags/portugal.svg",
+      "color": "#0072CE",
+      "isEmcee": false,
+      "emceeNote": "",
+      "costume": "National Costume of Portugal",
+      "basicScript": "Olá! My name is Nguyen Dang Quang. I am from Portugal. I am Portuguese.",
+      "addedScript": "Portugal is celebrated for seafaring history, sunny beaches, and custard tarts.",
+      "division": "junior",
+      "mentor": "Class Homeroom Teacher",
+      "delegates": [
+        "Nguyen Dang Quang"
+      ]
+    },
+    {
+      "no": 16,
+      "id": "grade_3_16_huynh_phuoc_thinh",
+      "name": "Huynh Phuoc Thinh (Australia)",
+      "studentName": "Huynh Phuoc Thinh",
+      "country": "Australia",
+      "countryKey": "australia",
+      "flag": "/assets/flags/australia.svg",
+      "color": "#0072CE",
+      "isEmcee": false,
+      "emceeNote": "",
+      "costume": "National Costume of Australia",
+      "basicScript": "G'day! My name is Huynh Phuoc Thinh. I am from Australia. I am Australian.",
+      "addedScript": "Australia has the Great Barrier Reef, kangaroos, and Sydney Opera House.",
+      "division": "junior",
+      "mentor": "Class Homeroom Teacher",
+      "delegates": [
+        "Huynh Phuoc Thinh"
+      ]
+    },
+    {
+      "no": 17,
+      "id": "grade_3_17_nguyen_dang_gia_thinh",
+      "name": "Nguyen Dang Gia Thinh (Philippines)",
+      "studentName": "Nguyen Dang Gia Thinh",
+      "country": "Philippines",
+      "countryKey": "philippines",
+      "flag": "/assets/flags/philippines.svg",
+      "color": "#0072CE",
+      "isEmcee": false,
+      "emceeNote": "",
+      "costume": "National Costume of Philippines",
+      "basicScript": "Magandang umaga! My name is Nguyen Dang Gia Thinh. I am from Philippines. I am Filipino.",
+      "addedScript": "The Philippines has more than 7,000 tropical islands and is located on the east of Vietnam.",
+      "division": "junior",
+      "mentor": "Class Homeroom Teacher",
+      "delegates": [
+        "Nguyen Dang Gia Thinh"
+      ]
+    },
+    {
+      "no": 18,
+      "id": "grade_3_18_phan_ngoc_anh_thu",
+      "name": "Phan Ngoc Anh Thu (Japan)",
+      "studentName": "Phan Ngoc Anh Thu",
+      "country": "Japan",
+      "countryKey": "japan",
+      "flag": "/assets/flags/japan.svg",
+      "color": "#0072CE",
+      "isEmcee": false,
+      "emceeNote": "",
+      "costume": "National Costume of Japan",
+      "basicScript": "Konnichiwa! My name is Phan Ngoc Anh Thu. I am from Japan. I am Japanese.",
+      "addedScript": "Japan is known for Mount Fuji, cherry blossoms, origami, and high-speed trains.",
+      "division": "junior",
+      "mentor": "Class Homeroom Teacher",
+      "delegates": [
+        "Phan Ngoc Anh Thu"
+      ]
+    },
+    {
+      "no": 19,
+      "id": "grade_3_19_lam_gia_tue",
+      "name": "Lam Gia Tue (France)",
+      "studentName": "Lam Gia Tue",
+      "country": "France",
+      "countryKey": "france",
+      "flag": "/assets/flags/france.svg",
+      "color": "#0072CE",
+      "isEmcee": false,
+      "emceeNote": "",
+      "costume": "National Costume of France",
+      "basicScript": "Bonjour! My name is Lam Gia Tue. I am from France. I am French.",
+      "addedScript": "France is famous for the Eiffel Tower, the Louvre museum, and delicious pastries.",
+      "division": "junior",
+      "mentor": "Class Homeroom Teacher",
+      "delegates": [
+        "Lam Gia Tue"
+      ]
+    },
+    {
+      "no": 20,
+      "id": "grade_3_20_nguyen_ngoc_khang_vy",
+      "name": "Nguyen Ngoc Khang Vy (Brazil)",
+      "studentName": "Nguyen Ngoc Khang Vy",
+      "country": "Brazil",
+      "countryKey": "brazil",
+      "flag": "/assets/flags/brazil.svg",
+      "color": "#0072CE",
+      "isEmcee": false,
+      "emceeNote": "",
+      "costume": "National Costume of Brazil",
+      "basicScript": "Olá! My name is Nguyen Ngoc Khang Vy. I am from Brazil. I am Brazilian.",
+      "addedScript": "Brazil has the vast Amazon rainforest, samba music, and world-class soccer.",
+      "division": "junior",
+      "mentor": "Class Homeroom Teacher",
+      "delegates": [
+        "Nguyen Ngoc Khang Vy"
+      ]
+    },
+    {
+      "no": 21,
+      "id": "grade_3_21_low_ying_xuan",
+      "name": "Low Ying Xuan (Vietnam)",
+      "studentName": "Low Ying Xuan",
+      "country": "Vietnam",
+      "countryKey": "vietnam",
+      "flag": "/assets/flags/vietnam.svg",
+      "color": "#DA251D",
+      "isEmcee": false,
+      "emceeNote": "",
+      "costume": "Traditional Ao Dai",
+      "basicScript": "Xin chào! My name is Low Ying Xuan. I am from Vietnam. I am Vietnamese.",
+      "addedScript": "Vietnam has stunning Ha Long Bay, rich culture, and delicious Pho.",
+      "division": "junior",
+      "mentor": "Class Homeroom Teacher",
+      "delegates": [
+        "Low Ying Xuan"
+      ]
+    },
+    {
+      "no": 22,
+      "id": "grade_3_22_nguyen_nhu_y",
+      "name": "Nguyen Nhu Y (Thailand)",
+      "studentName": "Nguyen Nhu Y",
+      "country": "Thailand",
+      "countryKey": "thailand",
+      "flag": "/assets/flags/thailand.svg",
+      "color": "#0072CE",
+      "isEmcee": false,
+      "emceeNote": "",
+      "costume": "National Costume of Thailand",
+      "basicScript": "Sawatdee! My name is Nguyen Nhu Y. I am from Thailand. I am Thai.",
+      "addedScript": "Thailand is the Land of Smiles, famous for golden temples, floating markets, and elephants.",
+      "division": "junior",
+      "mentor": "Class Homeroom Teacher",
+      "delegates": [
+        "Nguyen Nhu Y"
+      ]
+    }
+  ],
   "Grade 7": [
     {
       "no": 1,

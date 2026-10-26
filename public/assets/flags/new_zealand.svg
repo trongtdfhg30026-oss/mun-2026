@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 600">
+<rect width="900" height="600" fill="#00247d"/>
+<g transform="scale(0.5)">
+  <rect width="900" height="600" fill="#00247d"/>
+  <path d="M0,0 L900,600 M900,0 L0,600" stroke="#ffffff" stroke-width="100"/>
+  <path d="M0,0 L900,600 M900,0 L0,600" stroke="#cc142b" stroke-width="60"/>
+  <path d="M450,0 V600 M0,300 H900" stroke="#ffffff" stroke-width="160"/>
+  <path d="M450,0 V600 M0,300 H900" stroke="#cc142b" stroke-width="100"/>
+</g>
+<polygon points="675,90 681,108 700,108 684,119 690,137 675,126 660,137 666,119 650,108 669,108" fill="#cc142b" stroke="#ffffff" stroke-width="5"/>
+<polygon points="675,440 683,464 708,464 688,479 696,503 675,488 654,503 662,479 642,464 667,464" fill="#cc142b" stroke="#ffffff" stroke-width="6"/>
+<polygon points="575,250 582,271 604,271 586,284 593,305 575,292 557,305 564,284 546,271 568,271" fill="#cc142b" stroke="#ffffff" stroke-width="5"/>
+<polygon points="775,220 782,241 804,241 786,254 793,275 775,262 757,275 764,254 746,241 768,241" fill="#cc142b" stroke="#ffffff" stroke-width="5"/>
+</svg>

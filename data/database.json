@@ -5,7 +5,7 @@
     "judgeVotingOpen": true,
     "allowVoteUpdate": true,
     "judgePasscode": "judge2026",
-    "activePhase": "locked",
+    "activePhase": "all",
     "activeGrade": "Grade 11"
   },
   "countries": [
