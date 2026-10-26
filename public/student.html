@@ -1,0 +1,901 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Students' Choice Award | Model United Nations</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+  <link rel="stylesheet" href="/styles.css">
+  <script src="/assets/mun-notify.js"></script>
+</head>
+<body class="bg-[#070e1a] text-slate-100 min-h-screen flex flex-col">
+  <!-- Header with Diplomatic Badge Logo & Header Timer -->
+  <!-- Top Diplomatic Navigation -->
+  <header class="border-b border-amber-500/30 bg-[#071120]/95 backdrop-blur-md sticky top-0 z-50 shadow-xl shadow-black/40">
+    <div class="h-0.5 bg-gradient-to-r from-transparent via-[#d4af37] to-transparent"></div>
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+      <a href="/" class="flex items-center space-x-3.5 group cursor-pointer hover:opacity-95 transition" title="Return to General Assembly Portal">
+        <div class="w-12 h-12 rounded-2xl bg-gradient-to-b from-amber-500/20 via-slate-900/90 to-[#071120] border border-amber-500/40 flex items-center justify-center flex-shrink-0 group-hover:scale-105 group-hover:border-amber-400 transition-all duration-300 shadow-lg shadow-amber-500/10 p-2">
+          <img src="/assets/un-emblem.svg" alt="United Nations General Assembly" class="h-8 w-auto object-contain filter drop-shadow">
+        </div>
+        <div class="border-l border-amber-500/30 pl-3 hidden sm:block">
+          <div class="flex items-center space-x-1.5 text-[10px] sm:text-[11px] uppercase tracking-[0.22em] text-[#d4af37] font-black">
+            <i class="fa-solid fa-crown text-[9px] text-amber-400"></i>
+            <span>UNITED NATIONS GENERAL ASSEMBLY</span>
+          </div>
+          <span class="font-mun text-base font-black tracking-wide text-white group-hover:text-amber-200 transition block">Students' Choice Award &bull; Delegation Ballot</span>
+        </div>
+      </a>
+      
+      <div class="flex items-center space-x-2 sm:space-x-3">
+        <!-- Live Countdown Timer (Header Pill) -->
+        <div id="studentHeaderTimer" class="flex items-center space-x-2 px-3 py-1.5 rounded-xl bg-slate-950 border border-amber-500/50 shadow-md">
+          <i class="fa-solid fa-stopwatch text-amber-400 animate-pulse text-xs"></i>
+          <span class="text-[11px] text-slate-400 hidden sm:inline">Round:</span>
+          <span id="studentTimerClockHeader" class="font-mono text-xs sm:text-sm font-black text-amber-300">01:30</span>
+        </div>
+        <!-- Live Presentation Timer (Header Pill) -->
+        <div id="studentPresHeaderTimer" class="flex items-center space-x-2 px-3 py-1.5 rounded-xl bg-slate-950 border border-sky-500/50 shadow-md">
+          <i class="fa-solid fa-microphone text-sky-400 animate-pulse text-xs"></i>
+          <span class="text-[11px] text-slate-400 hidden sm:inline" id="studentHeaderPresLabel">Speech:</span>
+          <span id="studentPresClockHeader" class="font-mono text-xs sm:text-sm font-black text-sky-300">03:00</span>
+        </div>
+        <a href="/" class="inline-flex items-center space-x-1.5 px-3.5 py-2 rounded-xl text-xs font-bold bg-slate-900/90 text-slate-200 border border-slate-700/80 hover:text-white hover:border-amber-500/50 hover:bg-slate-800 transition shadow-sm">
+          <i class="fa-solid fa-house text-amber-400"></i>
+          <span class="hidden sm:inline">Portal</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Live Stage Phase Banner -->
+  <div class="bg-gradient-to-r from-blue-950/80 via-slate-900 to-indigo-950/80 border-b border-blue-500/30 py-3 px-4">
+    <div class="max-w-4xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-2 text-xs">
+      <div class="flex items-center space-x-2">
+        <span class="flex h-2.5 w-2.5 relative">
+          <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+          <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span>
+        </span>
+        <span class="font-bold text-slate-300 uppercase tracking-wider">Live Event Phase:</span>
+        <span id="phaseBadge" class="font-extrabold text-amber-300 bg-amber-500/20 px-2.5 py-0.5 rounded-full border border-amber-500/30">
+          Loading Stage Status...
+        </span>
+      </div>
+      <div class="text-[11px] text-slate-400">
+        <i class="fa-solid fa-shield-halved text-emerald-400 mr-1"></i> Synchronized with Stage Host
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Container -->
+  <main class="flex-grow max-w-4xl mx-auto px-4 py-8 w-full">
+    <!-- Notice Banner -->
+    <div class="text-center mb-8">
+      <div class="diplomatic-badge inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-full text-[#f5cf6a] text-xs font-bold uppercase tracking-wider mb-3">
+        <i class="fa-solid fa-vote-yea"></i>
+        <span>Official Peer Ballot &bull; Separate Award Per Topic</span>
+      </div>
+      <h1 class="text-2xl sm:text-4xl font-extrabold font-mun gold-gradient-text tracking-wide mb-2">
+        Students' Choice Award Voting
+      </h1>
+      <p class="text-slate-300 text-xs sm:text-sm max-w-xl mx-auto leading-relaxed">
+        Select your <strong>Grade</strong> first, then choose your <strong>Country</strong>. Vote for the best presentation in each topic.
+        <span class="text-amber-400 font-semibold block sm:inline">Self-voting is strictly forbidden!</span>
+      </p>
+    </div>
+
+    <!-- Voting Box -->
+    <div id="votingFormContainer" class="un-glass-panel rounded-2xl p-6 sm:p-8">
+      <!-- Step 1: Select Grade First -->
+      <section class="mb-8 pb-8 border-b border-slate-700/70">
+        <div class="flex items-center space-x-3 mb-4">
+          <div class="w-8 h-8 rounded-full bg-[#c69214] text-slate-950 font-extrabold flex items-center justify-center text-sm shadow">
+            1
+          </div>
+          <div>
+            <h2 class="text-lg font-bold text-white">Select Your Grade & Delegation</h2>
+            <p class="text-xs text-slate-400">Teams and member rosters are synchronized with the official MUN Senior sheet</p>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div>
+            <label class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-2">
+              1. Select Grade <span class="text-rose-400">*</span>
+            </label>
+            <select id="voterGradeSelect" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-sm font-semibold text-white focus:outline-none focus:border-amber-400 transition" onchange="handleGradeChange()">
+              <option value="" disabled selected>-- Select Grade Level --</option>
+              <option value="Grade 7">Grade 7</option>
+              <option value="Grade 8">Grade 8</option>
+              <option value="Grade 10">Grade 10</option>
+              <option value="Grade 11">Grade 11</option>
+            </select>
+          </div>
+
+          <div>
+            <label class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-2">
+              2. Country Delegation <span class="text-rose-400">*</span>
+            </label>
+            <select id="voterCountrySelect" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-sm font-semibold text-white focus:outline-none focus:border-amber-400 transition" disabled onchange="handleCountryChange()">
+              <option value="" disabled selected>-- Choose Grade First --</option>
+            </select>
+          </div>
+
+          <div>
+            <label class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-2 flex items-center justify-between">
+              <span>3. Country Passcode <span class="text-rose-400">*</span></span>
+              <span class="text-[10px] text-amber-400 font-normal">Ask Mentor</span>
+            </label>
+            <div class="relative">
+              <input type="password" id="voterPasscode" placeholder="Enter country passcode"
+                class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-sm font-mono text-white tracking-widest focus:outline-none focus:border-amber-400 transition uppercase"
+                disabled oninput="handlePasscodeChange()">
+              <button type="button" onclick="togglePasscodeVisibility()" class="absolute right-3 top-3 text-slate-400 hover:text-white text-xs">
+                <i id="passcodeEyeIcon" class="fa-solid fa-eye"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div id="passcodeError" class="hidden text-xs text-rose-400 mt-2 font-semibold flex items-center space-x-1.5">
+          <i class="fa-solid fa-circle-exclamation"></i>
+          <span id="passcodeErrorText">Incorrect passcode for this delegation. Please check with your mentor.</span>
+        </div>
+
+        <!-- Delegation Details Card (Auto-populated from Excel) -->
+        <div id="delegationRosterCard" class="hidden mt-4 p-4 rounded-xl bg-slate-900/90 border border-amber-500/30 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+          <div class="flex items-center space-x-3">
+            <img id="myFlag" src="" class="w-12 h-8 object-cover rounded flag-box flex-shrink-0">
+            <div>
+              <div class="flex items-center space-x-2">
+                <span class="text-sm font-bold text-white" id="myCountryName">-</span>
+                <span class="text-[10px] px-2 py-0.5 rounded bg-blue-500/20 text-blue-300 font-semibold" id="myMentorBadge">Mentor: -</span>
+              </div>
+              <div class="text-xs text-slate-400 mt-0.5" id="myDelegatesList">Delegates: -</div>
+            </div>
+          </div>
+          <span class="text-[11px] text-emerald-400 font-semibold px-2.5 py-1 rounded bg-emerald-500/10 border border-emerald-500/20 self-start sm:self-center">
+            ✓ Delegation Verified
+          </span>
+        </div>
+      </section>
+
+      <!-- Step 2: Separate Per-Topic Voting -->
+      <section class="mb-8">
+        <!-- Live Round Countdown Status Bar -->
+        <div id="studentTopicTimerBanner" class="p-4 rounded-xl bg-slate-900/90 border-2 border-amber-500/40 flex flex-col sm:flex-row items-center justify-between gap-3 mb-5 shadow-xl transition-all">
+          <div class="flex items-center space-x-3">
+            <div class="w-10 h-10 rounded-xl bg-amber-500/20 text-amber-400 border border-amber-500/30 flex items-center justify-center text-lg">
+              <i class="fa-solid fa-hourglass-half animate-pulse"></i>
+            </div>
+            <div>
+              <div class="text-[10px] uppercase font-black text-amber-400 tracking-wider">Active Voting Topic</div>
+              <div class="text-sm font-bold text-white" id="studentTopicTimerLabel">All 3 Topics Open: Climate, Education & Health</div>
+            </div>
+          </div>
+          <div class="flex items-center space-x-3">
+            <span class="text-xs text-slate-300 font-semibold hidden sm:inline">Time Remaining:</span>
+            <div class="font-mono text-3xl font-black text-amber-300 bg-slate-950 px-4 py-1.5 rounded-xl border border-amber-500/50 tracking-widest shadow-inner" id="studentTimerClockBanner">
+              01:30
+            </div>
+          </div>
+        </div>
+
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-5">
+          <div class="flex items-center space-x-3">
+            <div class="w-8 h-8 rounded-full bg-blue-500 text-white font-extrabold flex items-center justify-center text-sm shadow">
+              2
+            </div>
+            <div>
+              <h2 class="text-lg font-bold text-white">Vote For The Best Solutions By Topic</h2>
+              <p class="text-xs text-slate-400">Select 2 delegations per topic across all 3 topics (Total 6 votes). You cannot vote for your own country.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Topics Accordion / Containers -->
+        <div class="space-y-6" id="topicsContainer">
+          <!-- Rendered by JS -->
+        </div>
+
+        <!-- Optional Commendation Comment -->
+        <div class="mt-6">
+          <label class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-2">
+            Delegation Commendation & Feedback <span class="text-slate-500 font-normal">(Optional)</span>
+          </label>
+          <textarea id="ballotComment" rows="2" placeholder="e.g., Creative solution on water filters and well-structured presentation..." class="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 text-sm text-slate-200 placeholder-slate-500 focus:outline-none focus:border-blue-400 transition"></textarea>
+        </div>
+      </section>
+
+      <!-- Step 3: Confirmation & Submit -->
+      <div class="pt-4 border-t border-slate-700/70 flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div class="text-xs text-slate-400 flex items-center space-x-2">
+          <i class="fa-solid fa-shield-halved text-emerald-400"></i>
+          <span>Official MUN Senior Ballot &bull; 1 vote per delegation team.</span>
+        </div>
+        <button id="submitVoteBtn" onclick="submitBallot()" disabled class="w-full sm:w-auto px-8 py-3.5 rounded-xl font-bold text-sm bg-slate-700 text-slate-400 cursor-not-allowed transition duration-200 flex items-center justify-center space-x-2 shadow-lg">
+          <i class="fa-solid fa-paper-plane"></i>
+          <span>Submit Official Ballot</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Success Receipt Card -->
+    <div id="successReceipt" class="hidden un-glass-panel rounded-2xl p-6 sm:p-10 text-center border-emerald-500/40">
+      <div class="w-20 h-20 rounded-full bg-emerald-500/20 border-2 border-emerald-400 flex items-center justify-center text-emerald-400 text-3xl mx-auto mb-5 shadow-lg shadow-emerald-500/20 animate-bounce">
+        <i class="fa-solid fa-check"></i>
+      </div>
+      <span class="px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-300 text-xs font-semibold uppercase tracking-wider inline-block mb-3">
+        Official Ballot Recorded
+      </span>
+      <h2 class="text-2xl sm:text-3xl font-extrabold text-white font-mun mb-2">
+        Ballot Successfully Logged!
+      </h2>
+      <p class="text-slate-300 text-sm max-w-lg mx-auto mb-6">
+        Thank you, delegation of <span id="receiptVoterName" class="text-amber-400 font-bold"></span> (<span id="receiptGradeName"></span>). Your votes for each topic have been officially added to the General Assembly tally.
+      </p>
+
+      <!-- Topic Choices Breakdown -->
+      <div class="bg-slate-900/80 border border-slate-800 rounded-xl p-5 max-w-md mx-auto mb-6 text-left">
+        <div class="text-xs uppercase font-semibold text-slate-400 mb-3 text-center tracking-wider">
+          Your Recorded Topic Votes:
+        </div>
+        <div id="receiptChosenList" class="space-y-3">
+          <!-- Filled by JS -->
+        </div>
+        <div class="mt-4 pt-3 border-t border-slate-800 text-[11px] text-slate-500 flex justify-between">
+          <span>Ballot ID: <code id="receiptId" class="text-slate-400"></code></span>
+          <span id="receiptTime"></span>
+        </div>
+      </div>
+
+      <div class="flex flex-col sm:flex-row items-center justify-center gap-3">
+        <a href="/results" class="w-full sm:w-auto px-6 py-2.5 rounded-xl text-xs font-bold bg-blue-600 hover:bg-blue-500 text-white transition flex items-center justify-center space-x-2">
+          <i class="fa-solid fa-chart-column"></i>
+          <span>View Live Stage Leaderboard</span>
+        </a>
+        <button onclick="resetForNewVote()" class="w-full sm:w-auto px-6 py-2.5 rounded-xl text-xs font-semibold bg-slate-800 hover:bg-slate-700 text-slate-300 transition">
+          <i class="fa-solid fa-rotate-left mr-1"></i> Revise Ballot
+        </button>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    let appConfig = {};
+    let teamsByGrade = {};
+    let selectedGrade = '';
+    let selectedVoterCountry = '';
+    let currentPasscode = '';
+    let isPasscodeVerified = false;
+    let activePhase = 'all';
+    let topicVotes = { climate: [], education: [], health: [] };
+
+    const TOPICS = [
+      { id: 'climate', title: 'Topic 1: Climate Change', subtitle: 'Global Warming & Environmental Solutions', icon: 'fa-earth-americas', color: 'emerald' },
+      { id: 'education', title: 'Topic 2: Education', subtitle: 'Access to Learning & Tech in Schools', icon: 'fa-book-open', color: 'blue' },
+      { id: 'health', title: 'Topic 3: Health Issues', subtitle: 'Universal Medicine & Clean Water', icon: 'fa-heart-pulse', color: 'rose' }
+    ];
+
+    const PHASE_ORDER = ['climate', 'education', 'health'];
+
+    async function init() {
+      try {
+        const res = await fetch('/api/config');
+        appConfig = await res.json();
+        teamsByGrade = appConfig.teamsByGrade || {};
+        activePhase = appConfig.settings.activePhase || 'all';
+        updatePhaseBadge();
+      } catch (e) {
+        console.error('Failed to load config:', e);
+      }
+
+      setInterval(pollActivePhaseAndTimer, 1000); // 1s sync!
+      setInterval(localTimerTick, 1000); // local 1s smooth tick
+      checkSavedVote();
+    }
+
+    let localStudentRemaining = 90;
+    let localStudentRunning = false;
+    let studentTimerData = {};
+
+    
+    let studentPresData = { duration: 180, remaining: 180, running: false };
+    let localStudentPresRemaining = 600;
+    let localStudentPresRunning = false;
+
+    function updateStudentPresTimerDisplays() {
+      const headerClock = document.getElementById('studentPresClockHeader');
+      const bannerClock = document.getElementById('studentPresClockBanner');
+      const bannerCountry = document.getElementById('studentPresCountryName');
+      const bannerFlag = document.getElementById('studentPresFlag');
+      const bannerGrade = document.getElementById('studentPresGradeBadge');
+      const bannerStatus = document.getElementById('studentPresStatusText');
+
+      const mins = String(Math.floor(localStudentPresRemaining / 60)).padStart(2, '0');
+      const secs = String(localStudentPresRemaining % 60).padStart(2, '0');
+      const timeStr = mins + ':' + secs;
+
+      if (headerClock) headerClock.textContent = timeStr;
+      if (bannerClock) bannerClock.textContent = timeStr;
+
+      const team = studentPresData.team;
+      const cName = team ? team.name : (studentPresData.presentingCountry || 'China');
+      const grade = studentPresData.presentingGrade || 'Grade 11';
+      const flag = team ? team.flag : ('/assets/flags/' + (studentPresData.presentingCountry || 'china') + '.svg');
+
+      if (bannerCountry) bannerCountry.textContent = cName + ' Delegation';
+      if (bannerFlag) bannerFlag.src = flag;
+      if (bannerGrade) bannerGrade.textContent = grade;
+
+      if (localStudentPresRemaining === 0) {
+        if (headerClock) headerClock.className = 'font-mono text-sm sm:text-base font-black text-rose-400';
+        if (bannerClock) bannerClock.className = 'font-mono text-lg font-black text-rose-400 bg-slate-950 px-3 py-1 rounded-lg border border-rose-500';
+        if (bannerStatus) bannerStatus.textContent = "Time's Up:";
+      } else if (localStudentPresRemaining <= 30) {
+        if (headerClock) headerClock.className = 'font-mono text-sm sm:text-base font-black text-amber-300';
+        if (bannerClock) bannerClock.className = 'font-mono text-lg font-black text-amber-300 bg-slate-950 px-3 py-1 rounded-lg border border-amber-500';
+        if (bannerStatus) bannerStatus.textContent = "Final 30s:";
+      } else {
+        if (headerClock) headerClock.className = 'font-mono text-sm sm:text-base font-black text-sky-300';
+        if (bannerClock) bannerClock.className = 'font-mono text-lg font-black text-sky-300 bg-slate-950 px-3 py-1 rounded-lg border border-sky-500/40';
+        if (bannerStatus) bannerStatus.textContent = studentPresData.running ? "Speaking:" : "Paused:";
+      }
+    }
+
+    function localTimerTick() {
+      if (localStudentPresRunning && localStudentPresRemaining > 0) {
+        localStudentPresRemaining--;
+        updateStudentPresTimerDisplays();
+      }
+      if (localStudentRunning && localStudentRemaining > 0) {
+        localStudentRemaining--;
+        updateStudentTimerDisplays();
+      }
+    }
+
+    function updateStudentTimerDisplays() {
+      const headerClock = document.getElementById('studentTimerClockHeader');
+      const bannerClock = document.getElementById('studentTimerClockBanner');
+      const bannerBox = document.getElementById('studentTopicTimerBanner');
+      const bannerLabel = document.getElementById('studentTopicTimerLabel');
+
+      const mins = String(Math.floor(localStudentRemaining / 60)).padStart(2, '0');
+      const secs = String(localStudentRemaining % 60).padStart(2, '0');
+      const timeStr = `${mins}:${secs}`;
+
+      if (headerClock) headerClock.textContent = timeStr;
+      if (bannerClock) bannerClock.textContent = timeStr;
+
+      const topicTitles = {
+        climate: 'Topic 1: Climate Change',
+        education: 'Topic 2: Education',
+        health: 'Topic 3: Health Issues',
+        all: 'All Topics Open',
+        judges: 'Judges Evaluation Chamber',
+        ceremony: 'Final Awards Ceremony'
+      };
+      if (bannerLabel) bannerLabel.textContent = topicTitles[activePhase] || 'Topic Voting';
+
+      if (localStudentRemaining === 0) {
+        if (headerClock) { headerClock.className = 'font-mono text-base font-black text-rose-400'; }
+        if (bannerClock) { bannerClock.className = 'font-mono text-3xl font-black text-rose-400 bg-rose-950 px-4 py-1.5 rounded-xl border border-rose-500 tracking-widest shadow-inner'; }
+        if (bannerBox) { bannerBox.className = 'p-4 rounded-xl bg-rose-950/80 border-2 border-rose-500 flex flex-col sm:flex-row items-center justify-between gap-3 mb-5 shadow-2xl timer-pulse-critical'; }
+      } else if (localStudentRemaining <= 15) {
+        if (headerClock) { headerClock.className = 'font-mono text-base font-black text-rose-400 animate-pulse'; }
+        if (bannerClock) { bannerClock.className = 'font-mono text-3xl font-black text-rose-400 bg-slate-950 px-4 py-1.5 rounded-xl border border-rose-500 tracking-widest shadow-inner animate-pulse'; }
+        if (bannerBox) { bannerBox.className = 'p-4 rounded-xl bg-slate-900/95 border-2 border-rose-500 flex flex-col sm:flex-row items-center justify-between gap-3 mb-5 shadow-xl animate-pulse'; }
+      } else {
+        if (headerClock) { headerClock.className = 'font-mono text-base font-black text-amber-300'; }
+        if (bannerClock) { bannerClock.className = 'font-mono text-3xl font-black text-amber-300 bg-slate-950 px-4 py-1.5 rounded-xl border border-amber-500/50 tracking-widest shadow-inner'; }
+        if (bannerBox) { bannerBox.className = 'p-4 rounded-xl bg-slate-900/90 border-2 border-amber-500/40 flex flex-col sm:flex-row items-center justify-between gap-3 mb-5 shadow-xl'; }
+      }
+    }
+
+    async function pollActivePhaseAndTimer() {
+      try {
+        const tRes = await fetch('/api/timer');
+        const tData = await tRes.json();
+        if (tData) {
+          studentTimerData = tData;
+          localStudentRemaining = tData.remaining;
+          localStudentRunning = tData.running;
+          updateStudentTimerDisplays();
+        }
+
+        const cRes = await fetch('/api/config');
+        const cData = await cRes.json();
+        if (cData.settings) {
+          if (cData.settings.activePhase === 'ceremony') {
+            window.location.href = '/results';
+            return;
+          }
+          if (cData.settings.activePhase !== activePhase) {
+            activePhase = cData.settings.activePhase;
+            updatePhaseBadge();
+            renderTopics();
+            checkFormReady();
+          }
+        }
+      } catch (e) {}
+    }
+
+    function updatePhaseBadge() {
+      const b = document.getElementById('phaseBadge');
+      if (!b) return;
+      if (activePhase === 'all') {
+        b.className = 'font-extrabold text-emerald-300 bg-emerald-500/20 px-3 py-1 rounded-full border border-emerald-500/40 animate-pulse';
+        b.innerHTML = '<i class="fa-solid fa-lock-open mr-1.5"></i> Voting Open &bull; All 3 Topics';
+      } else if (activePhase === 'ceremony') {
+        b.className = 'font-extrabold text-amber-300 bg-amber-500/20 px-3 py-1 rounded-full border border-amber-500/40';
+        b.innerHTML = '<i class="fa-solid fa-trophy mr-1.5"></i> Awards Ceremony Live';
+      } else {
+        b.className = 'font-extrabold text-rose-300 bg-rose-500/20 px-3 py-1 rounded-full border border-rose-500/40';
+        b.innerHTML = '<i class="fa-solid fa-lock mr-1.5"></i> Voting Closed &bull; Locked by Host';
+      }
+    }
+
+    function handleGradeChange() {
+      const gSelect = document.getElementById('voterGradeSelect');
+      selectedGrade = gSelect.value;
+      selectedVoterCountry = '';
+      currentPasscode = '';
+      isPasscodeVerified = false;
+      topicVotes = { climate: [], education: [], health: [] };
+
+      const cSelect = document.getElementById('voterCountrySelect');
+      cSelect.innerHTML = '<option value="" disabled selected>-- Select Your Country Delegation --</option>';
+
+      const teams = teamsByGrade[selectedGrade] || [];
+      teams.forEach(t => {
+        const opt = document.createElement('option');
+        opt.value = t.id;
+        opt.textContent = `${t.name} (Mentor: ${t.mentor})`;
+        cSelect.appendChild(opt);
+      });
+      cSelect.disabled = false;
+
+      const pInput = document.getElementById('voterPasscode');
+      if (pInput) {
+        pInput.value = '';
+        pInput.disabled = true;
+      }
+
+      document.getElementById('delegationRosterCard').classList.add('hidden');
+      document.getElementById('passcodeError').classList.add('hidden');
+      renderTopics();
+      checkFormReady();
+    }
+
+    function handleCountryChange() {
+      const cSelect = document.getElementById('voterCountrySelect');
+      selectedVoterCountry = cSelect.value;
+      currentPasscode = '';
+      isPasscodeVerified = false;
+      topicVotes = { climate: [], education: [], health: [] };
+
+      const pInput = document.getElementById('voterPasscode');
+      if (pInput) {
+        pInput.value = '';
+        pInput.disabled = false;
+        pInput.placeholder = `Passcode for ${selectedVoterCountry.toUpperCase()}`;
+        pInput.focus();
+      }
+
+      document.getElementById('delegationRosterCard').classList.add('hidden');
+      document.getElementById('passcodeError').classList.add('hidden');
+      renderTopics();
+      checkFormReady();
+    }
+
+    let passcodeDebounceTimer = null;
+    function handlePasscodeChange() {
+      clearTimeout(passcodeDebounceTimer);
+      passcodeDebounceTimer = setTimeout(verifyDelegationPasscode, 300);
+    }
+
+    function togglePasscodeVisibility() {
+      const pInput = document.getElementById('voterPasscode');
+      const icon = document.getElementById('passcodeEyeIcon');
+      if (pInput.type === 'password') {
+        pInput.type = 'text';
+        icon.className = 'fa-solid fa-eye-slash';
+      } else {
+        pInput.type = 'password';
+        icon.className = 'fa-solid fa-eye';
+      }
+    }
+
+    async function verifyDelegationPasscode() {
+      const code = document.getElementById('voterPasscode').value.trim();
+      const errDiv = document.getElementById('passcodeError');
+      const rosterCard = document.getElementById('delegationRosterCard');
+
+      if (!code || !selectedGrade || !selectedVoterCountry) {
+        isPasscodeVerified = false;
+        rosterCard.classList.add('hidden');
+        errDiv.classList.add('hidden');
+        renderTopics();
+        checkFormReady();
+        return;
+      }
+
+      try {
+        const res = await fetch('/api/student/verify', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            grade: selectedGrade,
+            voterCountry: selectedVoterCountry,
+            passcode: code
+          })
+        });
+
+        const data = await res.json();
+        if (res.ok && data.success) {
+          isPasscodeVerified = true;
+          currentPasscode = code;
+          errDiv.classList.add('hidden');
+
+          const team = data.team;
+          document.getElementById('myFlag').src = team.flag;
+          document.getElementById('myCountryName').textContent = `${team.name} (${selectedGrade})`;
+          document.getElementById('myMentorBadge').textContent = `Mentor: ${team.mentor}`;
+          const delText = Array.isArray(team.delegates) ? team.delegates.join(', ') : (team.delegates || '');
+          document.getElementById('myDelegatesList').textContent = `Delegates: ${delText}`;
+
+          rosterCard.classList.remove('hidden');
+          renderTopics();
+          checkFormReady();
+          syncDraftToServer();
+        } else {
+          isPasscodeVerified = false;
+          rosterCard.classList.add('hidden');
+          errDiv.classList.remove('hidden');
+          document.getElementById('passcodeErrorText').textContent = data.error || 'Invalid passcode for this delegation.';
+          renderTopics();
+          checkFormReady();
+        }
+      } catch (err) {
+        console.error('Verify error:', err);
+      }
+    }
+
+    function renderTopics() {
+      const container = document.getElementById('topicsContainer');
+      container.innerHTML = '';
+
+      if (!selectedGrade || !selectedVoterCountry || !isPasscodeVerified) {
+        container.innerHTML = `
+          <div class="p-8 bg-slate-900/60 border border-slate-800 rounded-2xl text-center text-slate-400 text-xs">
+            <div class="w-12 h-12 rounded-full bg-slate-800 text-amber-400 flex items-center justify-center text-lg mx-auto mb-3">
+              <i class="fa-solid fa-key"></i>
+            </div>
+            <div class="text-white font-bold text-sm mb-1">Passcode Required To Unlock Voting</div>
+            <div>Please select your <strong>Grade</strong>, <strong>Country Delegation</strong>, and enter your <strong>Passcode</strong> in Step 1.</div>
+          </div>
+        `;
+        return;
+      }
+
+      const teams = teamsByGrade[selectedGrade] || [];
+      const activePhaseIndex = PHASE_ORDER.indexOf(activePhase);
+
+      const isVotingOpen = (activePhase === 'all');
+
+      TOPICS.forEach((top, topIdx) => {
+        const isTopicActive = isVotingOpen;
+        const isTopicPassed = !isVotingOpen;
+        const isTopicPending = false;
+
+        const currentChoices = Array.isArray(topicVotes[top.id]) ? topicVotes[top.id] : [];
+
+        const card = document.createElement('div');
+        let cardStyle = '';
+        if (isTopicActive) {
+          cardStyle = 'bg-slate-900/90 border-amber-500/40 shadow-xl ring-1 ring-amber-500/20';
+        } else if (isTopicPassed) {
+          cardStyle = 'bg-slate-950/60 border-emerald-500/30';
+        } else {
+          cardStyle = 'bg-slate-950/40 border-slate-800 opacity-60';
+        }
+        card.className = `rounded-2xl p-6 border transition-all ${cardStyle}`;
+
+        let statusBadge = '';
+        if (!isVotingOpen) {
+          statusBadge = `<span class="text-xs text-rose-400 font-bold bg-rose-500/10 px-3 py-1 rounded-full border border-rose-500/20"><i class="fa-solid fa-lock mr-1.5"></i>Voting Closed &bull; Locked by Admin</span>`;
+        } else if (currentChoices.length === 2) {
+          statusBadge = `<span class="text-xs text-emerald-400 font-bold bg-emerald-500/20 px-3 py-1 rounded-full border border-emerald-500/30"><i class="fa-solid fa-check mr-1.5"></i>2 Votes Selected (Complete)</span>`;
+        } else {
+          statusBadge = `<span class="text-xs text-amber-400 font-bold bg-amber-500/20 px-3 py-1 rounded-full border border-amber-500/30 animate-pulse"><i class="fa-solid fa-circle-dot mr-1.5"></i>Select 2 Delegations (${currentChoices.length}/2)</span>`;
+        }
+
+        card.innerHTML = `
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 mb-4 border-b border-slate-800">
+            <div class="flex items-center space-x-3">
+              <div class="w-10 h-10 rounded-xl bg-slate-800 border border-slate-700 flex items-center justify-center text-amber-400 text-lg shadow">
+                <i class="fa-solid ${top.icon}"></i>
+              </div>
+              <div>
+                <h3 class="text-base font-bold text-white font-mun">${top.title}</h3>
+                <p class="text-xs text-slate-400">${top.subtitle}</p>
+              </div>
+            </div>
+            <div>${statusBadge}</div>
+          </div>
+          <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3" id="grid_${top.id}"></div>
+        `;
+
+        container.appendChild(card);
+
+        const grid = card.querySelector(`#grid_${top.id}`);
+
+        teams.forEach(t => {
+          const isMe = t.id === selectedVoterCountry;
+          const isSelected = currentChoices.includes(t.id);
+
+          const btn = document.createElement('button');
+          btn.type = 'button';
+
+          let btnClass = 'p-3 rounded-xl border text-center transition flex flex-col items-center justify-between space-y-2 relative ';
+
+          if (isMe) {
+            btnClass += 'card-disabled border-slate-800 bg-slate-950/80';
+            btn.title = 'MUN Rule: Cannot vote for your own country';
+            btn.disabled = true;
+          } else if (isTopicPassed) {
+            if (isSelected) {
+              btnClass += 'card-locked-in cursor-default';
+            } else {
+              btnClass += 'card-disabled border-slate-800 bg-slate-950';
+            }
+            btn.disabled = true;
+          } else if (isTopicPending) {
+            btnClass += 'card-disabled border-slate-800 bg-slate-950';
+            btn.disabled = true;
+          } else {
+            if (isSelected) {
+              btnClass += 'card-selected cursor-pointer transform -translate-y-1';
+            } else {
+              btnClass += 'border-slate-800 bg-slate-900/70 hover:border-slate-600 hover:bg-slate-800 cursor-pointer';
+            }
+            btn.onclick = () => toggleCountryChoice(top.id, t.id);
+          }
+
+          btn.className = btnClass;
+
+          btn.innerHTML = `
+            ${isMe ? '<span class="absolute top-1 right-1.5 text-[9px] font-bold text-rose-400 uppercase tracking-wider">Self</span>' : ''}
+            ${isSelected ? '<span class="absolute top-1 right-1.5 w-4 h-4 rounded-full bg-amber-400 text-slate-950 flex items-center justify-center text-[10px] font-bold shadow"><i class="fa-solid fa-check"></i></span>' : ''}
+            <img src="${t.flag}" alt="${t.name}" class="w-12 h-8 object-cover rounded flag-box mt-1">
+            <div class="w-full">
+              <div class="text-xs font-bold text-white truncate">${t.name}</div>
+              <div class="text-[10px] text-slate-400 truncate mt-0.5">${t.mentor}</div>
+            </div>
+          `;
+
+          grid.appendChild(btn);
+        });
+      });
+    }
+
+    function toggleCountryChoice(topId, countryId) {
+      if (!isPasscodeVerified) return;
+      if (countryId === selectedVoterCountry) return;
+
+      if (!Array.isArray(topicVotes[topId])) {
+        topicVotes[topId] = [];
+      }
+
+      const idx = topicVotes[topId].indexOf(countryId);
+      if (idx >= 0) {
+        topicVotes[topId].splice(idx, 1);
+      } else {
+        if (topicVotes[topId].length >= 2) {
+          munToast.warning('You can select exactly 2 countries per topic. Click a selected country to uncheck it first.');
+          return;
+        }
+        topicVotes[topId].push(countryId);
+      }
+
+      renderTopics();
+      checkFormReady();
+      syncDraftToServer();
+    }
+
+    async function syncDraftToServer() {
+      if (!isPasscodeVerified || !selectedGrade || !selectedVoterCountry) return;
+      try {
+        await fetch('/api/student/draft', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            grade: selectedGrade,
+            voterCountry: selectedVoterCountry,
+            passcode: currentPasscode,
+            topicVotes
+          })
+        });
+      } catch (e) {}
+    }
+
+    function checkFormReady() {
+      const submitBtn = document.getElementById('submitVoteBtn');
+      const progressText = document.getElementById('votingProgressText');
+
+      if (!isPasscodeVerified) {
+        submitBtn.disabled = true;
+        submitBtn.className = 'w-full sm:w-auto px-8 py-3.5 rounded-xl font-bold text-sm bg-slate-800 text-slate-500 cursor-not-allowed transition flex items-center justify-center space-x-2 border border-slate-700';
+        submitBtn.innerHTML = '<i class="fa-solid fa-lock"></i><span>Enter Passcode in Step 1 to Begin</span>';
+        if (progressText) progressText.textContent = 'Please enter your delegation passcode above.';
+        return;
+      }
+
+      if (activePhase !== 'all') {
+        submitBtn.disabled = true;
+        submitBtn.className = 'w-full sm:w-auto px-8 py-3.5 rounded-xl font-bold text-sm bg-slate-800 text-rose-400 cursor-not-allowed transition flex items-center justify-center space-x-2 border border-rose-500/30';
+        submitBtn.innerHTML = '<i class="fa-solid fa-lock"></i><span>Voting is Currently Locked by Host</span>';
+        if (progressText) progressText.textContent = 'Voting is currently closed. Await host announcement.';
+        return;
+      }
+
+      const cCount = (topicVotes.climate || []).length;
+      const eCount = (topicVotes.education || []).length;
+      const hCount = (topicVotes.health || []).length;
+
+      let completedTopicsCount = 0;
+      if (cCount === 2) completedTopicsCount++;
+      if (eCount === 2) completedTopicsCount++;
+      if (hCount === 2) completedTopicsCount++;
+
+      const isAllComplete = (cCount === 2 && eCount === 2 && hCount === 2);
+
+      if (isAllComplete) {
+        submitBtn.disabled = false;
+        submitBtn.className = 'w-full sm:w-auto px-8 py-3.5 rounded-xl font-extrabold text-sm bg-gradient-to-r from-emerald-500 via-teal-500 to-emerald-600 hover:from-emerald-400 hover:to-teal-400 text-slate-950 cursor-pointer shadow-lg shadow-emerald-500/25 transition transform hover:-translate-y-0.5 flex items-center justify-center space-x-2';
+        submitBtn.innerHTML = '<i class="fa-solid fa-paper-plane"></i><span>Submit Official Ballot (3/3 Topics Complete)</span>';
+        if (progressText) progressText.innerHTML = '<span class="text-emerald-400 font-bold">✓ Ready! All 3 topics have 2 votes each. Click to submit official ballot.</span>';
+      } else {
+        submitBtn.disabled = true;
+        submitBtn.className = 'w-full sm:w-auto px-8 py-3.5 rounded-xl font-bold text-sm bg-slate-800 text-slate-400 cursor-not-allowed transition flex items-center justify-center space-x-2 border border-slate-700';
+        submitBtn.innerHTML = `<i class="fa-solid fa-lock"></i><span>Must Complete All 3 Topics To Submit (${completedTopicsCount}/3 Done)</span>`;
+        if (progressText) {
+          const missing = [];
+          if (cCount !== 2) missing.push(`Topic 1: Climate (${cCount}/2)`);
+          if (eCount !== 2) missing.push(`Topic 2: Education (${eCount}/2)`);
+          if (hCount !== 2) missing.push(`Topic 3: Health (${hCount}/2)`);
+          progressText.innerHTML = `<span class="text-amber-400">Pending complete selections:</span> ${missing.join(', ')}`;
+        }
+      }
+    }
+
+    async function submitBallot() {
+      if (!isPasscodeVerified || !selectedGrade || !selectedVoterCountry) {
+        munToast.warning('Please complete Step 1 with your Grade, Country, and Passcode.');
+        return;
+      }
+
+      if (activePhase !== 'all') {
+        submitBtn.disabled = true;
+        submitBtn.className = 'w-full sm:w-auto px-8 py-3.5 rounded-xl font-bold text-sm bg-slate-800 text-rose-400 cursor-not-allowed transition flex items-center justify-center space-x-2 border border-rose-500/30';
+        submitBtn.innerHTML = '<i class="fa-solid fa-lock"></i><span>Voting is Currently Locked by Host</span>';
+        if (progressText) progressText.textContent = 'Voting is currently closed. Await host announcement.';
+        return;
+      }
+
+      const cCount = (topicVotes.climate || []).length;
+      const eCount = (topicVotes.education || []).length;
+      const hCount = (topicVotes.health || []).length;
+
+      if (cCount !== 2 || eCount !== 2 || hCount !== 2) {
+        munToast.warning('You must select exactly 2 delegations for EACH of the 3 topics before submitting.');
+        return;
+      }
+
+      const teams = teamsByGrade[selectedGrade] || [];
+      const voterObj = teams.find(t => t.id === selectedVoterCountry);
+
+      const voterName = voterObj ? voterObj.name : selectedVoterCountry;
+      const confirmed = await munDialog.confirm(
+        `Grade: ${selectedGrade}\nDelegation: ${voterName}\n\nAre you sure you want to submit your final official ballot?\nOnce recorded, your votes across all 3 topics will be permanently sealed.`,
+        {
+          title: 'Official Ballot Submission',
+          confirmText: 'Submit Ballot',
+          cancelText: 'Review Choices',
+          danger: false
+        }
+      );
+      if (!confirmed) return;
+
+      const submitBtn = document.getElementById('submitVoteBtn');
+      submitBtn.disabled = true;
+      submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-2"></i><span>Recording Official Ballot...</span>';
+
+      const payload = {
+        grade: selectedGrade,
+        voterCountry: selectedVoterCountry,
+        passcode: currentPasscode,
+        delegates: voterObj ? (Array.isArray(voterObj.delegates) ? voterObj.delegates.join(', ') : voterObj.delegates) : '',
+        topicVotes
+      };
+
+      try {
+        const res = await fetch('/api/student/vote', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+
+        const data = await res.json();
+        if (res.ok && data.success) {
+          localStorage.setItem('mun_voted_ballot_v2', JSON.stringify(data.ballot));
+          showReceipt(data.ballot);
+        } else {
+          munToast.error(data.error || 'Failed to submit ballot.');
+          checkFormReady();
+        }
+      } catch (err) {
+        munToast.error('Connection error: ' + err.message);
+        checkFormReady();
+      }
+    }
+
+    function showReceipt(ballot) {
+      document.getElementById('votingFormContainer').classList.add('hidden');
+      const receipt = document.getElementById('receiptContainer');
+      receipt.classList.remove('hidden');
+
+      const teams = teamsByGrade[ballot.grade] || [];
+      const voterObj = teams.find(t => t.id === ballot.voterCountry);
+
+      document.getElementById('receiptVoter').textContent = `${voterObj ? voterObj.name : ballot.voterCountry} (${ballot.grade})`;
+      document.getElementById('receiptId').textContent = ballot.id;
+
+      const list = document.getElementById('receiptChoicesList');
+      list.innerHTML = '';
+
+      TOPICS.forEach(top => {
+        const votedIds = (ballot.topicVotes && ballot.topicVotes[top.id]) || [];
+        const row = document.createElement('div');
+        row.className = 'p-3 rounded-lg bg-slate-950/60 border border-slate-800';
+
+        let flagsHtml = '';
+        votedIds.forEach(cid => {
+          const t = teams.find(x => x.id === cid) || { name: cid, flag: '' };
+          flagsHtml += `
+            <div class="inline-flex items-center space-x-1.5 px-2.5 py-1 rounded bg-slate-800 border border-slate-700 text-xs font-bold text-white">
+              <img src="${t.flag}" class="w-5 h-3.5 object-cover rounded">
+              <span>${t.name}</span>
+            </div>
+          `;
+        });
+
+        row.innerHTML = `
+          <div class="flex items-center justify-between mb-2">
+            <span class="text-[10px] uppercase font-bold text-slate-400">${top.title}</span>
+            <span class="text-emerald-400 font-bold text-[10px] bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20"><i class="fa-solid fa-check mr-1"></i>2 Votes Logged</span>
+          </div>
+          <div class="flex flex-wrap items-center gap-2">
+            ${flagsHtml}
+          </div>
+        `;
+        list.appendChild(row);
+      });
+    }
+
+    function checkSavedVote() {
+      const saved = localStorage.getItem('mun_voted_ballot_v2');
+      if (saved) {
+        try {
+          const ballot = JSON.parse(saved);
+          showReceipt(ballot);
+        } catch (e) {}
+      }
+    }
+
+    window.onload = init;
+  </script>
+</body>
+</html>

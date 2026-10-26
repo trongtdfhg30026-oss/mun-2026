@@ -1,0 +1,248 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700;800&display=swap');
+
+:root {
+  --un-blue: #0072ce;
+  --un-blue-dark: #07162c;
+  --un-navy: #08111f;
+  --un-gold: #c69214;
+  --un-gold-light: #f5cf6a;
+  --un-gold-accent: #e5b80b;
+}
+
+body {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  background-color: #070e1a;
+  background-image: 
+    radial-gradient(at 50% 0%, rgba(198, 146, 20, 0.08) 0px, transparent 60%),
+    radial-gradient(at 100% 100%, rgba(0, 114, 206, 0.06) 0px, transparent 50%),
+    radial-gradient(at 0% 100%, rgba(0, 114, 206, 0.05) 0px, transparent 50%);
+  color: #f1f5f9;
+  min-height: 100vh;
+}
+
+.font-mun {
+  font-family: 'Outfit', 'Plus Jakarta Sans', sans-serif;
+  letter-spacing: 0.02em;
+}
+
+.font-serif-quote {
+  font-family: 'Playfair Display', serif;
+}
+
+.gold-gradient-text {
+  background: linear-gradient(135deg, #fff3c4 0%, #f5cf6a 30%, #d4af37 60%, #aa771c 100%);
+  -webkit-background-clip: text;
+  -webkit-fill-color: transparent;
+  -webkit-text-fill-color: transparent;
+}
+
+.blue-gradient-text {
+  background: linear-gradient(135deg, #93c5fd 0%, #38bdf8 50%, #1d4ed8 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.un-logo-glow {
+  position: relative;
+  filter: drop-shadow(0 0 16px rgba(212, 175, 55, 0.35)) drop-shadow(0 4px 10px rgba(0, 0, 0, 0.6));
+  transition: all 0.3s ease;
+}
+
+.un-logo-glow:hover {
+  filter: drop-shadow(0 0 24px rgba(212, 175, 55, 0.55)) drop-shadow(0 6px 14px rgba(0, 0, 0, 0.8));
+  transform: scale(1.02);
+}
+
+.un-logo-hero-container {
+  position: relative;
+}
+
+.un-logo-hero-container::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 140%;
+  height: 140%;
+  background: radial-gradient(circle, rgba(212, 175, 55, 0.22) 0%, rgba(212, 175, 55, 0.05) 50%, transparent 75%);
+  z-index: -1;
+  pointer-events: none;
+  filter: blur(8px);
+}
+
+.un-card {
+  background: rgba(13, 22, 38, 0.78);
+  backdrop-filter: blur(14px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  transition: all 0.25s ease-in-out;
+}
+
+.un-card:hover {
+  border-color: rgba(212, 175, 55, 0.4);
+  box-shadow: 0 12px 28px -6px rgba(0, 0, 0, 0.6), 0 0 22px -6px rgba(212, 175, 55, 0.2);
+}
+
+.un-glass-panel {
+  background: linear-gradient(180deg, rgba(20, 31, 51, 0.82) 0%, rgba(10, 18, 32, 0.92) 100%);
+  border: 1px solid rgba(212, 175, 55, 0.22);
+  box-shadow: 0 20px 45px -15px rgba(0, 0, 0, 0.65), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+
+.flag-box {
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+}
+
+.diplomatic-badge {
+  background: linear-gradient(135deg, rgba(198, 146, 20, 0.2) 0%, rgba(13, 22, 38, 0.8) 100%);
+  border: 1px solid rgba(212, 175, 55, 0.4);
+  box-shadow: 0 0 15px rgba(212, 175, 55, 0.12);
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #080f1a;
+}
+::-webkit-scrollbar-thumb {
+  background: #1e2c42;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #334869;
+}
+
+/* Diplomatic Emblem Badge with Sleek High-Contrast Styling */
+.un-emblem-badge {
+  background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+  border: 1.5px solid #d4af37;
+  border-radius: 0.65rem;
+  padding: 0.2rem 0.45rem;
+  box-shadow: 0 0 15px rgba(212, 175, 55, 0.25), 0 3px 8px rgba(0, 0, 0, 0.35);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 38px;
+  width: auto;
+  min-width: 44px;
+  box-sizing: border-box;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.un-emblem-badge:hover {
+  box-shadow: 0 0 22px rgba(212, 175, 55, 0.45), 0 5px 14px rgba(0, 0, 0, 0.5);
+  transform: translateY(-1px);
+}
+
+.un-emblem-badge img {
+  height: 100%;
+  max-height: 28px;
+  width: auto;
+  max-width: 48px;
+  object-fit: contain;
+  display: block;
+}
+
+/* Stage Countdown Timer Styles */
+.timer-pulse-critical {
+  animation: pulseCritical 1s infinite alternate;
+}
+
+@keyframes pulseCritical {
+  0% {
+    border-color: #f43f5e;
+    box-shadow: 0 0 15px rgba(244, 63, 94, 0.3);
+  }
+  100% {
+    border-color: #ef4444;
+    box-shadow: 0 0 35px rgba(239, 68, 68, 0.8);
+    background-color: rgba(136, 19, 55, 0.4);
+  }
+}
+
+/* Olympic Tiered Podium Styles */
+.podium-container {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 1.25rem;
+  width: 100%;
+}
+
+.podium-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1 1 0;
+  min-width: 0;
+  max-width: 380px;
+}
+
+.podium-pedestal-1 {
+  background: linear-gradient(180deg, rgba(234, 179, 8, 0.35) 0%, rgba(161, 98, 7, 0.5) 100%);
+  border-top: 3px solid #fde047;
+  border-left: 1.5px solid rgba(250, 204, 21, 0.5);
+  border-right: 1.5px solid rgba(250, 204, 21, 0.5);
+  height: 96px;
+  width: 100%;
+  border-radius: 14px 14px 0 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 40px rgba(234, 179, 8, 0.28), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+.podium-pedestal-2 {
+  background: linear-gradient(180deg, rgba(148, 163, 184, 0.25) 0%, rgba(71, 85, 105, 0.45) 100%);
+  border-top: 3px solid #e2e8f0;
+  border-left: 1.5px solid rgba(203, 213, 225, 0.4);
+  border-right: 1.5px solid rgba(203, 213, 225, 0.4);
+  height: 66px;
+  width: 100%;
+  border-radius: 14px 14px 0 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 25px rgba(148, 163, 184, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+.podium-pedestal-3 {
+  background: linear-gradient(180deg, rgba(217, 119, 6, 0.25) 0%, rgba(146, 64, 14, 0.45) 100%);
+  border-top: 3px solid #f59e0b;
+  border-left: 1.5px solid rgba(217, 119, 6, 0.4);
+  border-right: 1.5px solid rgba(217, 119, 6, 0.4);
+  height: 44px;
+  width: 100%;
+  border-radius: 14px 14px 0 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 20px rgba(217, 119, 6, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.15);
+}
+
+.gold-crown-glow {
+  filter: drop-shadow(0 0 14px rgba(250, 204, 21, 0.8));
+  animation: crownBob 2.5s ease-in-out infinite alternate;
+}
+
+@keyframes crownBob {
+  0% { transform: translateY(0px) scale(1); }
+  100% { transform: translateY(-4px) scale(1.04); }
+}
+
+/* Prevent panel borders from ever sticking together */
+.un-glass-panel {
+  margin-bottom: 2.25rem !important;
+}
+
+/* Ensure clean table cell padding and no unwanted line breaks in monitor */
+table th, table td {
+  vertical-align: middle;
+}

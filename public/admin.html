@@ -1,0 +1,1600 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Administration & Stage Control | Model United Nations</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  
+  <link rel="stylesheet" href="/styles.css">
+  <script src="/assets/mun-notify.js"></script>
+</head>
+<body class="bg-[#070e1a] text-slate-100 min-h-screen flex flex-col">
+  <!-- Header with Diplomatic Badge Logo -->
+  <header class="border-b border-amber-500/30 bg-[#071120]/95 backdrop-blur-md sticky top-0 z-40 shadow-xl shadow-black/40">
+    <div class="h-0.5 bg-gradient-to-r from-transparent via-[#d4af37] to-transparent"></div>
+    <div class="max-w-[98%] 2xl:max-w-[1900px] mx-auto px-4 py-3 min-h-[84px] flex flex-wrap items-center justify-between gap-3">
+      <a href="/" class="flex items-center space-x-3.5 group hover:opacity-95 transition" title="Return to General Assembly Home">
+        <div class="w-12 h-12 sm:w-13 sm:h-13 rounded-2xl bg-gradient-to-b from-amber-500/20 via-slate-900/90 to-[#071120] border border-amber-500/40 flex items-center justify-center flex-shrink-0 group-hover:scale-105 group-hover:border-amber-400 transition-all duration-300 shadow-lg shadow-amber-500/10 p-2">
+          <img src="/assets/un-emblem.svg" alt="United Nations General Assembly" class="h-8 sm:h-9 w-auto object-contain filter drop-shadow">
+        </div>
+        <div class="border-l border-amber-500/30 pl-3.5">
+          <span class="text-[10px] sm:text-[11px] uppercase tracking-[0.2em] text-[#d4af37] font-black block">GENERAL ASSEMBLY &bull; UNITED NATIONS</span>
+          <span class="font-mun text-base sm:text-lg font-black text-white tracking-wide">Executive Event Administration &amp; Stage Control</span>
+        </div>
+      </a>
+      <div class="flex items-center space-x-3">
+        <button id="adminLangToggleBtn" onclick="toggleAdminLanguage()" class="text-xs text-amber-300 bg-amber-500/10 hover:bg-amber-500/20 px-3.5 py-2 rounded-xl border border-amber-500/40 transition flex items-center space-x-1.5 cursor-pointer shadow">
+          <span id="adminLangFlag">🇻🇳</span>
+          <span id="adminLangLabel" class="font-bold">Tiếng Việt</span>
+        </button>
+        <a href="/" class="text-xs text-slate-300 hover:text-white px-3.5 py-2 rounded-xl border border-slate-700 bg-slate-800 hover:bg-slate-700 transition flex items-center space-x-1.5 shadow-sm">
+          <i class="fa-solid fa-house text-amber-400"></i>
+          <span data-i18n="homeBtn">Home</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Container -->
+  <main class="flex-grow w-full max-w-[98%] 2xl:max-w-[1900px] mx-auto px-3 sm:px-6 py-6 sm:py-8">
+    <!-- PIN Verification Screen -->
+    <div id="pinScreen" class="max-w-md mx-auto un-glass-panel rounded-2xl p-8 text-center my-12 border-amber-500/30">
+      <div class="w-16 h-16 rounded-full bg-amber-500/20 text-[#f5cf6a] border border-amber-500/30 flex items-center justify-center text-2xl mx-auto mb-4">
+        <i class="fa-solid fa-lock"></i>
+      </div>
+      <h2 data-i18n="pinTitle" class="text-2xl font-bold font-mun text-white mb-2">Bảo Mật Quản Trị Viên</h2>
+      <p data-i18n="pinSub" class="text-xs text-slate-400 mb-6">Nhập mã PIN ban tổ chức để mở khóa trung tâm điều khiển sự kiện MUN</p>
+
+      <form onsubmit="handleVerifyPin(event)" class="space-y-4">
+        <div>
+          <input type="password" id="adminPinInput" placeholder="Enter Admin PIN" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-center text-sm font-mono text-white tracking-widest focus:outline-none focus:border-amber-400 transition" autofocus>
+        </div>
+        <button type="submit" class="w-full py-3.5 rounded-xl font-bold text-xs bg-gradient-to-r from-amber-500 to-yellow-500 hover:from-amber-400 hover:to-yellow-400 text-slate-950 transition shadow-lg shadow-amber-500/20">
+          Verify Executive Access
+        </button>
+      </form>
+    </div>
+
+    <!-- Admin Dashboard -->
+    <div id="adminDashboard" class="hidden flex flex-col gap-10 sm:gap-12 pb-16">
+      <!-- TOP LEVEL: ACTIVE STAGE GRADE CONTROLLER -->
+      <div class="un-glass-panel rounded-2xl mb-8 sm:mb-10 p-5 sm:p-6 border-amber-500/40 bg-gradient-to-r from-slate-950 via-slate-900 to-amber-950/30 shadow-xl">
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-4 border-b border-slate-800">
+          <div class="flex items-center space-x-3">
+            <div class="w-10 h-10 rounded-xl bg-amber-500/20 text-amber-400 flex items-center justify-center text-lg shadow">
+              <i class="fa-solid fa-graduation-cap"></i>
+            </div>
+            <div>
+              <h2 class="text-lg font-bold text-white flex items-center gap-2">
+                <span data-i18n="stageGradeTitle">Khối Lớp Đang Tranh Biện (Active Stage Grade)</span>
+                <span id="currentStageGradeDisplay" class="px-2.5 py-0.5 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/30 text-xs font-mono font-bold">Grade 11</span>
+              </h2>
+              <p data-i18n="stageGradeSub" class="text-xs text-slate-400 mt-0.5">
+                Bấm chọn khối lớp đang biểu diễn trên sân khấu. Màn hình Leaderboard và bảng chấm sẽ lập tức chuyển theo.
+              </p>
+            </div>
+          </div>
+          <div class="flex items-center space-x-2 text-xs text-slate-400 bg-slate-900 px-3 py-1.5 rounded-lg border border-slate-800">
+            <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+            <span data-i18n="stageSyncNotice">Đồng bộ tức thì đến Máy Chiếu Leaderboard</span>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 mt-4">
+          <button onclick="setStageActiveGrade('Grade 11')" id="adminGradeBtn_G11" class="px-4 py-3 rounded-xl font-bold text-sm transition shadow cursor-pointer border flex items-center justify-center space-x-2 bg-slate-900 text-slate-300 hover:text-white border-slate-700">
+            <i class="fa-solid fa-medal text-amber-400"></i>
+            <span>Grade 11</span>
+          </button>
+          <button onclick="setStageActiveGrade('Grade 10')" id="adminGradeBtn_G10" class="px-4 py-3 rounded-xl font-bold text-sm transition shadow cursor-pointer border flex items-center justify-center space-x-2 bg-slate-900 text-slate-300 hover:text-white border-slate-700">
+            <i class="fa-solid fa-medal text-blue-400"></i>
+            <span>Grade 10</span>
+          </button>
+          <button onclick="setStageActiveGrade('Grade 8')" id="adminGradeBtn_G8" class="px-4 py-3 rounded-xl font-bold text-sm transition shadow cursor-pointer border flex items-center justify-center space-x-2 bg-slate-900 text-slate-300 hover:text-white border-slate-700">
+            <i class="fa-solid fa-medal text-emerald-400"></i>
+            <span>Grade 8</span>
+          </button>
+          <button onclick="setStageActiveGrade('Grade 7')" id="adminGradeBtn_G7" class="px-4 py-3 rounded-xl font-bold text-sm transition shadow cursor-pointer border flex items-center justify-center space-x-2 bg-slate-900 text-slate-300 hover:text-white border-slate-700">
+            <i class="fa-solid fa-medal text-rose-400"></i>
+            <span>Grade 7</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Section 1: LIVE STAGE PHASE CONTROLLER -->
+      <div class="un-glass-panel rounded-2xl mb-8 sm:mb-10 p-6 border-amber-500/40">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-slate-800 mb-5">
+          <div class="flex items-center space-x-3">
+            <div class="w-10 h-10 rounded-xl bg-amber-500/20 text-amber-400 flex items-center justify-center text-lg">
+              <i class="fa-solid fa-tower-broadcast"></i>
+            </div>
+            <div>
+              <h2 data-i18n="phaseTitle" class="text-lg font-bold text-white">Bộ Điều Khiển Tiến Trình Sự Kiện Trực Tiếp</h2>
+              <p data-i18n="phaseSub" class="text-xs text-slate-400">Kiểm soát chủ đề hoặc giai đoạn mở cho việc bầu chọn. Đồng bộ tức thì đến tất cả thiết bị.</p>
+            </div>
+          </div>
+          <div class="text-xs text-amber-300 bg-amber-950/60 border border-amber-500/30 px-3 py-1.5 rounded-lg flex items-center space-x-2">
+            <span data-i18n="activePhaseLabel">Giai Đoạn Hiện Tại:</span>
+            <strong id="activePhaseDisplay" class="uppercase font-extrabold text-white">ALL OPEN</strong>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          <!-- 1. Open All Voting -->
+          <button onclick="setPhase('all')" id="phaseBtn_all" class="p-4 rounded-2xl border text-center transition font-bold bg-slate-900 border-slate-700 hover:border-emerald-500 hover:bg-emerald-950/30 text-emerald-400 cursor-pointer shadow group">
+            <i class="fa-solid fa-lock-open block text-3xl mb-2 text-emerald-400 group-hover:scale-110 transition"></i>
+            <span class="text-sm font-black block mb-1 text-white" data-i18n="phaseAll">Mở Bình Chọn (Cả 3 Chủ Đề)</span>
+            <span class="text-[11px] text-slate-400 block font-normal" data-i18n="phaseAllSub">Mở cổng cho học sinh bình chọn 3 topic cùng lúc</span>
+          </button>
+          <!-- 2. Lock / Close Voting -->
+          <button onclick="setPhase('locked')" id="phaseBtn_locked" class="p-4 rounded-2xl border text-center transition font-bold bg-slate-900 border-slate-700 hover:border-rose-500 hover:bg-rose-950/30 text-rose-400 cursor-pointer shadow group">
+            <i class="fa-solid fa-lock block text-3xl mb-2 text-rose-400 group-hover:scale-110 transition"></i>
+            <span class="text-sm font-black block mb-1 text-white" data-i18n="phaseLocked">Đóng / Khóa Bình Chọn</span>
+            <span class="text-[11px] text-slate-400 block font-normal" data-i18n="phaseLockedSub">Khóa không cho học sinh nộp thêm phiếu</span>
+          </button>
+          <!-- 3. Stage Awards Reveal -->
+          <button onclick="setPhase('ceremony')" id="phaseBtn_ceremony" class="p-4 rounded-2xl border text-center transition font-bold bg-slate-900 border-slate-700 hover:border-amber-500 hover:bg-amber-950/30 text-amber-300 cursor-pointer shadow group">
+            <i class="fa-solid fa-trophy block text-3xl mb-2 text-amber-400 group-hover:scale-110 transition"></i>
+            <span class="text-sm font-black block mb-1 text-white" data-i18n="phaseCeremony">Công Bố Trao Giải Sân Khấu</span>
+            <span class="text-[11px] text-slate-400 block font-normal" data-i18n="phaseCeremonySub">Kích hoạt màn hình vinh danh các đoàn</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- TOPIC ROUND COUNTDOWN TIMER & LIVE MONITOR -->
+      <div class="un-glass-panel rounded-2xl mb-8 sm:mb-10 p-6 sm:p-7 border-amber-500/40 shadow-2xl relative overflow-hidden">
+        <!-- Floating Time's Up Alert Banner -->
+        <div id="timesUpAlertBanner" class="hidden mb-6 p-4 rounded-xl bg-rose-950/80 border-2 border-rose-500 text-white animate-pulse shadow-2xl">
+          <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div class="flex items-center space-x-3">
+              <div class="w-10 h-10 rounded-full bg-rose-600 flex items-center justify-center text-xl text-white flex-shrink-0 animate-bounce">
+                <i class="fa-solid fa-triangle-exclamation"></i>
+              </div>
+              <div>
+                <div class="text-sm font-extrabold uppercase tracking-wide text-rose-300">🚨 THÔNG BÁO HẾT GIỜ (TIME'S UP ALERT)!</div>
+                <div class="text-xs text-slate-200 mt-0.5">Các đội chưa chọn xong 2 phiếu cho lượt này: <strong id="timesUpMissingList" class="text-yellow-300 underline font-mono text-sm"></strong></div>
+              </div>
+            </div>
+            <div class="flex items-center gap-2 flex-shrink-0">
+              <button onclick="add30SecondsTimer()" class="px-3.5 py-2 rounded-lg bg-amber-500 hover:bg-amber-400 text-slate-950 font-extrabold text-xs transition shadow flex items-center space-x-1.5">
+                <i class="fa-solid fa-plus"></i>
+                <span>Gia hạn +30s</span>
+              </button>
+              <button onclick="dismissTimesUpAlert()" class="px-3 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs transition">
+                Đóng
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- 1. TITLE ON TOP (FULL WIDTH) -->
+        <div class="pb-4 border-b border-slate-800/80 mb-5">
+          <div class="flex items-center space-x-2 text-xs font-bold text-amber-400 uppercase tracking-wider mb-1">
+            <i class="fa-solid fa-stopwatch"></i>
+            <span data-i18n="roundTimerSecTitle">Đồng Hồ Đếm Ngược Lượt Bầu Chọn</span>
+          </div>
+          <h2 data-i18n="roundTimerTitle" class="text-xl sm:text-2xl font-bold text-white font-mun">Điều Khiển Thời Gian Bầu Chọn Chủ Đề</h2>
+          <p data-i18n="roundTimerSub" class="text-xs sm:text-sm text-slate-400 mt-1 max-w-4xl">
+            Đếm ngược trực tiếp đồng bộ. Khi hết giờ, các đoàn chưa nộp phiếu sẽ được cảnh báo tự động.
+          </p>
+        </div>
+
+        <!-- 2. CLOCK & CONTROLS ON BOTTOM (FULL WIDTH ROW) -->
+        <div class="flex flex-wrap items-center justify-between gap-4 bg-slate-900/80 p-4 sm:p-5 rounded-2xl border border-slate-800">
+          <div class="flex flex-wrap items-center gap-3">
+            <div class="px-5 py-2.5 rounded-2xl bg-slate-950 border border-amber-500/50 shadow-inner flex items-center space-x-3">
+              <i class="fa-solid fa-clock text-amber-400 text-lg animate-pulse"></i>
+              <span id="adminTimerClock" class="font-mono text-3xl sm:text-4xl font-extrabold text-white tracking-widest">01:30</span>
+              <span id="adminTimerStateText" class="text-[10px] uppercase font-bold text-slate-400 bg-slate-900 px-2.5 py-1 rounded border border-slate-800">PAUSED</span>
+            </div>
+
+            <div class="flex items-center gap-2">
+              <button onclick="controlTimer('start')" class="px-4 py-2.5 rounded-xl font-bold text-xs bg-emerald-500 hover:bg-emerald-400 text-slate-950 transition flex items-center space-x-1.5 shadow cursor-pointer">
+                <i class="fa-solid fa-play"></i>
+                <span data-i18n="timerStart">Bắt đầu</span>
+              </button>
+              <button onclick="controlTimer('pause')" class="px-3.5 py-2.5 rounded-xl font-bold text-xs bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 transition flex items-center space-x-1.5 cursor-pointer">
+                <i class="fa-solid fa-pause"></i>
+                <span data-i18n="timerPause">Tạm dừng</span>
+              </button>
+              <button onclick="controlTimer('reset')" class="px-3.5 py-2.5 rounded-xl font-bold text-xs bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 transition flex items-center space-x-1.5 cursor-pointer">
+                <i class="fa-solid fa-rotate-left"></i>
+                <span data-i18n="timerReset">Đặt lại</span>
+              </button>
+              <button onclick="add30Seconds()" class="px-3.5 py-2.5 rounded-xl font-bold text-xs bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 border border-amber-500/30 transition flex items-center space-x-1 cursor-pointer">
+                <span>+30s</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Presets & Adjustments -->
+          <div class="flex flex-wrap items-center gap-2 bg-slate-950/90 p-2 rounded-xl border border-slate-800 text-xs">
+            <button onclick="setTimerDuration(600)" class="px-3.5 py-2 rounded-lg text-sky-300 bg-sky-500/20 hover:bg-sky-500/30 font-bold text-xs border border-sky-400/40 flex items-center space-x-1.5 cursor-pointer">
+              <i class="fa-solid fa-clock"></i>
+              <span data-i18n="pres10mBtn">10m (3 Topics & Q&A)</span>
+            </button>
+            <button onclick="add60Seconds()" title="Add 1 minute" class="px-3 py-2 rounded-lg text-slate-300 hover:text-white hover:bg-slate-800 font-bold text-xs border border-slate-700 cursor-pointer">+1m</button>
+            <button onclick="add30Seconds()" title="Add 30 seconds" class="px-3 py-2 rounded-lg text-slate-300 hover:text-white hover:bg-slate-800 font-bold text-xs border border-slate-700 cursor-pointer">+30s</button>
+            <button onclick="subtract30Seconds()" title="Subtract 30 seconds" class="px-3 py-2 rounded-lg text-slate-300 hover:text-white hover:bg-slate-800 font-bold text-xs border border-slate-700 cursor-pointer">-30s</button>
+
+            <div class="h-5 w-[1px] bg-slate-700 mx-1 hidden sm:block"></div>
+
+            <!-- Custom Minute Input -->
+            <div class="flex items-center space-x-1.5">
+              <input type="number" id="customMinutesInput" min="1" max="15" step="0.5" placeholder="10" value="10" class="w-16 bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-1.5 text-xs text-center font-bold text-white focus:outline-none focus:border-amber-400">
+              <span class="text-[11px] text-slate-400 font-bold" data-i18n="presMinuteUnit">phút</span>
+              <button onclick="applyCustomMinutes()" class="px-3 py-1.5 rounded-lg text-xs font-bold bg-amber-500/20 hover:bg-amber-500/40 text-amber-300 border border-amber-500/40 transition cursor-pointer" data-i18n="presSetBtn">
+                Đặt
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- LIVE DELEGATIONS VOTING MONITOR TABLE -->
+        <div class="mt-6">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4">
+            <div class="flex items-center space-x-2">
+              <span class="text-xs uppercase font-extrabold text-slate-300">Live Grade Monitor:</span>
+              <select id="monitorGradeSelect" onchange="fetchLiveDelegationStatus()" class="bg-slate-900 border border-slate-700 rounded-lg px-3 py-1.5 text-xs font-bold text-amber-400 focus:outline-none focus:border-amber-400">
+                <option value="Grade 11">Grade 11</option>
+                <option value="Grade 10">Grade 10</option>
+                <option value="Grade 8">Grade 8</option>
+                <option value="Grade 7">Grade 7</option>
+              </select>
+            </div>
+            <div class="text-[11px] text-slate-400 flex items-center gap-2">
+              <span class="inline-block w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+              <span>Auto-refreshing every 2s &bull; Live Drafts Logged</span>
+            </div>
+          </div>
+
+          <div class="overflow-x-auto rounded-xl border border-slate-800">
+            <table class="w-full text-left text-xs min-w-[1100px] whitespace-nowrap">
+              <thead class="bg-slate-900/90 text-slate-300 uppercase text-[11px] tracking-wider border-b border-slate-800 whitespace-nowrap">
+                <tr>
+                  <th class="p-4">Delegation</th>
+                  <th class="p-4">Mentor</th>
+                  <th class="p-4">Passcode</th>
+                  <th class="p-3 text-center">Topic 1: Climate</th>
+                  <th class="p-3 text-center">Topic 2: Education</th>
+                  <th class="p-3 text-center">Topic 3: Health</th>
+                  <th class="p-3 text-center">Official Ballot</th>
+                  <th class="p-3 text-center">Current Round Status</th>
+                </tr>
+              </thead>
+              <tbody id="liveDelegationsTableBody" class="divide-y divide-slate-800/60 bg-slate-950/50">
+                <tr><td colspan="8" class="p-4 text-center text-slate-500">Loading delegations status...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+
+
+      <!-- PRESENTATION / SPEECH TIMER CONTROL (ĐỒNG HỒ BẤM GIỜ THUYẾT TRÌNH) -->
+      <div class="un-glass-panel rounded-2xl mb-8 sm:mb-10 p-6 sm:p-7 border-sky-500/40 shadow-2xl relative overflow-hidden mt-6">
+        <!-- 1. TITLE ON TOP (FULL WIDTH) -->
+        <div class="pb-4 border-b border-slate-800/80 mb-5">
+          <div class="flex items-center space-x-2 text-xs font-bold text-sky-400 uppercase tracking-wider mb-1">
+            <i class="fa-solid fa-microphone-lines"></i>
+            <span data-i18n="presTimerSecTitle">Bấm Giờ Thuyết Trình Của Đoàn Ngoại Giao</span>
+          </div>
+          <h2 class="text-xl sm:text-2xl font-bold text-white font-mun">Presentation Timer (Bấm Giờ Thuyết Trình)</h2>
+          <p data-i18n="presTimerSub" class="text-xs sm:text-sm text-slate-400 mt-1 max-w-4xl">
+            Kiểm soát thời gian phát biểu của từng quốc gia trên sân khấu. Đồng bộ trực tiếp lên máy chiếu và BGK.
+          </p>
+        </div>
+
+        <!-- 2. CLOCK & CONTROLS ON BOTTOM (FULL WIDTH ROW) -->
+        <div class="flex flex-wrap items-center justify-between gap-4 bg-slate-900/80 p-4 sm:p-5 rounded-2xl border border-slate-800">
+          <div class="flex flex-wrap items-center gap-3">
+            <div class="px-5 py-2.5 rounded-2xl bg-slate-950 border border-sky-500/50 shadow-inner flex items-center space-x-3">
+              <i class="fa-solid fa-microphone text-sky-400 text-lg animate-pulse"></i>
+              <span id="adminPresTimerClock" class="font-mono text-3xl sm:text-4xl font-extrabold text-white tracking-widest">10:00</span>
+              <span id="adminPresTimerStateText" class="text-[10px] uppercase font-bold text-slate-400 bg-slate-900 px-2.5 py-1 rounded border border-slate-800">PAUSED</span>
+            </div>
+
+            <div class="flex items-center gap-2">
+              <button onclick="controlPresTimer('start')" class="px-4 py-2.5 rounded-xl font-bold text-xs bg-sky-500 hover:bg-sky-400 text-slate-950 transition flex items-center space-x-1.5 shadow cursor-pointer">
+                <i class="fa-solid fa-play"></i>
+                <span>Bắt đầu</span>
+              </button>
+              <button onclick="controlPresTimer('pause')" class="px-3.5 py-2.5 rounded-xl font-bold text-xs bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 transition flex items-center space-x-1.5 cursor-pointer">
+                <i class="fa-solid fa-pause"></i>
+                <span>Tạm dừng</span>
+              </button>
+              <button onclick="controlPresTimer('reset')" class="px-3.5 py-2.5 rounded-xl font-bold text-xs bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 transition flex items-center space-x-1.5 cursor-pointer">
+                <i class="fa-solid fa-rotate-left"></i>
+                <span>Đặt lại</span>
+              </button>
+              <button onclick="add30SecondsPresTimer()" class="px-3.5 py-2.5 rounded-xl font-bold text-xs bg-sky-500/20 hover:bg-sky-500/30 text-sky-300 border border-sky-500/30 transition flex items-center space-x-1 cursor-pointer">
+                <span>+30s</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Presets & Adjustments -->
+          <div class="flex flex-wrap items-center gap-2 bg-slate-950/90 p-2 rounded-xl border border-slate-800 text-xs">
+            <button onclick="setPresTimerDuration(90)" class="px-3 py-2 rounded-lg text-slate-300 hover:text-white hover:bg-slate-800 font-semibold text-xs cursor-pointer">1.5m</button>
+            <button onclick="setPresTimerDuration(120)" class="px-3 py-2 rounded-lg text-slate-300 hover:text-white hover:bg-slate-800 font-semibold text-xs cursor-pointer">2m</button>
+            <button onclick="setPresTimerDuration(180)" class="px-3 py-2 rounded-lg text-sky-300 bg-sky-500/10 font-bold text-xs border border-sky-500/30 cursor-pointer">3m</button>
+            <button onclick="setPresTimerDuration(300)" class="px-3 py-2 rounded-lg text-slate-300 hover:text-white hover:bg-slate-800 font-semibold text-xs cursor-pointer">5m</button>
+            <button onclick="setPresTimerDuration(480)" class="px-3.5 py-2 rounded-lg text-emerald-400 hover:text-white hover:bg-emerald-950/60 font-bold text-xs border border-emerald-500/30 cursor-pointer">8m</button>
+            <button onclick="setPresTimerDuration(600)" class="px-3.5 py-2 rounded-lg text-amber-400 hover:text-white hover:bg-amber-950/60 font-bold text-xs border border-amber-500/30 cursor-pointer">10m (Max)</button>
+
+            <div class="h-5 w-[1px] bg-slate-700 mx-1 hidden sm:block"></div>
+
+            <!-- Custom Minute Input -->
+            <div class="flex items-center space-x-1.5">
+              <input type="number" id="customPresMinutesInput" min="1" max="10" step="0.5" placeholder="10" value="10" class="w-16 bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-1.5 text-xs text-center font-bold text-white focus:outline-none focus:border-sky-400">
+              <span class="text-[11px] text-slate-400 font-bold">phút</span>
+              <button onclick="applyCustomPresMinutes()" class="px-3 py-1.5 rounded-lg text-xs font-bold bg-sky-500/20 hover:bg-sky-500/40 text-sky-300 border border-sky-500/40 transition cursor-pointer">
+                Đặt
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Presenter Country Selector -->
+        <div class="mt-4 flex flex-wrap items-center justify-between gap-3 bg-slate-900/80 p-3.5 rounded-xl border border-slate-800">
+          <div class="flex flex-wrap items-center gap-3">
+            <span class="text-xs font-bold text-slate-300 uppercase">Đoàn đang thuyết trình:</span>
+            <select id="presGradeSelect" onchange="onPresGradeChange()" class="bg-slate-950 border border-slate-700 rounded-lg px-3 py-1.5 text-xs font-bold text-sky-400 focus:outline-none">
+              <option value="Grade 11">Grade 11</option>
+              <option value="Grade 10">Grade 10</option>
+              <option value="Grade 8">Grade 8</option>
+              <option value="Grade 7">Grade 7</option>
+            </select>
+            <select id="presCountrySelect" onchange="onPresCountryChange()" class="bg-slate-950 border border-slate-700 rounded-lg px-3 py-1.5 text-xs font-bold text-white focus:outline-none">
+              <!-- populated dynamically -->
+            </select>
+            <select id="presTopicSelect" onchange="onPresCountryChange()" class="bg-slate-950 border border-slate-700 rounded-lg px-3 py-1.5 text-xs font-bold text-amber-300 focus:outline-none">
+              <option value="climate">Topic 1: Climate Change</option>
+              <option value="education">Topic 2: Education</option>
+              <option value="health">Topic 3: Health Issues</option>
+              <option value="general">General Speech & Q&A</option>
+            </select>
+          </div>
+          <div id="presCurrentDisplayPill" class="text-xs px-3 py-1 rounded-lg bg-sky-500/10 text-sky-300 border border-sky-500/20 font-semibold flex items-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-sky-400 animate-ping"></span>
+            <span id="presCurrentText">China &bull; Grade 11</span>
+          </div>
+        </div>
+      </div>
+
+
+      <!-- Prominent Action Card: Archive Evidence & Reset for Next Grade -->
+      <div class="un-glass-panel rounded-2xl mb-8 sm:mb-10 p-6 sm:p-7 border-2 border-emerald-500/50 bg-gradient-to-r from-emerald-950/40 via-slate-900 to-blue-950/40 shadow-2xl">
+        <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-5">
+          <div class="flex items-start space-x-4">
+            <div class="w-12 h-12 rounded-2xl bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 flex items-center justify-center text-xl flex-shrink-0 mt-0.5">
+              <i class="fa-solid fa-file-shield"></i>
+            </div>
+            <div>
+              <div class="inline-flex items-center space-x-1.5 px-3 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 text-[10px] font-extrabold uppercase tracking-wider mb-2">
+                <i class="fa-solid fa-cloud-arrow-down"></i>
+                <span data-i18n="evidenceCardBadge">Chuyển Giao Khối Tiếp Theo & Xuất Minh Chứng</span>
+              </div>
+              <h2 data-i18n="evidenceCardTitle" class="text-lg sm:text-xl font-extrabold text-white">Lưu Trữ Minh Chứng Đầy Đủ & Đặt Lại Cho Khối Kế Tiếp</h2>
+              <p class="text-xs text-slate-300 leading-relaxed max-w-2xl mt-1">
+                Before advancing to the next grade level, click this button to automatically export the complete official <strong>Audit Evidence CSV for ALL teams</strong> (every delegation, criteria score, raw ballots and comments). It automatically creates a server snapshot in <code>data/archives/</code> and resets live ballots for the next grade.
+              </p>
+            </div>
+          </div>
+
+          <div class="flex flex-wrap items-center gap-2.5 flex-shrink-0">
+            <a href="/api/admin/export/excel?grade=all" class="px-4 py-3 rounded-xl text-xs font-extrabold bg-emerald-600 hover:bg-emerald-500 text-white transition flex items-center justify-center space-x-2 shadow-lg shadow-emerald-600/20">
+              <i class="fa-solid fa-file-excel"></i>
+              <span>Tải File Excel (.xlsx)</span>
+            </a>
+            <a href="/report?grade=all" target="_blank" class="px-4 py-3 rounded-xl text-xs font-extrabold bg-blue-600 hover:bg-blue-500 text-white transition flex items-center justify-center space-x-2 shadow-lg shadow-blue-600/20">
+              <i class="fa-solid fa-file-pdf"></i>
+              <span>Xem & In Biên Bản (Dossier)</span>
+            </a>
+            <button onclick="backupEvidenceAndResetForNextGrade()" class="px-5 py-3 rounded-xl text-xs font-extrabold bg-gradient-to-r from-amber-400 via-yellow-400 to-amber-500 hover:from-amber-300 hover:to-yellow-300 text-slate-950 transition shadow-xl shadow-amber-500/25 flex items-center justify-center space-x-2 cursor-pointer">
+              <i class="fa-solid fa-rotate-right"></i>
+              <span>Xuất Minh Chứng & Reset Khối Tiếp</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Country Passcodes Directory Section: Organized by Mentor & Grade -->
+      <div class="un-glass-panel rounded-2xl p-6 sm:p-8 border-amber-500/40 my-10 clear-both shadow-2xl">
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-4 border-b border-slate-800 mb-5">
+          <div class="flex items-center space-x-3">
+            <div class="w-10 h-10 rounded-xl bg-amber-500/20 text-amber-400 flex items-center justify-center text-lg">
+              <i class="fa-solid fa-key"></i>
+            </div>
+            <div>
+              <h2 data-i18n="passcodeSecTitle" class="text-lg font-bold text-white">Danh Mục Mật Mã Theo Mentor & Lớp</h2>
+              <p data-i18n="passcodeSecSub" class="text-xs text-slate-400">Mật khẩu được sắp xếp theo Mentor và Khối Lớp. Có thể sao chép nhanh hoặc ẩn/hiện để bảo mật.</p>
+            </div>
+          </div>
+
+          <!-- View Mode Tabs -->
+          <div class="flex flex-wrap items-center gap-2">
+            <button onclick="setPasscodeViewTab('mentor')" id="passTab_mentor" class="px-3.5 py-2 rounded-xl text-xs font-bold transition flex items-center space-x-1.5 bg-amber-500 text-slate-950 shadow">
+              <i class="fa-solid fa-chalkboard-user"></i>
+              <span data-i18n="tabByMentor">Theo Mentor</span>
+            </button>
+            <button onclick="setPasscodeViewTab('grade')" id="passTab_grade" class="px-3.5 py-2 rounded-xl text-xs font-bold transition flex items-center space-x-1.5 bg-slate-900 hover:bg-slate-800 text-slate-300 border border-slate-700">
+              <i class="fa-solid fa-layer-group"></i>
+              <span data-i18n="tabByGrade">Theo Lớp</span>
+            </button>
+            <button onclick="setPasscodeViewTab('judges')" id="passTab_judges" class="px-3.5 py-2 rounded-xl text-xs font-bold transition flex items-center space-x-1.5 bg-slate-900 hover:bg-slate-800 text-slate-300 border border-slate-700">
+              <i class="fa-solid fa-scale-balanced"></i>
+              <span data-i18n="tabJudges">Ban Giám Khảo</span>
+            </button>
+            <button onclick="toggleAllPasscodeMask()" id="passMaskToggleBtn" class="px-4 py-2 rounded-xl text-xs font-extrabold bg-amber-500/15 hover:bg-amber-500/25 text-amber-300 border border-amber-500/40 hover:border-amber-400 transition flex items-center space-x-2 shadow-sm ml-auto">
+              <i id="passMaskIcon" class="fa-solid fa-eye"></i>
+              <span id="passMaskText">Hiện Tất Cả Mật Khẩu</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Dynamic Container Rendered by JS -->
+        <div id="passcodesDynamicContainer" class="space-y-6">
+          <div class="text-center py-8 text-slate-400 text-xs font-mono">
+            <i class="fa-solid fa-circle-notch fa-spin text-amber-400 mr-2"></i>Đang tải danh mục mật mã...
+          </div>
+        </div>
+      </div>
+
+      <!-- Section 3: Student Ballots Table -->
+      <div class="un-glass-panel rounded-2xl mb-8 sm:mb-10 p-6 border border-slate-800">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-slate-800 mb-4">
+          <div>
+            <h3 class="text-base font-bold text-white flex items-center space-x-2">
+              <i class="fa-solid fa-vote-yea text-blue-400"></i>
+              <span>Official Student Ballots (<span id="countBallots">0</span>)</span>
+            </h3>
+            <p class="text-xs text-slate-400">Audited ballots submitted by participating delegations across all grades</p>
+          </div>
+          <div class="flex items-center space-x-2">
+            <a href="/api/admin/export/student" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-blue-600/20 text-blue-300 border border-blue-500/30 hover:bg-blue-600/30 transition flex items-center space-x-1">
+              <i class="fa-solid fa-file-excel"></i>
+              <span>Export CSV (Excel)</span>
+            </a>
+            <button onclick="confirmReset('student')" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-rose-600/20 text-rose-300 border border-rose-500/30 hover:bg-rose-600/30 transition flex items-center space-x-1">
+              <i class="fa-solid fa-trash"></i>
+              <span>Reset Ballots</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-xs text-slate-300">
+            <thead class="bg-slate-900/80 text-slate-400 uppercase text-[10px] tracking-wider border-b border-slate-800">
+              <tr>
+                <th class="py-3 px-3">Time</th>
+                <th class="py-3 px-3">Grade</th>
+                <th class="py-3 px-3">Delegation</th>
+                <th class="py-3 px-3">Vote: Climate</th>
+                <th class="py-3 px-3">Vote: Education</th>
+                <th class="py-3 px-3">Vote: Health</th>
+                <th class="py-3 px-2 text-center">Delete</th>
+              </tr>
+            </thead>
+            <tbody id="studentVotesBody" class="divide-y divide-slate-800">
+              <!-- Rendered by JS -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Section 4: Judge Scorecards Table -->
+      <div class="un-glass-panel rounded-2xl mb-8 sm:mb-10 p-6 border border-slate-800">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-slate-800 mb-4">
+          <div>
+            <h3 class="text-base font-bold text-white flex items-center space-x-2">
+              <i class="fa-solid fa-scale-balanced text-amber-400"></i>
+              <span>Judge Rubric Scorecards (<span id="countScores">0</span>)</span>
+            </h3>
+            <p class="text-xs text-slate-400">All submitted evaluations under the Simple Grading Rubric</p>
+          </div>
+          <div class="flex items-center space-x-2">
+            <a href="/api/admin/export/judge" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-amber-600/20 text-amber-300 border border-amber-500/30 hover:bg-amber-600/30 transition flex items-center space-x-1">
+              <i class="fa-solid fa-file-excel"></i>
+              <span>Export CSV (Excel)</span>
+            </a>
+            <button onclick="confirmReset('judge')" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-rose-600/20 text-rose-300 border border-rose-500/30 hover:bg-rose-600/30 transition flex items-center space-x-1">
+              <i class="fa-solid fa-trash"></i>
+              <span>Reset Scores</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-xs text-slate-300">
+            <thead class="bg-slate-900/80 text-slate-400 uppercase text-[10px] tracking-wider border-b border-slate-800">
+              <tr>
+                <th class="py-3 px-3">Judge Name</th>
+                <th class="py-3 px-3">Grade</th>
+                <th class="py-3 px-3">Country</th>
+                <th class="py-3 px-2 text-center">Prep (/3)</th>
+                <th class="py-3 px-2 text-center">Speak (/3)</th>
+                <th class="py-3 px-2 text-center">Vocab (/3)</th>
+                <th class="py-3 px-2 text-center">Team (/3)</th>
+                <th class="py-3 px-2 text-center">Q&A (/3)</th>
+                <th class="py-3 px-2 text-center font-bold text-blue-400">Base (/15)</th>
+                <th class="py-3 px-2 text-center font-bold text-amber-400">Bonus</th>
+                <th class="py-3 px-3 text-right font-bold text-white">Total (/20)</th>
+                <th class="py-3 px-2 text-center">Delete</th>
+              </tr>
+            </thead>
+            <tbody id="judgeScoresBody" class="divide-y divide-slate-800">
+              <!-- Rendered by JS -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script>
+
+    // --- BILINGUAL SYSTEM (VIETNAMESE & ENGLISH) ---
+    const ADMIN_I18N = {
+      vi: {
+        navTitle: "Quản Trị Sự Kiện & Điều Khiển Sân Khấu",
+        homeBtn: "Trang Chủ",
+        langBtn: "Tiếng Việt",
+        langFlag: "🇻🇳",
+        pinTitle: "Bảo Mật Quản Trị Viên",
+        pinSub: "Nhập mã PIN ban tổ chức để mở khóa trung tâm điều khiển sự kiện MUN",
+        pinVerifyBtn: "Xác Thực Quyền Quản Trị",
+        phaseTitle: "Bộ Điều Khiển Tiến Trình Sự Kiện Trực Tiếp",
+        phaseSub: "Kiểm soát chủ đề hoặc giai đoạn mở cho việc bầu chọn. Đồng bộ tức thì đến tất cả thiết bị.",
+        activePhaseLabel: "Giai Đoạn Hiện Tại:",
+        phaseAll: "Mở Bình Chọn (Cả 3 Chủ Đề)",
+        phaseAllSub: "Học sinh có thể bầu chọn cả 3 topic cùng lúc",
+        phaseLocked: "Đóng / Khóa Bình Chọn",
+        phaseLockedSub: "Khóa không cho học sinh nộp thêm phiếu",
+        phaseCeremonySub: "Kích hoạt màn hình vinh danh các đoàn",
+        pres10mBtn: "10m (3 Topic & Q&A)",
+        phaseClimate: "Lượt 1: Khí Hậu",
+        phaseEducation: "Lượt 2: Giáo Dục",
+        phaseHealth: "Lượt 3: Y Tế",
+        phaseJudges: "BGK Chấm Điểm",
+        phaseCeremony: "Công Bố Trao Giải",
+        roundTimerSecTitle: "Đồng Hồ Đếm Ngược Lượt Bầu Chọn",
+        roundTimerTitle: "Điều Khiển Thời Gian Bầu Chọn Chủ Đề",
+        roundTimerSub: "Đếm ngược trực tiếp đồng bộ. Khi hết giờ, các đoàn chưa nộp phiếu sẽ được cảnh báo tự động.",
+        presTimerSecTitle: "Bấm Giờ Thuyết Trình Của Đoàn Ngoại Giao",
+        presTimerTitle: "Đồng Hồ Bấm Giờ Thuyết Trình",
+        presTimerSub: "Kiểm soát thời gian phát biểu của từng quốc gia trên sân khấu. Đồng bộ trực tiếp lên máy chiếu và BGK.",
+        evidenceCardBadge: "Chuyển Giao Khối Tiếp Theo & Xuất Minh Chứng",
+        evidenceCardTitle: "Lưu Trữ Minh Chứng Đầy Đủ & Đặt Lại Cho Khối Kế Tiếp",
+        exportExcelBtn: "📊 Xuất Báo Cáo Excel (Chính Thức)",
+        resetGradeBtn: "Tải Minh Chứng & Đặt Lại Cho Lớp Kế Tiếp",
+        passcodeSecTitle: "Danh Mục Mật Mã Quốc Gia & BGK",
+        passcodeSecSub: "Mỗi quốc gia có mật mã riêng để đăng nhập vào phòng chấm điểm và biểu quyết. Hãy chia sẻ cho mentor và giám khảo.",
+        
+        judgeTableTitle: "Bảng Điểm Giám Khảo Đã Chấm Trực Tiếp",
+        timerStart: "Bắt Đầu",
+        timerPause: "Tạm Dừng",
+        timerReset: "Đặt Lại",
+        confirmResetTitle: "XÁC NHẬN MINH CHỨNG & RESET CHO LỚP TIẾP THEO:\n\n1. Hệ thống tự động tải xuống file Excel chính thức (.xlsx) lưu điểm.\n2. Mở biên bản minh chứng trực quan (HTML Report) để in/lưu PDF.\n3. Lưu trữ minh chứng vĩnh viễn trong data/archives/.\n4. Đặt lại bảng điểm và phiếu bầu trực tiếp cho khối tiếp theo.\n\nNhập 'RESET' để xác nhận thực hiện:",
+        cancelResetMsg: "Đã hủy thao tác. Không có dữ liệu nào bị thay đổi.",
+        successResetMsg: "THÀNH CÔNG: Đã xuất minh chứng Excel và Hồ sơ trực quan. Phòng đã được làm sạch và sẵn sàng cho khối tiếp theo!",
+        stageGradeTitle: "Khối Lớp Đang Tranh Biện (Active Stage Grade)",
+        stageGradeSub: "Bấm chọn khối lớp đang biểu diễn trên sân khấu. Màn hình Leaderboard và bảng chấm sẽ lập tức chuyển theo.",
+        stageSyncNotice: "Đồng bộ tức thì đến Máy Chiếu Leaderboard",
+        tabByMentor: "Theo Mentor",
+        tabByGrade: "Theo Lớp",
+        tabJudges: "Ban Giám Khảo"
+      },
+      en: {
+        navTitle: "Executive Event Administration & Stage Control",
+        homeBtn: "Home",
+        langBtn: "English",
+        langFlag: "🇬🇧",
+        pinTitle: "Administrator Security",
+        pinSub: "Enter executive PIN to unlock the MUN event control center",
+        pinVerifyBtn: "Verify Executive Access",
+        phaseTitle: "Live Event Phase Controller",
+        phaseSub: "Control which topic or phase is actively open for voting. Synced instantly to all devices.",
+        activePhaseLabel: "Active Phase:",
+        phaseAll: "Open Voting (All 3 Topics)",
+        phaseAllSub: "Students can vote across all 3 topics simultaneously",
+        phaseLocked: "Lock & Close Voting",
+        phaseLockedSub: "Locks student ballot submissions",
+        phaseCeremonySub: "Displays honors reveal modal on stage",
+        pres10mBtn: "10m (3 Topics & Q&A)",
+        phaseClimate: "Topic 1: Climate",
+        phaseEducation: "Topic 2: Education",
+        phaseHealth: "Topic 3: Health",
+        phaseJudges: "Judges' Scoring",
+        phaseCeremony: "Awards Reveal",
+        roundTimerSecTitle: "Live Topic Round Countdown Timer",
+        roundTimerTitle: "Topic Voting Timer Control",
+        roundTimerSub: "Synchronized live countdown. When time expires, unvoted delegations are flagged automatically.",
+        presTimerSecTitle: "Live Delegation Presentation & Speech Timer",
+        presTimerTitle: "Presentation & Speech Timer",
+        presTimerSub: "Control speaking time for each country on stage. Synchronized live to projector and judges.",
+        evidenceCardBadge: "Official Next Grade Transition & Evidence Export",
+        evidenceCardTitle: "Full Evidence Archive & Next Grade Reset",
+        exportExcelBtn: "📊 Export Official Excel Report",
+        resetGradeBtn: "Download Evidence & Reset Next Grade",
+        passcodeSecTitle: "Delegation & Judge Access Passcodes Directory",
+        passcodeSecSub: "Each country delegation has an exclusive passcode to enter the Judge Chamber (/judge). Share with mentors and judges.",
+        
+        judgeTableTitle: "Live Judges' Evaluation Scorecards",
+        timerStart: "Start",
+        timerPause: "Pause",
+        timerReset: "Reset",
+        confirmResetTitle: "CONFIRM EVIDENCE ARCHIVE & NEXT GRADE RESET:\n\n1. System automatically downloads the official Excel evidence (.xlsx).\n2. Opens the visual evidence audit dossier for PDF/print.\n3. Archives permanent evidence in data/archives/.\n4. Resets live ballots and scorecards for the next grade chamber.\n\nType 'RESET' to confirm:",
+        cancelResetMsg: "Operation cancelled. No live data was modified.",
+        successResetMsg: "SUCCESS: Official Excel evidence and dossier archived. Live chamber is reset and ready for the next grade!",
+        stageGradeTitle: "Active Stage Grade Chamber",
+        stageGradeSub: "Select active grade competing on stage. Leaderboard projector and scoring forms sync automatically.",
+        stageSyncNotice: "Real-time auto sync to Stage Leaderboard",
+        tabByMentor: "Group by Mentor",
+        tabByGrade: "Group by Grade",
+        tabJudges: "Judges (Giám Khảo)"
+      }
+    };
+
+    let currentAdminLang = localStorage.getItem('mun_admin_lang') || 'vi';
+
+    function toggleAdminLanguage() {
+      currentAdminLang = currentAdminLang === 'vi' ? 'en' : 'vi';
+      localStorage.setItem('mun_admin_lang', currentAdminLang);
+      applyAdminLanguage();
+    }
+
+    function applyAdminLanguage() {
+      const dict = ADMIN_I18N[currentAdminLang] || ADMIN_I18N.vi;
+      
+      const flagEl = document.getElementById('adminLangFlag');
+      const labelEl = document.getElementById('adminLangLabel');
+      if (flagEl) flagEl.textContent = dict.langFlag;
+      if (labelEl) labelEl.textContent = dict.langBtn;
+
+      document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        if (dict[key]) {
+          el.textContent = dict[key];
+        }
+      });
+    }
+
+    // Call on load
+    setTimeout(applyAdminLanguage, 100);
+
+    let adminPin = localStorage.getItem('mun_admin_pin') || '';
+    let hostBaseUrl = window.location.origin;
+
+        async function backupEvidenceAndResetForNextGrade() {
+      const dict = ADMIN_I18N[currentAdminLang] || ADMIN_I18N.vi;
+      const confirmText = await munDialog.prompt(dict.confirmResetTitle, {
+        title: (currentAdminLang === 'vi' ? 'XÁC NHẬN MINH CHỨNG & RESET PHIÊN' : 'ARCHIVE EVIDENCE & RESET SESSION'),
+        placeholder: "Nhập 'RESET'...",
+        confirmText: (currentAdminLang === 'vi' ? 'Tiến Hành Reset' : 'Execute Reset'),
+        cancelText: (currentAdminLang === 'vi' ? 'Hủy' : 'Cancel'),
+        danger: true
+      });
+
+      if (!confirmText || confirmText.trim().toUpperCase() !== 'RESET') {
+        munToast.warning(dict.cancelResetMsg);
+        return;
+      }
+
+      // Step 1: Tự động tải file Excel (.xlsx)
+      const downloadLink = document.createElement('a');
+      downloadLink.href = '/api/admin/export/excel?grade=all';
+      downloadLink.download = `MUN_Official_Evidence_${Date.now()}.xlsx`;
+      document.body.appendChild(downloadLink);
+      downloadLink.click();
+      document.body.removeChild(downloadLink);
+
+      // Step 2: Mở Biên Bản Minh Chứng Trực Quan trên tab mới để in/PDF
+      window.open('/report?grade=all', '_blank');
+
+      // Step 3: Gọi Reset API
+      try {
+        const res = await fetch('/api/admin/reset-grade', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ pin: adminPin })
+        });
+        const data = await res.json();
+
+        if (res.ok && data.success) {
+          munDialog.alert('THÀNH CÔNG: Đã tự động xuất minh chứng Excel và Hồ sơ trực quan. Phòng chấm điểm đã được làm sạch và sẵn sàng cho khối lớp tiếp theo!', { title: 'Lưu Minh Chứng & Reset Thành Công', type: 'success' });
+          loadAdminData();
+          fetchLiveDelegationStatus();
+        } else {
+          munToast.error('Lỗi khi reset: ' + (data.error || 'Server error'));
+        }
+      } catch (e) {
+        munToast.error('Lỗi kết nối máy chủ: ' + e.message);
+      }
+    }
+
+    // Audio chime alarm via Web Audio API
+    function playAlarmChime() {
+      try {
+        const ctx = new (window.AudioContext || window.webkitAudioContext)();
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(880, ctx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(440, ctx.currentTime + 0.4);
+        gain.gain.setValueAtTime(0.3, ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.4);
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.start();
+        osc.stop(ctx.currentTime + 0.4);
+      } catch(e) {}
+    }
+
+    async function controlTimer(action) {
+      try {
+        const res = await fetch('/api/timer/control', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ pin: adminPin, action })
+        });
+        const data = await res.json();
+        if (data.timer) updateTimerUi(data.timer);
+        if (data.activeGrade) updateAdminStageGradeUi(data.activeGrade);
+        // Also fetch presentation timer
+        try {
+          const tRes = await fetch('/api/timer');
+          const tData = await tRes.json();
+          if (tData && tData.presentationTimer) {
+            updatePresTimerUi(tData.presentationTimer);
+          }
+        } catch(e) {}
+      } catch (e) {}
+    }
+
+    async function setTimerDuration(duration) {
+      try {
+        const res = await fetch('/api/timer/control', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ pin: adminPin, action: 'set', duration })
+        });
+        const data = await res.json();
+        if (data.timer) updateTimerUi(data.timer);
+        // Also fetch presentation timer
+        try {
+          const tRes = await fetch('/api/timer');
+          const tData = await tRes.json();
+          if (tData && tData.presentationTimer) {
+            updatePresTimerUi(tData.presentationTimer);
+          }
+        } catch(e) {}
+      } catch (e) {}
+    }
+
+    async function add30SecondsTimer() {
+      try {
+        const res = await fetch('/api/timer/control', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ pin: adminPin, action: 'add30' })
+        });
+        const data = await res.json();
+        if (data.timer) updateTimerUi(data.timer);
+        // Also fetch presentation timer
+        try {
+          const tRes = await fetch('/api/timer');
+          const tData = await tRes.json();
+          if (tData && tData.presentationTimer) {
+            updatePresTimerUi(tData.presentationTimer);
+          }
+        } catch(e) {}
+        dismissTimesUpAlert();
+      } catch (e) {}
+    }
+
+    function dismissTimesUpAlert() {
+      const alertBanner = document.getElementById('timesUpAlertBanner');
+      if (alertBanner) {
+        alertBanner.classList.add('hidden');
+        alertBanner.dataset.keepOpen = '';
+      }
+    }
+
+    let localAdminRemaining = 90;
+    let localAdminRunning = false;
+
+    
+    // Presentation (Speech) Timer Admin Controls
+    let localPresRemaining = 600;
+    let localPresRunning = false;
+    let cachedTeamsByGrade = {};
+
+    async function loadTeamsForPresenter() {
+      try {
+        const res = await fetch('/api/teams');
+        cachedTeamsByGrade = await res.json();
+        populatePresCountrySelect();
+      } catch (e) {}
+    }
+
+    function populatePresCountrySelect() {
+      const g = document.getElementById('presGradeSelect')?.value || 'Grade 11';
+      const cSelect = document.getElementById('presCountrySelect');
+      if (!cSelect) return;
+      cSelect.innerHTML = '';
+      const teams = cachedTeamsByGrade[g] || [];
+      teams.forEach(t => {
+        const opt = document.createElement('option');
+        opt.value = t.id;
+        opt.textContent = `${t.name} (Mentor: ${(/william/i.test(t.mentor) || /wiliam/i.test(t.mentor)) ? 'William' : t.mentor})`;
+        cSelect.appendChild(opt);
+      });
+      updatePresCurrentPill();
+    }
+
+    function onPresGradeChange() {
+      populatePresCountrySelect();
+      onPresCountryChange();
+    }
+
+    async function onPresCountryChange() {
+      const grade = document.getElementById('presGradeSelect')?.value;
+      const countryId = document.getElementById('presCountrySelect')?.value;
+      const topic = document.getElementById('presTopicSelect')?.value || 'climate';
+      updatePresCurrentPill();
+      try {
+        await fetch('/api/presentation-timer/control', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ pin: adminPin, token: adminToken, action: 'setPresenter', grade, countryId, topic })
+        });
+      } catch (e) {}
+    }
+
+    function updatePresCurrentPill() {
+      const g = document.getElementById('presGradeSelect')?.value;
+      const cSelect = document.getElementById('presCountrySelect');
+      const cText = cSelect?.options[cSelect.selectedIndex]?.text?.split(' (')[0] || '';
+      const pillText = document.getElementById('presCurrentText');
+      if (pillText) pillText.textContent = `${cText} • ${g}`;
+    }
+
+    async function controlPresTimer(action) {
+      try {
+        const res = await fetch('/api/presentation-timer/control', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ pin: adminPin, token: adminToken, action })
+        });
+        const data = await res.json();
+        if (data.presentationTimer) updatePresTimerUi(data.presentationTimer);
+      } catch (e) {}
+    }
+
+    async function setPresTimerDuration(duration) {
+      try {
+        const res = await fetch('/api/presentation-timer/control', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ pin: adminPin, token: adminToken, action: 'set', duration })
+        });
+        const data = await res.json();
+        if (data.presentationTimer) updatePresTimerUi(data.presentationTimer);
+      } catch (e) {}
+    }
+
+    
+    async function add60SecondsPresTimer() {
+      await controlPresTimer('add60');
+    }
+    async function subtract30SecondsPresTimer() {
+      await controlPresTimer('sub30');
+    }
+
+    async function add30SecondsPresTimer() {
+      try {
+        const res = await fetch('/api/presentation-timer/control', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ pin: adminPin, token: adminToken, action: 'add30' })
+        });
+        const data = await res.json();
+        if (data.presentationTimer) updatePresTimerUi(data.presentationTimer);
+      } catch (e) {}
+    }
+
+    function updatePresTimerUi(pt) {
+      localPresRemaining = pt.remaining;
+      localPresRunning = pt.running;
+      updateLocalPresClock();
+
+      const stateText = document.getElementById('adminPresTimerStateText');
+      if (stateText) {
+        stateText.textContent = pt.running ? 'SPEAKING' : (pt.remaining === 0 ? 'TIME EXPIRED' : 'PAUSED');
+        stateText.className = pt.running
+          ? 'text-[10px] uppercase font-bold text-sky-400 bg-sky-950/60 px-2 py-0.5 rounded border border-sky-500/40 animate-pulse'
+          : (pt.remaining === 0
+              ? 'text-[10px] uppercase font-bold text-rose-400 bg-rose-950 px-2 py-0.5 rounded border border-rose-500'
+              : 'text-[10px] uppercase font-bold text-slate-400 bg-slate-900 px-2 py-0.5 rounded border border-slate-800');
+      }
+    }
+
+    function updateLocalPresClock() {
+      const clock = document.getElementById('adminPresTimerClock');
+      if (clock) {
+        const mins = String(Math.floor(localPresRemaining / 60)).padStart(2, '0');
+        const secs = String(localPresRemaining % 60).padStart(2, '0');
+        clock.textContent = `${mins}:${secs}`;
+        if (localPresRemaining === 0) {
+          clock.classList.add('text-rose-400');
+        } else {
+          clock.classList.remove('text-rose-400');
+        }
+      }
+    }
+
+function updateTimerUi(t) {
+      localAdminRemaining = t.remaining;
+      localAdminRunning = t.running;
+      updateLocalAdminTimerClock();
+
+      const stateText = document.getElementById('adminTimerStateText');
+      if (stateText) {
+        stateText.textContent = t.running ? 'RUNNING' : (t.remaining === 0 ? 'TIME EXPIRED' : 'PAUSED');
+        stateText.className = t.running
+          ? 'text-[10px] uppercase font-bold text-emerald-400 bg-emerald-950/60 px-2 py-0.5 rounded border border-emerald-500/40 animate-pulse'
+          : (t.remaining === 0
+              ? 'text-[10px] uppercase font-bold text-rose-400 bg-rose-950 px-2 py-0.5 rounded border border-rose-500'
+              : 'text-[10px] uppercase font-bold text-slate-400 bg-slate-900 px-2 py-0.5 rounded border border-slate-800');
+      }
+    }
+
+    function updateLocalAdminTimerClock() {
+      const clock = document.getElementById('adminTimerClock');
+      if (clock) {
+        const mins = String(Math.floor(localAdminRemaining / 60)).padStart(2, '0');
+        const secs = String(localAdminRemaining % 60).padStart(2, '0');
+        clock.textContent = `${mins}:${secs}`;
+        if (localAdminRemaining === 0) {
+          clock.classList.add('text-rose-400');
+        } else {
+          clock.classList.remove('text-rose-400');
+        }
+      }
+    }
+
+    let lastTimedOutAlertState = false;
+
+    async function fetchLiveDelegationStatus() {
+      const grade = document.getElementById('monitorGradeSelect')?.value || 'Grade 11';
+      try {
+        const res = await fetch(`/api/admin/live-delegations?grade=${encodeURIComponent(grade)}`);
+        const data = await res.json();
+        if (!data) return;
+
+        if (data.timer) updateTimerUi(data.timer);
+        // Also fetch presentation timer
+        try {
+          const tRes = await fetch('/api/timer');
+          const tData = await tRes.json();
+          if (tData && tData.presentationTimer) {
+            updatePresTimerUi(tData.presentationTimer);
+          }
+        } catch(e) {}
+
+        const tbody = document.getElementById('liveDelegationsTableBody');
+        if (tbody && data.delegations) {
+          tbody.innerHTML = data.delegations.map(d => {
+            const renderTopicBadge = (count) => {
+              if (count === 2) return '<span class="px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400 font-bold border border-emerald-500/30">✓ 2/2</span>';
+              if (count === 1) return '<span class="px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 font-bold border border-amber-500/30">⚠️ 1/2</span>';
+              return '<span class="px-2 py-0.5 rounded bg-slate-800 text-slate-500 border border-slate-700">0/2</span>';
+            };
+
+            const ballotBadge = d.isSubmitted
+              ? '<span class="px-2.5 py-1 rounded-full bg-emerald-500/20 text-emerald-300 font-extrabold text-[10px] border border-emerald-500/30">🟢 SUBMITTED</span>'
+              : '<span class="px-2.5 py-1 rounded-full bg-slate-800 text-slate-400 font-bold text-[10px] border border-slate-700">⏳ IN PROGRESS</span>';
+
+            const roundStatus = d.missingCurrent
+              ? '<span class="text-rose-400 font-bold text-xs"><i class="fa-solid fa-triangle-exclamation mr-1"></i>Chưa đủ phiếu</span>'
+              : '<span class="text-emerald-400 font-bold text-xs"><i class="fa-solid fa-check mr-1"></i>Đã xong lượt</span>';
+
+            return `
+              <tr class="hover:bg-slate-900/60 transition ${d.missingCurrent && data.timer?.remaining === 0 ? 'bg-rose-950/20' : ''}">
+                <td class="p-4 whitespace-nowrap">
+                  <div class="flex items-center space-x-3">
+                    <img src="${d.flag}" class="w-7 h-5 object-cover rounded border border-slate-700 flex-shrink-0 shadow-sm">
+                    <span class="font-bold text-white text-sm tracking-wide">${d.name}</span>
+                  </div>
+                </td>
+                <td class="p-4 whitespace-nowrap text-slate-300 font-semibold">${(/william/i.test(d.mentor) || /wiliam/i.test(d.mentor)) ? 'William' : (d.mentor || '—')}</td>
+                <td class="p-4 whitespace-nowrap font-mono text-amber-400 font-bold tracking-wider text-xs">${d.passcode}</td>
+                <td class="p-4 whitespace-nowrap text-center">${renderTopicBadge(d.climateCount)}</td>
+                <td class="p-4 whitespace-nowrap text-center">${renderTopicBadge(d.educationCount)}</td>
+                <td class="p-4 whitespace-nowrap text-center">${renderTopicBadge(d.healthCount)}</td>
+                <td class="p-4 whitespace-nowrap text-center">${ballotBadge}</td>
+                <td class="p-4 whitespace-nowrap text-center font-semibold">${roundStatus}</td>
+              </tr>
+            `;
+          }).join('');
+        }
+
+        const alertBanner = document.getElementById('timesUpAlertBanner');
+        const missingSpan = document.getElementById('timesUpMissingList');
+
+        if (data.isTimedOut && data.missingList && data.missingList.length > 0) {
+          if (alertBanner) alertBanner.classList.remove('hidden');
+          if (missingSpan) missingSpan.textContent = data.missingList.join(', ');
+          if (!lastTimedOutAlertState) {
+            playAlarmChime();
+            lastTimedOutAlertState = true;
+          }
+        } else {
+          if (alertBanner && !alertBanner.dataset.keepOpen) {
+            alertBanner.classList.add('hidden');
+          }
+          lastTimedOutAlertState = false;
+        }
+
+      } catch (e) {}
+    }
+
+function init() {
+      if (adminPin) {
+        verifyPinAndLoad(adminPin);
+      }
+    }
+
+    async function handleVerifyPin(e) {
+      e.preventDefault();
+      const pin = document.getElementById('adminPinInput').value.trim();
+      verifyPinAndLoad(pin);
+    }
+
+    let adminToken = localStorage.getItem('mun_admin_token') || '';
+    let adminIntervalId = null;
+    let localAdminTickerId = null;
+
+    function startAdminIntervals() {
+      if (adminIntervalId) clearInterval(adminIntervalId);
+      if (localAdminTickerId) clearInterval(localAdminTickerId);
+
+      fetchLiveDelegationStatus();
+      adminIntervalId = setInterval(fetchLiveDelegationStatus, 1000); // 1s sync!
+      setInterval(loadAdminData, 3000);
+
+      loadTeamsForPresenter();
+      localAdminTickerId = setInterval(() => {
+        if (localAdminRunning && localAdminRemaining > 0) {
+          localAdminRemaining--;
+          updateLocalAdminTimerClock();
+        }
+        if (localPresRunning && localPresRemaining > 0) {
+          localPresRemaining--;
+          updateLocalPresClock();
+        }
+      }, 1000);
+    }
+
+    async function verifyPinAndLoad(pin) {
+      try {
+        const res = await fetch('/api/admin/verify-pin', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ pin })
+        });
+        const data = await res.json();
+
+        if (res.ok && data.success) {
+          adminPin = pin;
+          adminToken = data.token || '';
+          localStorage.setItem('mun_admin_pin', pin);
+          if (adminToken) localStorage.setItem('mun_admin_token', adminToken);
+          document.getElementById('pinScreen').classList.add('hidden');
+          document.getElementById('adminDashboard').classList.remove('hidden');
+          loadAdminData();
+          // QR codes removed
+          startAdminIntervals();
+        } else {
+          munToast.error(data.error || 'Access Denied: Incorrect Admin PIN', 'Admin Security');
+        }
+      } catch (err) {
+        munToast.error('Server Connection Error: ' + err.message, 'Network Error');
+      }
+    }
+
+    
+    async function setStageActiveGrade(grade) {
+      try {
+        const pinToSend = adminPin || localStorage.getItem('mun_admin_pin') || '';
+        const tokenToSend = adminToken || localStorage.getItem('mun_admin_token') || '';
+        const res = await fetch('/api/admin/grade', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'x-admin-token': tokenToSend
+          },
+          body: JSON.stringify({ pin: pinToSend, token: tokenToSend, grade })
+        });
+        const data = await res.json();
+        if (data.success) {
+          updateAdminStageGradeUi(grade);
+        }
+      } catch(e) {}
+    }
+
+    function updateAdminStageGradeUi(grade) {
+      if (!grade) return;
+      ['Grade 11', 'Grade 10', 'Grade 8', 'Grade 7'].forEach(g => {
+        const btnId = 'adminGradeBtn_' + g.replace('Grade ', 'G');
+        const btn = document.getElementById(btnId);
+        if (!btn) return;
+        if (g === grade) {
+          btn.className = 'px-5 py-3 rounded-xl font-black text-sm transition shadow cursor-pointer border flex items-center space-x-2 bg-amber-500 text-slate-950 border-amber-400 ring-2 ring-amber-400/50';
+        } else {
+          btn.className = 'px-5 py-3 rounded-xl font-bold text-sm transition shadow cursor-pointer border flex items-center space-x-2 bg-slate-900 text-slate-300 hover:text-white border-slate-700';
+        }
+      });
+      const text = document.getElementById('currentStageGradeDisplay');
+      if (text) text.textContent = grade;
+
+      // Sync presenter select dropdown without circular call
+      const pSelect = document.getElementById('presGradeSelect');
+      if (pSelect && pSelect.value !== grade) {
+        pSelect.value = grade;
+        populatePresCountrySelect();
+      }
+
+      // Sync live monitor select dropdown
+      const mSelect = document.getElementById('monitorGradeSelect');
+      if (mSelect && mSelect.value !== grade) {
+        mSelect.value = grade;
+        fetchLiveDelegationStatus();
+      }
+    }
+
+    async function setPhase(phase) {
+      try {
+        const res = await fetch('/api/admin/phase', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ pin: adminPin, phase })
+        });
+        const data = await res.json();
+        if (res.ok && data.success) {
+          highlightActivePhase(phase);
+        } else {
+          munToast.error('Failed to update phase: ' + (data.error || ''));
+        }
+      } catch (e) {
+        munToast.error('Connection error');
+      }
+    }
+
+    function highlightActivePhase(phase) {
+      const displayEl = document.getElementById('activePhaseDisplay');
+      if (displayEl) {
+        if (phase === 'all') {
+          displayEl.textContent = (currentAdminLang === 'vi' ? 'BÌNH CHỌN: ĐANG MỞ (FULL)' : 'VOTING: OPEN (FULL)');
+          displayEl.className = 'uppercase font-black text-emerald-400';
+        } else if (phase === 'locked' || phase === 'closed' || phase === 'judges') {
+          displayEl.textContent = (currentAdminLang === 'vi' ? 'BÌNH CHỌN: ĐÃ KHÓA' : 'VOTING: LOCKED & CLOSED');
+          displayEl.className = 'uppercase font-black text-rose-400';
+        } else if (phase === 'ceremony') {
+          displayEl.textContent = (currentAdminLang === 'vi' ? 'CÔNG BỐ TRAO GIẢI' : 'AWARDS REVEAL CEREMONY');
+          displayEl.className = 'uppercase font-black text-amber-300';
+        } else {
+          displayEl.textContent = phase.toUpperCase();
+          displayEl.className = 'uppercase font-extrabold text-white';
+        }
+      }
+
+      const activeKey = (phase === 'locked' || phase === 'closed' || phase === 'judges') ? 'locked' : phase;
+      ['all', 'locked', 'ceremony'].forEach(p => {
+        const btn = document.getElementById(`phaseBtn_${p}`);
+        if (btn) {
+          if (p === activeKey) {
+            btn.classList.add('ring-2', 'ring-amber-400', 'bg-amber-950/60', 'scale-[1.02]');
+          } else {
+            btn.classList.remove('ring-2', 'ring-amber-400', 'bg-amber-950/60', 'scale-[1.02]');
+          }
+        }
+      });
+    }
+
+    async function loadNetworkQRs() {
+      // QR codes section removed per user request
+    }
+
+    function renderQRCodes(baseUrl) {
+      // QR codes section removed per user request
+    }
+
+    async function loadAdminData() {
+      try {
+        const cfgRes = await fetch('/api/config');
+        const cfg = await cfgRes.json();
+        highlightActivePhase(cfg.settings.activePhase || 'all');
+        updateAdminStageGradeUi(cfg.settings.activeGrade || 'Grade 11');
+        fetchPasscodesDirectory();
+      } catch (e) {}
+
+      try {
+        const vRes = await fetch('/api/student/votes');
+        const vData = await vRes.json();
+        document.getElementById('countBallots').textContent = vData.totalBallots;
+        renderStudentTable(vData.votes);
+      } catch (e) {}
+
+      try {
+        const sRes = await fetch('/api/judge/scores');
+        const sData = await sRes.json();
+        document.getElementById('countScores').textContent = sData.totalScores;
+        renderJudgeTable(sData.scores);
+      } catch (e) {}
+    }
+
+    function renderStudentTable(votes) {
+      const tbody = document.getElementById('studentVotesBody');
+      tbody.innerHTML = '';
+      if (!votes || votes.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="7" class="py-6 text-center text-slate-500">No student ballots recorded yet</td></tr>';
+        return;
+      }
+
+      votes.forEach(v => {
+        const tr = document.createElement('tr');
+        tr.className = 'hover:bg-slate-800/40 transition';
+        const tv = v.topicVotes || {};
+        tr.innerHTML = `
+          <td class="py-3 px-3 text-slate-400 text-[11px]">${new Date(v.timestamp).toLocaleTimeString()}</td>
+          <td class="py-3 px-3 text-amber-400 font-semibold">${v.grade || '-'}</td>
+          <td class="py-3 px-3 font-bold text-white uppercase">${v.voterCountry}</td>
+          <td class="py-3 px-3 text-emerald-400 font-bold">${tv.climate || '-'}</td>
+          <td class="py-3 px-3 text-blue-400 font-bold">${tv.education || '-'}</td>
+          <td class="py-3 px-3 text-rose-400 font-bold">${tv.health || '-'}</td>
+          <td class="py-3 px-2 text-center">
+            <button onclick="deleteEntry('student', '${v.id}')" class="text-rose-400 hover:text-rose-300 p-1">
+              <i class="fa-solid fa-trash-can"></i>
+            </button>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    function renderJudgeTable(scores) {
+      const tbody = document.getElementById('judgeScoresBody');
+      tbody.innerHTML = '';
+      if (!scores || scores.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="12" class="py-6 text-center text-slate-500">No judge scorecards recorded yet</td></tr>';
+        return;
+      }
+
+      scores.forEach(s => {
+        const tr = document.createElement('tr');
+        tr.className = 'hover:bg-slate-800/40 transition';
+        tr.innerHTML = `
+          <td class="py-3 px-3 font-semibold text-white">${s.judgeName}</td>
+          <td class="py-3 px-3 text-slate-400 font-semibold">${s.grade}</td>
+          <td class="py-3 px-3 font-bold text-amber-300 uppercase">${s.countryId}</td>
+          <td class="py-3 px-2 text-center">${s.scores.preparation}</td>
+          <td class="py-3 px-2 text-center">${s.scores.speaking}</td>
+          <td class="py-3 px-2 text-center">${s.scores.vocabulary}</td>
+          <td class="py-3 px-2 text-center">${s.scores.teamwork}</td>
+          <td class="py-3 px-2 text-center">${s.scores.qna}</td>
+          <td class="py-3 px-2 text-center font-bold text-blue-400">${s.baseScore}/15</td>
+          <td class="py-3 px-2 text-center font-bold text-amber-400">${s.advancedBonus ? '+5' : '0'}</td>
+          <td class="py-3 px-3 text-right font-black text-white text-sm">${s.totalScore}</td>
+          <td class="py-3 px-2 text-center">
+            <button onclick="deleteEntry('judge', '${s.id}')" class="text-rose-400 hover:text-rose-300 p-1">
+              <i class="fa-solid fa-trash-can"></i>
+            </button>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    async function deleteEntry(type, id) {
+      const okDel = await munDialog.confirm('Are you sure you want to delete this entry?', { danger: true }); if (!okDel) return;
+      try {
+        const res = await fetch('/api/admin/delete-entry', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ pin: adminPin, type, id })
+        });
+        if (res.ok) {
+          loadAdminData();
+        }
+      } catch (e) {
+        munToast.error('Error deleting entry');
+      }
+    }
+
+    async function confirmReset(target) {
+      const confirmText = await munDialog.prompt(
+        (currentAdminLang === 'vi'
+          ? `CẢNH BÁO: Thao tác này sẽ đặt lại vĩnh viễn toàn bộ dữ liệu ${target.toUpperCase()}.\nNhập 'RESET' để xác nhận:`
+          : `WARNING: This will permanently delete all ${target.toUpperCase()} records.\nType 'RESET' to confirm:`),
+        {
+          title: (currentAdminLang === 'vi' ? 'XÁC NHẬN ĐẶT LẠI DỮ LIỆU' : 'CONFIRM RECORD RESET'),
+          placeholder: "Nhập 'RESET'...",
+          confirmText: (currentAdminLang === 'vi' ? 'Đặt Lại' : 'Reset'),
+          cancelText: (currentAdminLang === 'vi' ? 'Hủy' : 'Cancel'),
+          danger: true
+        }
+      );
+      if (!confirmText || confirmText.trim().toUpperCase() !== 'RESET') return;
+
+      try {
+        const res = await fetch('/api/admin/reset', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ pin: adminPin, target })
+        });
+        const data = await res.json();
+        munToast.success(data.message || 'Records successfully reset');
+        loadAdminData();
+      } catch (e) {
+        munToast.error('Error during reset');
+      }
+    }
+
+    // Passcode Directory State & Rendering (Organized by Mentor & Grade)
+    let passcodeDirectoryData = [];
+    let passcodeJudgesData = [];
+    let currentPasscodeTab = 'mentor';
+    let isPasscodeMasked = true;
+
+    async function fetchPasscodesDirectory() {
+      try {
+        const pinToSend = adminPin || localStorage.getItem('mun_admin_pin') || '';
+        const tokenToSend = adminToken || localStorage.getItem('mun_admin_token') || '';
+        const res = await fetch('/api/passcodes?pin=' + encodeURIComponent(pinToSend), {
+          headers: {
+            'x-admin-token': tokenToSend,
+            'x-admin-pin': pinToSend
+          }
+        });
+        if (!res.ok) return;
+        const data = await res.json();
+        if (data.directory) {
+          passcodeDirectoryData = data.directory;
+        }
+        if (data.judges) {
+          passcodeJudgesData = data.judges;
+        }
+        renderPasscodesDirectory();
+      if (typeof updateMaskButtonUI === 'function') updateMaskButtonUI();
+    } catch (err) {
+        console.error('Failed to load passcodes directory:', err);
+      }
+    }
+
+    function setPasscodeViewTab(tab) {
+      currentPasscodeTab = tab;
+      ['mentor', 'grade', 'judges'].forEach(t => {
+        const btn = document.getElementById('passTab_' + t);
+        if (!btn) return;
+        if (t === tab) {
+          btn.className = 'px-3.5 py-2 rounded-xl text-xs font-bold transition flex items-center space-x-1.5 bg-amber-500 text-slate-950 shadow';
+        } else {
+          btn.className = 'px-3.5 py-2 rounded-xl text-xs font-bold transition flex items-center space-x-1.5 bg-slate-900 hover:bg-slate-800 text-slate-300 border border-slate-700';
+        }
+      });
+      renderPasscodesDirectory();
+      if (typeof updateMaskButtonUI === 'function') updateMaskButtonUI();
+    }
+
+    function updateMaskButtonUI() {
+      const btn = document.getElementById('passMaskToggleBtn');
+      const icon = document.getElementById('passMaskIcon');
+      const text = document.getElementById('passMaskText');
+      if (!btn || !icon || !text) return;
+
+      if (isPasscodeMasked) {
+        // Đang ẩn -> nút mời bấm để Hiện
+        icon.className = 'fa-solid fa-eye';
+        text.textContent = (currentAdminLang === 'vi' ? 'Hiện Tất Cả Mật Khẩu' : 'Show All Passcodes');
+        btn.className = 'px-4 py-2 rounded-xl text-xs font-extrabold bg-amber-500/15 hover:bg-amber-500/25 text-amber-300 border border-amber-500/40 hover:border-amber-400 transition flex items-center space-x-2 shadow-sm ml-auto';
+      } else {
+        // Đang hiện -> nút mời bấm để Ẩn
+        icon.className = 'fa-solid fa-eye-slash';
+        text.textContent = (currentAdminLang === 'vi' ? 'Ẩn Toàn Bộ Mật Khẩu' : 'Hide All Passcodes');
+        btn.className = 'px-4 py-2 rounded-xl text-xs font-extrabold bg-rose-500/20 hover:bg-rose-500/30 text-rose-300 border border-rose-500/40 hover:border-rose-400 transition flex items-center space-x-2 shadow-sm ml-auto';
+      }
+    }
+
+    function toggleAllPasscodeMask() {
+      isPasscodeMasked = !isPasscodeMasked;
+      updateMaskButtonUI();
+      renderPasscodesDirectory();
+      showAdminToast(
+        isPasscodeMasked
+          ? (currentAdminLang === 'vi' ? 'Đã ẩn toàn bộ mật khẩu' : 'All passcodes hidden')
+          : (currentAdminLang === 'vi' ? 'Đang hiện toàn bộ mật khẩu' : 'All passcodes revealed')
+      );
+    }
+
+    function copyToClipboard(text, label) {
+      if (!text) return;
+      navigator.clipboard.writeText(text).then(() => {
+        showAdminToast((currentAdminLang === 'vi' ? 'Đã sao chép: ' : 'Copied: ') + text);
+      }).catch(() => {
+        munDialog.alert('Mật mã: ' + text, { title: 'Sao Chép Mật Mã' });
+      });
+    }
+
+    function showAdminToast(msg) {
+      let toast = document.getElementById('adminToastNotice');
+      if (!toast) {
+        toast = document.createElement('div');
+        toast.id = 'adminToastNotice';
+        toast.className = 'fixed bottom-6 right-6 z-50 px-4 py-2.5 rounded-xl bg-amber-500 text-slate-950 font-bold text-xs shadow-2xl transition transform duration-300';
+        document.body.appendChild(toast);
+      }
+      toast.innerHTML = `<i class="fa-solid fa-check mr-2"></i>${msg}`;
+      toast.style.display = 'block';
+      toast.style.opacity = '1';
+      clearTimeout(window._toastTimer);
+      window._toastTimer = setTimeout(() => {
+        toast.style.opacity = '0';
+        setTimeout(() => { toast.style.display = 'none'; }, 300);
+      }, 2200);
+    }
+
+    function renderPasscodesDirectory() {
+      const container = document.getElementById('passcodesDynamicContainer');
+      if (!container) return;
+
+      if (!passcodeDirectoryData || passcodeDirectoryData.length === 0) {
+        container.innerHTML = '<div class="text-center py-6 text-slate-500 text-xs">No passcode data available. Please verify admin authentication.</div>';
+        return;
+      }
+
+      const mask = (code) => {
+        if (!code) return '—';
+        return isPasscodeMasked ? '••••••••' : code;
+      };
+
+      if (currentPasscodeTab === 'mentor') {
+        // Group by Mentor (Unified William)
+        const byMentor = {};
+        passcodeDirectoryData.forEach(item => {
+          let m = (item.mentor || 'Unassigned').trim();
+          if (/william/i.test(m) || /wiliam/i.test(m)) m = 'William';
+          if (!byMentor[m]) byMentor[m] = [];
+          byMentor[m].push(item);
+        });
+
+        const mentors = Object.keys(byMentor).sort();
+        container.innerHTML = `
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+            ${mentors.map(mentor => {
+              const teams = byMentor[mentor];
+              return `
+                <div class="bg-slate-900/90 rounded-2xl border border-slate-800 p-4 shadow-lg flex flex-col justify-between">
+                  <div>
+                    <div class="flex items-center justify-between pb-3 mb-3 border-b border-slate-800">
+                      <div class="flex items-center space-x-2.5">
+                        <div class="w-8 h-8 rounded-lg bg-amber-500/20 text-amber-400 flex items-center justify-center font-bold text-xs">
+                          ${mentor.charAt(0)}
+                        </div>
+                        <div>
+                          <div class="text-xs font-black text-white font-sans">Mentor: ${mentor}</div>
+                          <div class="text-[10px] text-slate-400">${teams.length} Assigned Delegations</div>
+                        </div>
+                      </div>
+                      <span class="text-[10px] font-mono text-amber-300 bg-amber-500/10 px-2 py-0.5 rounded border border-amber-500/20">
+                        ${teams[0]?.passcode ? teams[0].passcode.split('-')[0] : 'CODE'}
+                      </span>
+                    </div>
+
+                    <div class="space-y-2">
+                      ${teams.map(t => `
+                        <div class="p-2.5 rounded-xl bg-slate-950/70 border border-slate-800/80 hover:border-slate-700 transition flex items-center justify-between gap-2">
+                          <div class="flex items-center space-x-2.5 min-w-0">
+                            <img src="${t.flag}" class="w-5 h-3.5 object-cover rounded border border-slate-700 flex-shrink-0">
+                            <div class="truncate">
+                              <div class="text-xs font-bold text-slate-200 truncate">${t.countryName}</div>
+                              <div class="text-[10px] text-amber-400/90 font-semibold">${t.grade}</div>
+                            </div>
+                          </div>
+
+                          <div class="flex items-center space-x-1.5 flex-shrink-0">
+                            <code class="px-2 py-0.5 rounded bg-slate-900 text-amber-300 font-mono font-bold text-[11px] border border-amber-500/20">
+                              ${mask(t.passcode)}
+                            </code>
+                            <button onclick="copyToClipboard('${t.passcode}', '${t.countryName}')" title="Copy Passcode" class="p-1.5 rounded-lg bg-slate-800 hover:bg-amber-500 hover:text-slate-950 text-slate-300 transition text-[11px] cursor-pointer">
+                              <i class="fa-solid fa-copy"></i>
+                            </button>
+                          </div>
+                        </div>
+                      `).join('')}
+                    </div>
+                  </div>
+                </div>
+              `;
+            }).join('')}
+          </div>
+        `;
+      } else if (currentPasscodeTab === 'grade') {
+        // Group by Grade
+        const grades = ['Grade 11', 'Grade 10', 'Grade 8', 'Grade 7'];
+        container.innerHTML = `
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            ${grades.map(grade => {
+              const teams = passcodeDirectoryData.filter(t => t.grade === grade);
+              return `
+                <div class="bg-slate-900/90 rounded-2xl border border-slate-800 p-4 shadow-lg">
+                  <div class="flex items-center justify-between pb-3 mb-3 border-b border-slate-800">
+                    <span class="text-xs font-black text-amber-400 uppercase tracking-wider">${grade}</span>
+                    <span class="text-[10px] text-slate-400 font-bold">${teams.length} Delegations</span>
+                  </div>
+
+                  <div class="space-y-2">
+                    ${teams.map(t => `
+                      <div class="p-2 rounded-xl bg-slate-950/70 border border-slate-800 flex items-center justify-between gap-1.5">
+                        <div class="min-w-0">
+                          <div class="flex items-center space-x-1.5 truncate">
+                            <img src="${t.flag}" class="w-4 h-3 object-cover rounded border border-slate-700 flex-shrink-0">
+                            <span class="text-xs font-bold text-white truncate">${t.countryName}</span>
+                          </div>
+                          <div class="text-[9px] text-slate-400 truncate">Mentor: ${(/william/i.test(t.mentor) || /wiliam/i.test(t.mentor)) ? 'William' : t.mentor}</div>
+                        </div>
+
+                        <div class="flex items-center space-x-1 flex-shrink-0">
+                          <code class="px-1.5 py-0.5 rounded bg-slate-900 text-amber-300 font-mono font-bold text-[10px] border border-slate-700">
+                            ${mask(t.passcode)}
+                          </code>
+                          <button onclick="copyToClipboard('${t.passcode}', '${t.countryName}')" class="p-1 rounded bg-slate-800 hover:bg-amber-500 hover:text-slate-950 text-slate-300 transition text-[10px]">
+                            <i class="fa-solid fa-copy"></i>
+                          </button>
+                        </div>
+                      </div>
+                    `).join('')}
+                  </div>
+                </div>
+              `;
+            }).join('')}
+          </div>
+        `;
+      } else if (currentPasscodeTab === 'judges') {
+        // Group by Judges & Master
+        container.innerHTML = `
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            ${passcodeJudgesData.map(j => `
+              <div class="bg-slate-900/90 rounded-2xl border border-amber-500/30 p-5 shadow-lg flex flex-col justify-between">
+                <div>
+                  <div class="w-10 h-10 rounded-xl bg-amber-500/20 text-amber-300 flex items-center justify-center text-lg mb-3">
+                    <i class="fa-solid fa-user-tie"></i>
+                  </div>
+                  <div class="text-sm font-black text-white font-sans">${j.name}</div>
+                  <div class="text-[11px] text-amber-400 font-bold mb-3">${j.title}</div>
+                  <div class="text-[11px] text-slate-400 mb-4">Official credential for chamber evaluation & portal unlock.</div>
+                </div>
+
+                <div class="p-3 rounded-xl bg-slate-950 border border-slate-800 flex items-center justify-between">
+                  <code class="font-mono font-black text-xs text-amber-300 tracking-wider">
+                    ${mask(j.passcode)}
+                  </code>
+                  <button onclick="copyToClipboard('${j.passcode}', '${j.name}')" class="px-2.5 py-1 rounded-lg bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs flex items-center space-x-1 cursor-pointer">
+                    <i class="fa-solid fa-copy text-[10px]"></i>
+                    <span>Copy</span>
+                  </button>
+                </div>
+              </div>
+            `).join('')}
+          </div>
+        `;
+      }
+    }
+
+    window.onload = init;
+  </script>
+</body>
+</html>

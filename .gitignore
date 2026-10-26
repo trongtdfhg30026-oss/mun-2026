@@ -1,0 +1,40 @@
+# Dependencies
+node_modules/
+package-lock.json
+
+# Binaries & Logs
+cloudflared.exe
+*.log
+tunnel.log
+server.log
+
+# Archives & Temporary exports
+data/archives/
+
+# Temporary / Scratch inspection & patch scripts
+inspect_*.py
+inspect_*.js
+patch_*.py
+patch_*.js
+replace_*.js
+update_*.py
+build_*.py
+append_*.py
+test_*.py
+write_chunk.py
+insert_judge_accounts.js
+apply_final_layout.js
+apply_table_fixes.js
+list_routes.py
+patcher.py
+verify_all.py
+server.js.bak
+
+# Online link output (auto-generated)
+ONLINE_LINKS.txt
+
+# OS / Editor artifacts
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

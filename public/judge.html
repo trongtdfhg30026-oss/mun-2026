@@ -1,0 +1,989 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Judge Chamber | Model United Nations</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="/styles.css">
+  <script src="/assets/mun-notify.js"></script>
+</head>
+<body class="bg-[#070e1a] text-slate-100 min-h-screen flex flex-col">
+  <!-- Top Diplomatic Navigation -->
+  <header class="border-b border-amber-500/30 bg-[#071120]/95 backdrop-blur-md sticky top-0 z-50 shadow-xl shadow-black/40">
+    <div class="h-0.5 bg-gradient-to-r from-transparent via-[#d4af37] to-transparent"></div>
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+      <a href="/" class="flex items-center space-x-3.5 group cursor-pointer hover:opacity-95 transition" title="Return to General Assembly Portal">
+        <div class="w-12 h-12 rounded-2xl bg-gradient-to-b from-amber-500/20 via-slate-900/90 to-[#071120] border border-amber-500/40 flex items-center justify-center flex-shrink-0 group-hover:scale-105 group-hover:border-amber-400 transition-all duration-300 shadow-lg shadow-amber-500/10 p-2">
+          <img src="/assets/un-emblem.svg" alt="United Nations General Assembly" class="h-8 w-auto object-contain filter drop-shadow">
+        </div>
+        <div class="border-l border-amber-500/30 pl-3 hidden sm:block">
+          <div class="flex items-center space-x-1.5 text-[10px] sm:text-[11px] uppercase tracking-[0.22em] text-[#d4af37] font-black">
+            <i class="fa-solid fa-crown text-[9px] text-amber-400"></i>
+            <span>UNITED NATIONS GENERAL ASSEMBLY</span>
+          </div>
+          <span class="font-mun text-base font-black tracking-wide text-white group-hover:text-amber-200 transition block">Faculty Board of Adjudication &bull; Scoring Chamber</span>
+        </div>
+      </a>
+      
+      <div class="flex items-center space-x-2.5 sm:space-x-3">
+        <!-- Live Presentation Timer (Header Pill) -->
+        <div id="judgeHeaderTimer" class="flex items-center space-x-2 px-3 py-1.5 rounded-xl bg-slate-950 border border-sky-500/50 shadow-md">
+          <i class="fa-solid fa-microphone text-sky-400 animate-pulse text-xs"></i>
+          <span class="text-[11px] text-slate-400 hidden sm:inline" id="judgeHeaderPresCountry">China (G11):</span>
+          <span id="judgeTimerClockHeader" class="font-mono text-xs sm:text-sm font-black text-sky-300">03:00</span>
+        </div>
+        <a href="/" class="inline-flex items-center space-x-1.5 px-3.5 py-2 rounded-xl text-xs font-bold bg-slate-900/90 text-slate-200 border border-slate-700/80 hover:text-white hover:border-amber-500/50 hover:bg-slate-800 transition shadow-sm">
+          <i class="fa-solid fa-house text-amber-400"></i>
+          <span class="hidden sm:inline">Portal</span>
+        </a>
+        <button onclick="lockChamber()" title="Lock Chamber" class="inline-flex items-center space-x-1.5 px-3.5 py-2 rounded-xl text-xs font-bold bg-slate-900/90 text-slate-200 border border-slate-700/80 hover:text-rose-400 hover:border-rose-500/50 hover:bg-slate-800 transition shadow-sm cursor-pointer">
+          <i class="fa-solid fa-lock text-rose-400"></i>
+          <span class="hidden sm:inline">Lock Chamber</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Container -->
+  <main class="flex-grow max-w-5xl mx-auto px-4 py-8 w-full">
+    <!-- RESTRICTED ACCESS SCREEN: JUDGE IDENTITY & AUTHENTICATION -->
+    <div id="gateScreen" class="max-w-md mx-auto un-glass-panel rounded-2xl p-8 text-center my-10 border-amber-500/40 shadow-2xl">
+      <div class="w-16 h-16 rounded-full bg-amber-500/20 text-[#f5cf6a] border border-amber-500/40 flex items-center justify-center text-2xl mx-auto mb-4 shadow-lg shadow-amber-500/20">
+        <i class="fa-solid fa-scale-balanced"></i>
+      </div>
+      <div class="inline-flex items-center space-x-1.5 px-3 py-1 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/30 text-[10px] font-extrabold uppercase tracking-wider mb-3">
+        <i class="fa-solid fa-user-check"></i>
+        <span>Adjudication Chamber &bull; Official Judges Only</span>
+      </div>
+      <h2 class="text-2xl font-bold font-mun text-white mb-2">Judge Access Chamber</h2>
+      <p class="text-xs text-slate-300 leading-relaxed mb-6">
+        Please select your appointed Judge identity and enter your confidential individual passcode to begin diplomatic evaluations.
+      </p>
+
+      <form id="judgeGateForm" onsubmit="handleJudgeAuth(event)" class="space-y-4 text-left">
+        <!-- 1. Select Judge Identity -->
+        <div>
+          <label class="block text-[11px] font-semibold uppercase tracking-wider text-slate-400 mb-1.5">
+            Identify Yourself <span class="text-amber-400">*</span>
+          </label>
+          <div class="relative">
+            <select id="gateJudgeSelect" onchange="onGateJudgeSelectChange()" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-sm text-white font-semibold focus:outline-none focus:border-amber-400 transition appearance-none cursor-pointer">
+              <option value="Kevin Ta">Kevin Ta &bull; Judge 1</option>
+              <option value="Mr. D">Mr. D &bull; Judge 2</option>
+              <option value="Chi Nguyen">Chi Nguyen &bull; Judge 3</option>
+            </select>
+            <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-slate-400">
+              <i class="fa-solid fa-chevron-down text-xs"></i>
+            </div>
+          </div>
+        </div>
+
+        <!-- 2. Passcode Field -->
+        <div>
+          <div class="flex items-center justify-between mb-1.5">
+            <label class="block text-[11px] font-semibold uppercase tracking-wider text-slate-400">
+              Individual Passcode <span class="text-amber-400">*</span>
+            </label>
+            <button type="button" onclick="toggleGatePassVisibility()" class="text-[11px] text-amber-400 hover:text-amber-300 flex items-center space-x-1">
+              <i id="gatePassEyeIcon" class="fa-solid fa-eye"></i>
+              <span id="gatePassEyeText">Show</span>
+            </button>
+          </div>
+          <input type="password" id="gatePasscode" placeholder="Enter your individual passcode" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-sm text-center font-mono text-white tracking-widest focus:outline-none focus:border-amber-400 transition" autofocus>
+          <div id="gateError" class="hidden text-xs text-rose-400 mt-2 text-center font-semibold bg-rose-950/40 p-2 rounded-lg border border-rose-500/30"></div>
+        </div>
+
+        <!-- 3. Verify Button -->
+        <button type="submit" id="gateSubmitBtn" class="w-full py-3.5 rounded-xl font-bold text-xs bg-gradient-to-r from-amber-500 to-yellow-500 hover:from-amber-400 hover:to-yellow-400 text-slate-950 transition shadow-lg shadow-amber-500/20 flex items-center justify-center space-x-2 cursor-pointer">
+          <i class="fa-solid fa-lock-open"></i>
+          <span>Verify Credentials & Enter Chamber</span>
+        </button>
+      </form>
+    </div>
+
+    <!-- JUDGE WORKSPACE (Hidden until authenticated) -->
+    <div id="judgeWorkspace" class="hidden">
+      <!-- Notice & Judge Info Header -->
+      <div class="un-card rounded-2xl p-6 mb-6 border border-slate-800">
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+          <div>
+            <div class="diplomatic-badge inline-flex items-center space-x-2 px-3 py-1 rounded-full text-[#f5cf6a] text-xs font-bold uppercase tracking-wider mb-2">
+              <i class="fa-solid fa-scale-balanced"></i>
+              <span>Official Simple Grading Rubric &bull; Senior MUN</span>
+            </div>
+            <h1 class="text-2xl font-bold font-mun text-white">
+              Official Scoring Rubric
+            </h1>
+            <p class="text-xs text-slate-400 mt-1">
+              Base Score: 5 criteria &times; 3 pts = 15 max + Advanced Bonus (0 or 5) = Max 20 Points.
+            </p>
+          </div>
+
+          <!-- Judge Credentials -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 bg-slate-900/90 p-3.5 rounded-xl border border-slate-700">
+            <div>
+              <label class="block text-[11px] font-semibold text-slate-400 uppercase tracking-wider mb-1">
+                Judge Name <span class="text-rose-400">*</span>
+              </label>
+              <select id="judgeNameInput" class="w-full bg-slate-800 border border-slate-600 rounded-lg px-3 py-1.5 text-xs font-bold text-amber-300 focus:outline-none focus:border-amber-400 transition cursor-pointer" onchange="saveJudgeIdentity()">
+                <option value="Kevin Ta">Kevin Ta (Judge 1)</option>
+                <option value="Mr. D">Mr. D (Judge 2)</option>
+                <option value="Chi Nguyen">Chi Nguyen (Judge 3)</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-[11px] font-semibold text-slate-400 uppercase tracking-wider mb-1">
+                Evaluation Grade Room
+              </label>
+              <select id="judgeGradeSelect" class="w-full bg-slate-800 border border-slate-600 rounded-lg px-3 py-1.5 text-xs font-bold text-amber-300 focus:outline-none focus:border-amber-400 transition" onchange="handleJudgeGradeChange()">
+                <option value="Grade 11">Grade 11</option>
+                <option value="Grade 10">Grade 10</option>
+                <option value="Grade 8">Grade 8</option>
+                <option value="Grade 7">Grade 7</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Stage Live Presenter Banner (Live Presentation & Speech) -->
+      <div id="judgePresBanner" class="p-4 rounded-2xl bg-gradient-to-r from-sky-950/70 via-slate-900 to-blue-950/70 border-2 border-sky-500/40 shadow-xl mb-6 flex flex-col sm:flex-row items-center justify-between gap-4 transition-all">
+        <div class="flex items-center space-x-3.5">
+          <img id="judgePresFlag" src="/assets/flags/china.svg" class="w-12 h-8 sm:w-14 sm:h-9 object-cover rounded-lg border border-sky-400/50 shadow">
+          <div>
+            <div class="text-[10px] uppercase font-extrabold text-sky-400 tracking-wider flex items-center gap-1.5">
+              <i class="fa-solid fa-microphone-lines animate-pulse text-sky-400"></i>
+              <span>CURRENT PRESENTER ON STAGE</span>
+              <span id="judgePresGradeBadge" class="bg-sky-500/20 text-sky-300 px-1.5 py-0.2 rounded text-[9px] font-bold">Grade 11</span>
+              <span id="judgePresTopicBadge" class="bg-slate-800 text-amber-300 px-1.5 py-0.2 rounded text-[9px] font-bold">Topic 1</span>
+            </div>
+            <div class="text-base sm:text-lg font-black text-white" id="judgePresCountryText">China Delegation</div>
+            <div class="text-[11px] text-slate-400" id="judgePresDelegatesText">Mentor: Hao &bull; Delegates: Ngan, G. Dat...</div>
+          </div>
+        </div>
+
+        <div class="flex items-center space-x-3.5">
+          <div class="text-right">
+            <div class="text-[10px] uppercase font-bold text-slate-400" id="judgePresStatusLabel">Speaking Time</div>
+            <div class="font-mono text-3xl font-black text-sky-300 tracking-wider" id="judgePresClock">03:00</div>
+          </div>
+          <button id="judgeJumpBtn" onclick="jumpToPresCountry()" class="px-4 py-2.5 rounded-xl text-xs font-bold bg-sky-500 hover:bg-sky-400 text-slate-950 transition flex items-center space-x-1.5 cursor-pointer shadow-lg shadow-sky-500/20">
+            <i class="fa-solid fa-pen-to-square"></i>
+            <span>Score This Team</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Country Selector Tabs (6 Flags) -->
+      <div class="mb-6">
+        <div class="flex items-center justify-between mb-3">
+          <h3 class="text-xs uppercase font-extrabold tracking-widest text-[#d4af37]">
+            Select Delegation to Evaluate (6 Member States)
+          </h3>
+          <span id="judgeProgressText" class="text-xs font-semibold text-amber-400">Evaluated: 0 / 6 Countries</span>
+        </div>
+
+        <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2 sm:gap-3" id="countryTabs">
+          <!-- Rendered by JS -->
+        </div>
+      </div>
+
+      <!-- Active Country Scoring Card -->
+      <div class="un-glass-panel rounded-2xl p-6 sm:p-8 mb-8 border border-slate-700">
+        <!-- Country Info Banner -->
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-slate-700/80 mb-6">
+          <div class="flex items-center space-x-4">
+            <img id="currentFlag" src="/assets/flags/china.svg" alt="Flag" class="w-16 h-11 object-cover rounded-lg flag-box">
+            <div>
+              <div class="flex items-center space-x-2">
+                <span class="text-xs uppercase tracking-wider text-slate-400 font-semibold">Evaluating Delegation:</span>
+                <span id="scoredStatusBadge" class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-slate-800 text-slate-400 border border-slate-700">Pending Evaluation</span>
+              </div>
+              <h2 id="currentCountryName" class="text-2xl font-extrabold text-white">China</h2>
+              <div class="text-xs text-slate-400">Member State Delegation Showcase</div>
+            </div>
+          </div>
+
+          <!-- Live Score Summary Card -->
+          <div class="flex items-center space-x-3 bg-slate-900/90 px-5 py-3 rounded-xl border border-[#d4af37]/35 shadow-inner">
+            <div class="text-right">
+              <div class="text-[10px] uppercase font-bold text-slate-400">Base Score</div>
+              <div id="displayBaseScore" class="text-lg font-bold text-blue-400">0 / 15</div>
+            </div>
+            <div class="text-slate-600 font-bold text-lg">+</div>
+            <div class="text-right">
+              <div class="text-[10px] uppercase font-bold text-slate-400">Bonus Q&A</div>
+              <div id="displayBonusScore" class="text-lg font-bold text-amber-400">0</div>
+            </div>
+            <div class="text-slate-600 font-bold text-lg">=</div>
+            <div class="text-right pl-2 border-l border-slate-700">
+              <div class="text-[10px] uppercase font-bold text-[#f5cf6a]">Total Score</div>
+              <div id="displayTotalScore" class="text-2xl font-black text-white">0 <span class="text-xs text-slate-400 font-normal">/ 20</span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Rubric Criteria Items (1 to 5) -->
+        <div class="space-y-6" id="rubricContainer">
+          <!-- Rendered by JS -->
+        </div>
+
+        <!-- Advanced Challenge Bonus Section -->
+        <div class="mt-8 p-5 rounded-xl bg-gradient-to-r from-amber-950/40 via-yellow-950/20 to-slate-900/60 border border-amber-500/40">
+          <div class="flex items-start space-x-4">
+            <div class="mt-1">
+              <input type="checkbox" id="advancedBonusCheck" class="w-6 h-6 rounded border-amber-400 text-amber-500 focus:ring-amber-400 cursor-pointer accent-[#c69214]" onchange="calculateScore()">
+            </div>
+            <label for="advancedBonusCheck" class="cursor-pointer">
+              <div class="flex items-center space-x-2">
+                <span class="text-amber-400 font-extrabold text-base">🌟 Advanced Challenge Bonus (+5 Bonus Points)</span>
+                <span class="text-[10px] px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 font-semibold border border-amber-500/30">Q&A Segment</span>
+              </div>
+              <p class="text-xs text-slate-300 mt-1">
+                Awarded +5 bonus points if the delegation chooses and successfully answers more than 1 advanced challenge question (>1 Advanced Question) during the presentation or Q&A segment.
+              </p>
+              <div class="text-[11px] text-amber-200/80 italic mt-1 font-mono">
+                Calculation: Base Score (out of 15) + Advanced Bonus (+5) = Total Score (out of 20)
+              </div>
+            </label>
+          </div>
+        </div>
+
+        <!-- Comments / Feedback Area -->
+        <div class="mt-6">
+          <label class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-2">
+            <i class="fa-solid fa-comment-dots text-blue-400 mr-1.5"></i>
+            Judge's Commendation & Constructive Feedback (Optional)
+          </label>
+          <textarea id="judgeComments" rows="3" placeholder="Notes on solution feasibility, public speaking strengths, or specific areas for delegation improvement..." class="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 text-sm text-slate-200 placeholder-slate-500 focus:outline-none focus:border-amber-400 transition"></textarea>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="mt-8 pt-6 border-t border-slate-700/80 flex flex-col sm:flex-row items-center justify-between gap-4">
+          <div class="text-xs text-slate-400">
+            <i class="fa-solid fa-circle-check text-emerald-400 mr-1"></i> Evaluation is automatically stored and synchronized with the Live Stage Leaderboard.
+          </div>
+          <div class="flex items-center space-x-3 w-full sm:w-auto">
+            <button onclick="saveScoreAndNext()" class="w-full sm:w-auto px-8 py-3.5 rounded-xl font-bold text-sm bg-gradient-to-r from-amber-600 to-yellow-600 hover:from-amber-500 hover:to-yellow-500 text-slate-950 transition duration-200 flex items-center justify-center space-x-2 shadow-lg shadow-amber-500/20">
+              <i class="fa-solid fa-floppy-disk"></i>
+              <span>Save Delegation Score</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Judge Score Overview Table -->
+      <div class="un-card rounded-2xl p-6 border border-slate-800">
+        <div class="flex items-center justify-between mb-4">
+          <h3 class="text-base font-bold text-white flex items-center space-x-2">
+            <i class="fa-solid fa-clipboard-list text-amber-400"></i>
+            <span>Your Scoring Scorecard Overview</span>
+          </h3>
+          <span class="text-xs text-slate-400">Judge: <span id="summaryJudgeName" class="text-amber-400 font-semibold">-</span></span>
+        </div>
+
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-xs text-slate-300">
+            <thead class="bg-slate-900/80 text-slate-400 uppercase text-[10px] tracking-wider border-b border-slate-800">
+              <tr>
+                <th class="py-3 px-3">Delegation</th>
+                <th class="py-3 px-2 text-center">Prep (/3)</th>
+                <th class="py-3 px-2 text-center">Speaking (/3)</th>
+                <th class="py-3 px-2 text-center">Vocab (/3)</th>
+                <th class="py-3 px-2 text-center">Teamwork (/3)</th>
+                <th class="py-3 px-2 text-center">Q&A (/3)</th>
+                <th class="py-3 px-2 text-center font-bold text-blue-400">Base (/15)</th>
+                <th class="py-3 px-2 text-center font-bold text-amber-400">Bonus</th>
+                <th class="py-3 px-3 text-right font-bold text-white">Total (/20)</th>
+                <th class="py-3 px-2 text-center">Action</th>
+              </tr>
+            </thead>
+            <tbody id="judgeOverviewBody" class="divide-y divide-slate-800">
+              <!-- Rendered by JS -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    let teamsByGrade = {};
+    let selectedGrade = 'Grade 11';
+    let currentCountryId = '';
+    let judgeScoresCache = {};
+    let currentPasscode = '';
+    let judgeAuthInfo = { isMaster: false, grade: null, countryId: null };
+
+    function toggleJudgePassVisibility() {
+      const input = document.getElementById('gatePasscode');
+      const icon = document.getElementById('judgePassEyeIcon');
+      if (!input) return;
+      if (input.type === 'password') {
+        input.type = 'text';
+        if (icon) icon.className = 'fa-solid fa-eye-slash';
+      } else {
+        input.type = 'password';
+        if (icon) icon.className = 'fa-solid fa-eye';
+      }
+    }
+
+    function quickFillJudgePass(code) {
+      const input = document.getElementById('gatePasscode');
+      if (input) {
+        input.value = code;
+        input.focus();
+      }
+    }
+
+    function togglePasscodeHelper() {
+      const helper = document.getElementById('passcodeHelperContent');
+      const chevron = document.getElementById('helperChevron');
+      if (helper.classList.contains('hidden')) {
+        helper.classList.remove('hidden');
+        chevron.className = 'fa-solid fa-chevron-up text-[10px]';
+      } else {
+        helper.classList.add('hidden');
+        chevron.className = 'fa-solid fa-chevron-down text-[10px]';
+      }
+    }
+
+    const RUBRIC_CRITERIA = [
+      {
+        id: 'preparation',
+        number: 1,
+        title: '1. Preparation',
+        desc: 'Worksheet is complete and team is ready to present on time',
+        options: [
+          { score: 3, label: '3 Points (Excellent)', text: 'Worksheet is 100% complete. Ready to present on time.' },
+          { score: 2, label: '2 Points (Good)', text: 'Worksheet is mostly complete with minor blank spaces.' },
+          { score: 1, label: '1 Point (Needs Help)', text: 'Worksheet is incomplete or team was not ready.' }
+        ]
+      },
+      {
+        id: 'speaking',
+        number: 2,
+        title: '2. Speaking & Pronunciation',
+        desc: 'Clear voice, team participation, easy to understand',
+        options: [
+          { score: 3, label: '3 Points (Excellent)', text: 'Clear voice. Most team members spoke. Easy to understand.' },
+          { score: 2, label: '2 Points (Good)', text: 'Spoke okay, but a bit too quiet or fast. A few mistakes.' },
+          { score: 1, label: '1 Point (Needs Help)', text: 'Very quiet. Hard to understand the words.' }
+        ]
+      },
+      {
+        id: 'vocabulary',
+        number: 3,
+        title: '3. Vocabulary Usage',
+        desc: 'Use of words from the word bank to explain ideas correctly',
+        options: [
+          { score: 3, label: '3 Points (Excellent)', text: 'Used words from the word bank correctly to explain ideas.' },
+          { score: 2, label: '2 Points (Good)', text: 'Used basic words. Ideas are clear but very simple.' },
+          { score: 1, label: '1 Point (Needs Help)', text: 'Words did not match the topic or were unclear.' }
+        ]
+      },
+      {
+        id: 'teamwork',
+        number: 4,
+        title: '4. Teamwork & Mentor Collaboration',
+        desc: 'Team cohesion and guidance from Secretary General mentor',
+        options: [
+          { score: 3, label: '3 Points (Excellent)', text: 'Excellent teamwork. Listened to their Secretary General mentor.' },
+          { score: 2, label: '2 Points (Good)', text: 'Worked okay together, but 1-2 students did all the work.' },
+          { score: 1, label: '1 Point (Needs Help)', text: "Did not work well together. Ignored the mentor's help." }
+        ]
+      },
+      {
+        id: 'qna',
+        number: 5,
+        title: '5. Active Listening & Q&A',
+        desc: 'Attention during other presentations, asking and answering questions',
+        options: [
+          { score: 3, label: '3 Points (Excellent)', text: 'Paid attention to other teams. Answered or asked questions well.' },
+          { score: 2, label: '2 Points (Good)', text: 'Paid attention mostly, but struggled to ask/answer.' },
+          { score: 1, label: '1 Point (Needs Help)', text: 'Distracted during other presentations. No participation in Q&A.' }
+        ]
+      }
+    ];
+
+    async function init() {
+      try {
+        const res = await fetch('/api/teams');
+        teamsByGrade = await res.json();
+      } catch (e) {
+        console.error('Failed to load teams:', e);
+      }
+
+      const urlParams = new URLSearchParams(window.location.search);
+      const keyFromUrl = urlParams.get('key') || urlParams.get('passcode') || urlParams.get('code');
+      const savedAuth = localStorage.getItem('mun_judge_passcode');
+
+      if (keyFromUrl) {
+        verifyJudgePasscode(keyFromUrl);
+      } else if (savedAuth) {
+        verifyJudgePasscode(savedAuth);
+      }
+    }
+
+    function toggleGatePassVisibility() {
+      const input = document.getElementById('gatePasscode');
+      const icon = document.getElementById('gatePassEyeIcon');
+      const text = document.getElementById('gatePassEyeText');
+      if (input.type === 'password') {
+        input.type = 'text';
+        icon.className = 'fa-solid fa-eye-slash';
+        text.textContent = 'Hide';
+      } else {
+        input.type = 'password';
+        icon.className = 'fa-solid fa-eye';
+        text.textContent = 'Show';
+      }
+    }
+
+    function onGateJudgeSelectChange() {
+      const selected = document.getElementById('gateJudgeSelect').value;
+      const input = document.getElementById('gatePasscode');
+      input.placeholder = 'Passcode for ' + selected;
+      input.focus();
+    }
+
+    async function handleJudgeAuth(e) {
+      if (e) e.preventDefault();
+      const judgeName = document.getElementById('gateJudgeSelect').value;
+      const code = document.getElementById('gatePasscode').value.trim();
+      if (!code) {
+        const errorDiv = document.getElementById('gateError');
+        if (errorDiv) {
+          errorDiv.textContent = 'Please enter your individual passcode.';
+          errorDiv.classList.remove('hidden');
+        }
+        return;
+      }
+      await verifyJudgePasscode(code, judgeName);
+    }
+
+    async function verifyJudgePasscode(code, judgeNameInput) {
+      if (!code) return;
+      const errorDiv = document.getElementById('gateError');
+      if (errorDiv) errorDiv.classList.add('hidden');
+
+      const submitBtn = document.getElementById('gateSubmitBtn');
+      if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i><span>Verifying Access...</span>';
+      }
+
+      const selectedName = judgeNameInput || (document.getElementById('gateJudgeSelect') ? document.getElementById('gateJudgeSelect').value : '');
+
+      try {
+        const res = await fetch('/api/judge/verify', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ passcode: code, judgeName: selectedName })
+        });
+        const data = await res.json();
+
+        if (res.ok && data.success) {
+          judgeAuthInfo = {
+            isMaster: data.isMaster,
+            judgeName: data.judgeName || selectedName,
+            grade: data.authorizedGrade,
+            countryId: data.authorizedCountry
+          };
+          if (data.authorizedGrade) {
+            selectedGrade = data.authorizedGrade;
+          }
+
+          // Persist credentials
+          localStorage.setItem('mun_judge_passcode', code);
+          if (judgeAuthInfo.judgeName) {
+            localStorage.setItem('mun_judge_name', judgeAuthInfo.judgeName);
+          }
+
+          await unlockJudgeWorkspace(code);
+        } else {
+          localStorage.removeItem('mun_judge_passcode');
+          if (errorDiv) {
+            errorDiv.textContent = data.error || 'Authentication failed. Please verify your passcode.';
+            errorDiv.classList.remove('hidden');
+          } else {
+            munToast.error(data.error || 'Authentication failed. Please verify your passcode.');
+          }
+        }
+      } catch (err) {
+        localStorage.removeItem('mun_judge_passcode');
+        if (errorDiv) {
+          errorDiv.textContent = 'Server Connection Error: ' + err.message;
+          errorDiv.classList.remove('hidden');
+        } else {
+          munToast.error('Server Connection Error: ' + err.message);
+        }
+      } finally {
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.innerHTML = '<i class="fa-solid fa-lock-open"></i><span>Verify Credentials & Enter Chamber</span>';
+        }
+      }
+    }
+
+    async function unlockJudgeWorkspace(code) {
+      currentPasscode = code;
+      localStorage.setItem('mun_judge_passcode', code);
+      document.getElementById('gateScreen').classList.add('hidden');
+      document.getElementById('judgeWorkspace').classList.remove('hidden');
+
+      if (!teamsByGrade || Object.keys(teamsByGrade).length === 0) {
+        try {
+          const res = await fetch('/api/teams');
+          teamsByGrade = await res.json();
+        } catch (e) {}
+      }
+
+      // Update badge in header if present
+      const badge = document.getElementById('judgeAuthBadge');
+      if (badge) {
+        badge.classList.remove('hidden');
+        const badgeText = document.getElementById('judgeAuthBadgeText') || badge;
+        if (judgeAuthInfo.isMaster) {
+          badgeText.textContent = 'Official MUN Judge';
+        } else if (judgeAuthInfo.countryId) {
+          badgeText.textContent = "Judge: " + String(judgeAuthInfo.countryId || "").toUpperCase() + " (" + String(judgeAuthInfo.grade || "") + ")";
+        }
+      }
+
+      loadJudgeIdentity();
+      renderRubric();
+      handleJudgeGradeChange();
+      fetchJudgeScoresFromServer();
+    }
+
+    async function lockChamber() {
+      const ok = await munDialog.confirm(
+        'Are you sure you want to lock the scoring chamber and exit?\nAny unsaved scoring adjustments will be discarded.',
+        {
+          title: 'Lock Scoring Chamber',
+          confirmText: 'Lock & Exit',
+          cancelText: 'Stay in Chamber',
+          danger: true
+        }
+      );
+      if (!ok) return;
+      localStorage.removeItem('mun_judge_passcode');
+      window.location.href = '/judge';
+    }
+
+    function saveJudgeIdentity() {
+      const name = document.getElementById('judgeNameInput').value.trim();
+      const grade = document.getElementById('judgeGradeSelect').value;
+      localStorage.setItem('mun_judge_name', name);
+      localStorage.setItem('mun_judge_grade', grade);
+      document.getElementById('summaryJudgeName').textContent = name || '(No Name Entered)';
+    }
+
+    function loadJudgeIdentity() {
+      const name = localStorage.getItem('mun_judge_name') || 'Kevin Ta';
+      const grade = localStorage.getItem('mun_judge_grade') || 'Grade 11';
+      document.getElementById('judgeNameInput').value = name;
+      document.getElementById('judgeGradeSelect').value = grade;
+      selectedGrade = grade;
+      document.getElementById('summaryJudgeName').textContent = name || '(No Name Entered)';
+    }
+
+    function handleJudgeGradeChange() {
+      selectedGrade = document.getElementById('judgeGradeSelect').value;
+      saveJudgeIdentity();
+
+      const teams = teamsByGrade[selectedGrade] || [];
+      if (teams.length > 0) {
+        currentCountryId = teams[0].id;
+      }
+
+      renderCountryTabs();
+      loadCountryScoreData(currentCountryId);
+      renderOverviewTable();
+    }
+
+    function selectCountry(cid) {
+      currentCountryId = cid;
+      renderCountryTabs();
+      loadCountryScoreData(cid);
+    }
+
+    function renderCountryTabs() {
+      const tabs = document.getElementById('countryTabs');
+      tabs.innerHTML = '';
+
+      const teams = teamsByGrade[selectedGrade] || [];
+
+      let scoredCount = 0;
+
+      teams.forEach(c => {
+        const isCurrent = c.id === currentCountryId;
+        const scoreKey = `${selectedGrade}_${c.id}`;
+        const scoreData = judgeScoresCache[scoreKey];
+        if (scoreData) scoredCount++;
+
+        const btn = document.createElement('button');
+        btn.onclick = () => selectCountry(c.id);
+
+        let borderClass = isCurrent ? 'border-amber-400 bg-amber-950/40 ring-2 ring-amber-400/40' : 'border-slate-800 bg-slate-900/70 hover:border-slate-600';
+        btn.className = `p-2.5 rounded-xl border text-left transition flex items-center space-x-2.5 ${borderClass}`;
+
+        btn.innerHTML = `
+          <img src="${c.flag}" alt="${c.name}" class="w-8 h-5 object-cover rounded flag-box flex-shrink-0">
+          <div class="overflow-hidden flex-grow">
+            <div class="text-xs font-bold text-white truncate">${c.name}</div>
+            <div class="text-[10px] ${scoreData ? 'text-emerald-400 font-semibold' : 'text-slate-500'}">
+              ${scoreData ? `✓ ${scoreData.totalScore} pts` : 'Pending'}
+            </div>
+          </div>
+        `;
+        tabs.appendChild(btn);
+      });
+
+      document.getElementById('judgeProgressText').textContent = `Evaluated: ${scoredCount} / ${teams.length} Countries`;
+
+      const curr = teams.find(c => c.id === currentCountryId);
+      if (curr) {
+        document.getElementById('currentFlag').src = curr.flag;
+        document.getElementById('currentCountryName').textContent = `${curr.name} (${selectedGrade})`;
+        const delStr = curr.delegates ? curr.delegates.join(', ') : '';
+        const mStr = curr.mentor ? `Mentor: ${curr.mentor}` : '';
+        const descDiv = document.querySelector('#currentCountryName + div');
+        if (descDiv) {
+          descDiv.innerHTML = `<span class="text-amber-400 font-semibold mr-2">${mStr}</span> <span>Delegates: ${delStr}</span>`;
+        }
+      }
+    }
+
+    function renderRubric() {
+      const container = document.getElementById('rubricContainer');
+      container.innerHTML = '';
+
+      RUBRIC_CRITERIA.forEach(crit => {
+        const block = document.createElement('div');
+        block.className = 'bg-slate-900/60 rounded-xl p-4 sm:p-5 border border-slate-800';
+
+        let optionsHtml = '';
+        crit.options.forEach(opt => {
+          optionsHtml += `
+            <label class="relative flex flex-col p-3 rounded-lg border border-slate-700/80 bg-slate-900 hover:bg-slate-800/80 hover:border-slate-600 cursor-pointer transition select-none has-[:checked]:border-blue-400 has-[:checked]:bg-blue-950/40 has-[:checked]:ring-1 has-[:checked]:ring-blue-400/50">
+              <div class="flex items-center justify-between mb-1.5">
+                <span class="text-xs font-bold text-amber-400">${opt.label}</span>
+                <input type="radio" name="crit_${crit.id}" value="${opt.score}" class="w-4 h-4 text-blue-500 accent-blue-500 focus:ring-0" onchange="calculateScore()">
+              </div>
+              <p class="text-xs text-slate-200 leading-snug font-medium">${opt.text}</p>
+            </label>
+          `;
+        });
+
+        block.innerHTML = `
+          <div class="flex items-center justify-between mb-3">
+            <div>
+              <h4 class="text-sm font-bold text-white">${crit.title}</h4>
+              <p class="text-[11px] text-slate-400">${crit.desc}</p>
+            </div>
+            <span id="scoreBadge_${crit.id}" class="text-xs font-bold px-2 py-0.5 rounded bg-slate-800 text-slate-400 border border-slate-700">-- / 3</span>
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+            ${optionsHtml}
+          </div>
+        `;
+        container.appendChild(block);
+      });
+    }
+
+    function calculateScore() {
+      let base = 0;
+      let allSelected = true;
+
+      RUBRIC_CRITERIA.forEach(crit => {
+        const checked = document.querySelector(`input[name="crit_${crit.id}"]:checked`);
+        const badge = document.getElementById(`scoreBadge_${crit.id}`);
+        if (checked) {
+          const val = parseInt(checked.value, 10);
+          base += val;
+          badge.textContent = `${val} / 3`;
+          badge.className = 'text-xs font-bold px-2 py-0.5 rounded bg-blue-500/20 text-blue-300 border border-blue-500/30';
+        } else {
+          allSelected = false;
+          badge.textContent = '-- / 3';
+          badge.className = 'text-xs font-bold px-2 py-0.5 rounded bg-slate-800 text-slate-400 border border-slate-700';
+        }
+      });
+
+      const bonusChecked = document.getElementById('advancedBonusCheck').checked;
+      const bonus = bonusChecked ? 5 : 0;
+      const total = base + bonus;
+
+      document.getElementById('displayBaseScore').textContent = `${base} / 15`;
+      document.getElementById('displayBonusScore').textContent = bonusChecked ? '+5' : '0';
+      document.getElementById('displayTotalScore').innerHTML = `${total} <span class="text-xs text-slate-400 font-normal">/ 20</span>`;
+
+      return { base, bonus, total, allSelected };
+    }
+
+    function loadCountryScoreData(cid) {
+      const scoreKey = `${selectedGrade}_${cid}`;
+      const data = judgeScoresCache[scoreKey];
+
+      RUBRIC_CRITERIA.forEach(crit => {
+        const radios = document.querySelectorAll(`input[name="crit_${crit.id}"]`);
+        radios.forEach(r => {
+          r.checked = data && data.scores && data.scores[crit.id] == r.value;
+        });
+      });
+
+      document.getElementById('advancedBonusCheck').checked = data ? Boolean(data.advancedBonus) : false;
+      document.getElementById('judgeComments').value = data ? (data.comments || '') : '';
+
+      const badge = document.getElementById('scoredStatusBadge');
+      if (data) {
+        badge.textContent = `Scored: ${data.totalScore} pts`;
+        badge.className = 'text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30';
+      } else {
+        badge.textContent = 'Pending Evaluation';
+        badge.className = 'text-[10px] font-bold px-2 py-0.5 rounded-full bg-slate-800 text-slate-400 border border-slate-700';
+      }
+
+      calculateScore();
+    }
+
+    async function saveScoreAndNext() {
+      const judgeName = document.getElementById('judgeNameInput').value.trim();
+      if (!judgeName) {
+        munToast.warning('Please confirm your Judge Name in the header before saving.');
+        document.getElementById('judgeNameInput').focus();
+        return;
+      }
+      saveJudgeIdentity();
+
+      const { base, bonus, total, allSelected } = calculateScore();
+      if (!allSelected) {
+        munToast.warning('Please score all 5 rubric criteria (Preparation, Speaking, Vocabulary, Teamwork, Active Listening Q&A)!');
+        return;
+      }
+
+      const scores = {};
+      RUBRIC_CRITERIA.forEach(crit => {
+        const checked = document.querySelector(`input[name="crit_${crit.id}"]:checked`);
+        scores[crit.id] = parseInt(checked.value, 10);
+      });
+
+      const payload = {
+        passcode: currentPasscode,
+        judgeName,
+        grade: selectedGrade,
+        countryId: currentCountryId,
+        scores,
+        advancedBonus: document.getElementById('advancedBonusCheck').checked,
+        comments: document.getElementById('judgeComments').value.trim()
+      };
+
+      try {
+        const res = await fetch('/api/judge/score', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+        const data = await res.json();
+
+        if (res.ok && data.success) {
+          const scoreKey = `${selectedGrade}_${currentCountryId}`;
+          judgeScoresCache[scoreKey] = data.score;
+          renderCountryTabs();
+          renderOverviewTable();
+
+          const teams = teamsByGrade[selectedGrade] || [];
+          const cName = teams.find(c => c.id === currentCountryId)?.name || currentCountryId;
+          munToast.success(`Score saved successfully for ${cName} (${selectedGrade}): ${data.score.totalScore} Points!`);
+
+          const unscored = teams.find(c => !judgeScoresCache[`${selectedGrade}_${c.id}`]);
+          if (unscored) {
+            selectCountry(unscored.id);
+          } else {
+            renderCountryTabs();
+            loadCountryScoreData(currentCountryId);
+          }
+        } else {
+          munToast.error('Error: ' + (data.error || 'Unable to save score'));
+        }
+      } catch (err) {
+        munToast.error('Server Connection Error: ' + err.message);
+      }
+    }
+
+    async function fetchJudgeScoresFromServer() {
+      try {
+        const res = await fetch('/api/judge/scores');
+        const data = await res.json();
+        const judgeName = document.getElementById('judgeNameInput').value.trim().toLowerCase();
+
+        if (data && Array.isArray(data.scores) && judgeName) {
+          data.scores.forEach(s => {
+            if (s.judgeName.toLowerCase() === judgeName) {
+              const scoreKey = `${s.grade}_${s.countryId}`;
+              judgeScoresCache[scoreKey] = s;
+            }
+          });
+        }
+        renderCountryTabs();
+        loadCountryScoreData(currentCountryId);
+        renderOverviewTable();
+      } catch (e) {
+        console.error(e);
+      }
+    }
+
+    function renderOverviewTable() {
+      const tbody = document.getElementById('judgeOverviewBody');
+      tbody.innerHTML = '';
+
+      const teams = teamsByGrade[selectedGrade] || [];
+
+      teams.forEach(c => {
+        const scoreKey = `${selectedGrade}_${c.id}`;
+        const s = judgeScoresCache[scoreKey];
+        const row = document.createElement('tr');
+        row.className = 'hover:bg-slate-800/40 transition';
+
+        if (s) {
+          row.innerHTML = `
+            <td class="py-3 px-3 flex items-center space-x-2">
+              <img src="${c.flag}" alt="${c.name}" class="w-6 h-4 object-cover rounded flag-box">
+              <span class="font-bold text-white">${c.name}</span>
+            </td>
+            <td class="py-3 px-2 text-center">${s.scores.preparation}</td>
+            <td class="py-3 px-2 text-center">${s.scores.speaking}</td>
+            <td class="py-3 px-2 text-center">${s.scores.vocabulary}</td>
+            <td class="py-3 px-2 text-center">${s.scores.teamwork}</td>
+            <td class="py-3 px-2 text-center">${s.scores.qna}</td>
+            <td class="py-3 px-2 text-center font-bold text-blue-400">${s.baseScore}/15</td>
+            <td class="py-3 px-2 text-center font-bold text-amber-400">${s.advancedBonus ? '+50' : '0'}</td>
+            <td class="py-3 px-3 text-right font-black text-white text-sm">${s.totalScore}</td>
+            <td class="py-3 px-2 text-center">
+              <button onclick="selectCountry('${c.id}')" class="px-2 py-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 text-[10px] font-semibold border border-slate-700">
+                Edit
+              </button>
+            </td>
+          `;
+        } else {
+          row.innerHTML = `
+            <td class="py-3 px-3 flex items-center space-x-2">
+              <img src="${c.flag}" alt="${c.name}" class="w-6 h-4 object-cover rounded flag-box opacity-50">
+              <span class="font-semibold text-slate-400">${c.name}</span>
+            </td>
+            <td class="py-3 px-2 text-center text-slate-600">-</td>
+            <td class="py-3 px-2 text-center text-slate-600">-</td>
+            <td class="py-3 px-2 text-center text-slate-600">-</td>
+            <td class="py-3 px-2 text-center text-slate-600">-</td>
+            <td class="py-3 px-2 text-center text-slate-600">-</td>
+            <td class="py-3 px-2 text-center text-slate-600">-</td>
+            <td class="py-3 px-2 text-center text-slate-600">-</td>
+            <td class="py-3 px-3 text-right text-slate-600">-</td>
+            <td class="py-3 px-2 text-center">
+              <button onclick="selectCountry('${c.id}')" class="px-2 py-1 rounded bg-blue-950/60 hover:bg-blue-900/80 text-blue-300 text-[10px] font-semibold border border-blue-500/30">
+                Score Now
+              </button>
+            </td>
+          `;
+        }
+        tbody.appendChild(row);
+      });
+    }
+
+    
+    // Presentation (Speech) Timer for Judges
+    let judgePresState = { duration: 180, remaining: 180, running: false };
+    let localJudgePresRemaining = 180;
+    let localJudgePresRunning = false;
+
+    async function syncJudgeTimer() {
+      try {
+        const res = await fetch('/api/timer');
+        const data = await res.json();
+        if (data && data.presentationTimer) {
+          judgePresState = data.presentationTimer;
+          localJudgePresRemaining = data.presentationTimer.remaining;
+          localJudgePresRunning = data.presentationTimer.running;
+          renderJudgePresTimerUI();
+        }
+      } catch (e) {}
+    }
+
+    function renderJudgePresTimerUI() {
+      const headerClock = document.getElementById('judgeTimerClockHeader');
+      const headerCountry = document.getElementById('judgeHeaderPresCountry');
+      const bannerClock = document.getElementById('judgePresClock');
+      const bannerFlag = document.getElementById('judgePresFlag');
+      const bannerCountry = document.getElementById('judgePresCountryText');
+      const bannerGrade = document.getElementById('judgePresGradeBadge');
+      const bannerTopic = document.getElementById('judgePresTopicBadge');
+      const bannerDelegates = document.getElementById('judgePresDelegatesText');
+      const bannerStatus = document.getElementById('judgePresStatusLabel');
+
+      const mins = String(Math.floor(localJudgePresRemaining / 60)).padStart(2, '0');
+      const secs = String(localJudgePresRemaining % 60).padStart(2, '0');
+      const timeStr = mins + ':' + secs;
+
+      if (headerClock) headerClock.textContent = timeStr;
+      if (bannerClock) bannerClock.textContent = timeStr;
+
+      const team = judgePresState.team;
+      const cName = team ? team.name : (judgePresState.presentingCountry || 'China');
+      const grade = judgePresState.presentingGrade || 'Grade 11';
+      const flag = team ? team.flag : ('/assets/flags/' + (judgePresState.presentingCountry || 'china') + '.svg');
+      const mentor = team ? (team.mentor || '—') : '—';
+      const delegates = team && team.delegates ? team.delegates.join(', ') : '—';
+
+      const topicTitles = {
+        climate: 'Topic 1: Climate Change',
+        education: 'Topic 2: Education',
+        health: 'Topic 3: Health Issues',
+        general: 'General Speech & Q&A'
+      };
+
+      if (headerCountry) headerCountry.textContent = cName + ' (' + grade.replace('Grade ', 'G') + '):';
+      if (bannerCountry) bannerCountry.textContent = cName + ' Delegation';
+      if (bannerFlag) bannerFlag.src = flag;
+      if (bannerGrade) bannerGrade.textContent = grade;
+      if (bannerTopic) bannerTopic.textContent = topicTitles[judgePresState.presentingTopic] || 'Presentation';
+      if (bannerDelegates) bannerDelegates.textContent = 'Mentor: ' + mentor + ' • Delegates: ' + delegates;
+
+      if (localJudgePresRemaining === 0) {
+        if (headerClock) headerClock.className = 'font-mono text-sm sm:text-base font-black text-rose-400';
+        if (bannerClock) bannerClock.className = 'font-mono text-3xl font-black text-rose-400';
+        if (bannerStatus) bannerStatus.textContent = "Time's Up";
+      } else if (localJudgePresRemaining <= 30) {
+        if (headerClock) headerClock.className = 'font-mono text-sm sm:text-base font-black text-amber-300';
+        if (bannerClock) bannerClock.className = 'font-mono text-3xl font-black text-amber-300';
+        if (bannerStatus) bannerStatus.textContent = "Final 30s";
+      } else {
+        if (headerClock) headerClock.className = 'font-mono text-sm sm:text-base font-black text-sky-300';
+        if (bannerClock) bannerClock.className = 'font-mono text-3xl font-black text-sky-300';
+        if (bannerStatus) bannerStatus.textContent = judgePresState.running ? "Speaking Time" : "Paused";
+      }
+    }
+
+    function jumpToPresCountry() {
+      if (!judgePresState) return;
+      const targetGrade = judgePresState.presentingGrade;
+      const targetCountry = judgePresState.presentingCountry;
+      if (targetGrade && targetGrade !== selectedGrade) {
+        selectedGrade = targetGrade;
+        const gSelect = document.getElementById('judgeGradeSelect');
+        if (gSelect) gSelect.value = targetGrade;
+        handleJudgeGradeChange();
+      }
+      if (targetCountry) {
+        selectCountry(targetCountry);
+      }
+    }
+
+    window.onload = () => { init(); setInterval(syncJudgeTimer, 1000); setInterval(() => { if (localJudgePresRunning && localJudgePresRemaining > 0) { localJudgePresRemaining--; renderJudgePresTimerUI(); } }, 1000); syncJudgeTimer(); };
+
+  </script>
+</body>
+</html>

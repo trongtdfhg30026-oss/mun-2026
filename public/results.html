@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Live Stage Leaderboard | Senior MUN Global Solutions</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+  <link rel="stylesheet" href="/styles.css">
+  <script src="/assets/mun-notify.js"></script>
+</head>
+<body class="bg-[#050b14] text-slate-100 min-h-screen flex flex-col justify-between selection:bg-amber-500 selection:text-black overflow-x-hidden">
+
+  <!-- Top Diplomatic Navigation -->
+  <header class="border-b border-amber-500/30 bg-[#071120]/95 backdrop-blur-md sticky top-0 z-50 shadow-xl shadow-black/40">
+    <div class="h-0.5 bg-gradient-to-r from-transparent via-[#d4af37] to-transparent"></div>
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between gap-4">
+      
+      <!-- Left: UN General Assembly Emblem & Title -->
+      <a href="/" class="flex items-center space-x-3.5 group cursor-pointer hover:opacity-95 transition" title="Return to General Assembly Portal">
+        <div class="w-12 h-12 rounded-2xl bg-gradient-to-b from-amber-500/20 via-slate-900/90 to-[#071120] border border-amber-500/40 flex items-center justify-center flex-shrink-0 group-hover:scale-105 group-hover:border-amber-400 transition-all duration-300 shadow-lg shadow-amber-500/10 p-2">
+          <img src="/assets/un-emblem.svg" alt="United Nations General Assembly" class="h-8 w-auto object-contain filter drop-shadow">
+        </div>
+        <div class="border-l border-amber-500/30 pl-3">
+          <div class="flex items-center space-x-2">
+            <span class="text-[10px] sm:text-[11px] uppercase tracking-[0.22em] text-[#d4af37] font-black flex items-center gap-1.5">
+              <i class="fa-solid fa-crown text-[9px] text-amber-400"></i>
+              <span>UNITED NATIONS GENERAL ASSEMBLY</span>
+            </span>
+            <span id="liveChamberBadge" class="px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-300 text-[10px] font-black border border-amber-500/40">
+              Grade 11
+            </span>
+          </div>
+          <h1 class="font-mun text-base font-black tracking-wide text-white group-hover:text-amber-200 transition">
+            Global Solutions Showcase &bull; Official Honors
+          </h1>
+        </div>
+      </a>
+
+      <!-- Hidden hook container to retain JS timer compatibility without visual clutter -->
+      <div id="unifiedStageTimerHUD" class="hidden">
+        <span id="unifiedTimerPing"></span>
+        <i id="unifiedTimerIcon"></i>
+        <span id="unifiedTimerTitle"></span>
+        <span id="unifiedTimerSubtitle"></span>
+        <span id="unifiedTimerClock"></span>
+      </div>
+
+      <!-- Right: Action Controls (Standings Modal, Reveal Ceremony, Fullscreen, Portal) -->
+      <div class="flex items-center space-x-2 sm:space-x-2.5">
+        <!-- Standings Table Modal Trigger -->
+        <button onclick="openStandingsModal()" class="px-3.5 py-2 rounded-xl text-xs font-bold bg-slate-900/90 hover:bg-slate-800 text-slate-200 hover:text-white border border-slate-700/80 transition flex items-center space-x-1.5 cursor-pointer shadow-sm">
+          <i class="fa-solid fa-table-list text-sky-400"></i>
+          <span class="hidden sm:inline">Standings Table</span>
+        </button>
+
+        <!-- Grand Award Reveal Ceremony -->
+        <button onclick="openRevealModal()" class="px-4 py-2 rounded-xl text-xs font-black bg-gradient-to-r from-amber-500 via-yellow-400 to-amber-600 text-slate-950 hover:brightness-110 transition shadow-lg shadow-amber-500/25 flex items-center space-x-1.5 cursor-pointer">
+          <i class="fa-solid fa-crown"></i>
+          <span>Grand Reveal</span>
+        </button>
+
+        <!-- Portal / Home Link -->
+        <a href="/" class="p-2 sm:px-3 sm:py-2 rounded-xl text-xs font-bold bg-slate-900/90 text-slate-300 hover:text-white hover:bg-slate-800 transition border border-slate-700/80 flex items-center space-x-1.5 shadow-sm" title="Return to General Assembly Portal">
+          <i class="fa-solid fa-house text-amber-400"></i>
+          <span class="hidden md:inline">Portal</span>
+        </a>
+
+        <!-- Fullscreen F11 Mode -->
+        <button onclick="toggleFullScreen()" title="Full Screen Presentation" class="p-2 rounded-xl bg-slate-900/90 text-slate-300 hover:text-white hover:bg-slate-800 transition border border-slate-700/80 cursor-pointer shadow-sm">
+          <i class="fa-solid fa-expand text-xs"></i>
+        </button>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- MAIN STAGE DISPLAY: Sized to fit 100vh on Fullscreen F11 -->
+  <main class="flex-grow max-w-7xl mx-auto px-4 py-3 w-full flex flex-col justify-center space-y-3">
+    
+    <!-- OPTIONAL COMPACT PRESENTATION SPOTLIGHT RIBBON -->
+    <div id="stageSpeechRibbon" class="hidden un-glass-panel rounded-2xl px-5 py-2 border border-sky-400/40 bg-gradient-to-r from-sky-950/60 via-slate-900/80 to-blue-950/60 shadow-lg items-center justify-between gap-4 transition-all">
+      <div class="flex items-center space-x-3.5">
+        <img id="ribbonCountryFlag" src="/assets/flags/china.svg" alt="Flag" class="w-10 h-6.5 object-cover rounded-lg border border-sky-400/50 shadow">
+        <div>
+          <div class="flex items-center space-x-2">
+            <span class="px-2 py-0.5 rounded bg-sky-500/20 text-sky-300 text-[10px] font-black uppercase tracking-wider border border-sky-500/30">
+              <i class="fa-solid fa-microphone text-sky-400 animate-pulse mr-1"></i> Speaking On Stage
+            </span>
+            <span id="ribbonTopic" class="text-xs text-amber-300 font-bold">Climate Change</span>
+          </div>
+          <div class="text-sm font-extrabold text-white" id="ribbonCountryName">China Delegation</div>
+        </div>
+      </div>
+      <div class="text-right text-xs text-slate-300 hidden md:block">
+        <div><i class="fa-solid fa-user-tie text-sky-400 mr-1"></i>Mentor: <strong id="ribbonMentor" class="text-white">Hao</strong></div>
+        <div class="text-[11px] text-slate-400"><i class="fa-solid fa-users text-amber-400 mr-1"></i>Delegates: <span id="ribbonDelegates" class="text-slate-200">Ngan, G. Dat, U Nhieu, Rabbit</span></div>
+      </div>
+    </div>
+
+    <!-- OLYMPIC TIERED PODIUM: Top 3 Grand Champions -->
+    <div class="un-glass-panel rounded-3xl p-4 sm:p-5 border border-amber-500/30 shadow-2xl relative">
+      <div class="flex items-center justify-between pb-2 mb-2 border-b border-slate-800/80">
+        <div class="flex items-center space-x-2">
+          <div class="w-6 h-6 rounded-lg bg-amber-500/20 text-amber-400 flex items-center justify-center text-xs font-bold border border-amber-500/30">
+            <i class="fa-solid fa-trophy"></i>
+          </div>
+          <div>
+            <h2 class="text-sm sm:text-base font-black font-mun gold-gradient-text">
+              Grand Champions &bull; <span id="displayGradeTitle">Grade 11</span>
+            </h2>
+            <p class="text-[10px] text-slate-400">
+              Top 3 delegations by Official Judge Scoring (Base 15 + Advanced Bonus 5 = Max 20 Points)
+            </p>
+          </div>
+        </div>
+        <span class="text-[10px] font-mono px-2 py-0.5 rounded-lg bg-slate-900 border border-slate-800 text-slate-400">
+          Scale: 20 Max
+        </span>
+      </div>
+
+      <!-- Olympic Tiered Podium Container: 2nd (Left), 1st (Center Raised), 3rd (Right) -->
+      <div id="judgesTop3Podium" class="podium-container pt-1">
+        <!-- Injected dynamically by JS -->
+      </div>
+    </div>
+
+    <!-- 3 STUDENTS' CHOICE TOPIC AWARDS STRIP -->
+    <div class="un-glass-panel rounded-2xl p-3 border border-slate-800">
+      <div class="flex items-center justify-between pb-1.5 mb-2 border-b border-slate-800/80">
+        <div class="flex items-center space-x-2">
+          <i class="fa-solid fa-award text-blue-400 text-xs"></i>
+          <h3 class="text-xs font-extrabold font-mun text-white tracking-wide">
+            Students' Choice Global Solutions Awards
+          </h3>
+        </div>
+        <span class="text-[10px] text-slate-400">Decided independently by peer delegation ballots</span>
+      </div>
+
+      <!-- 3 Topic Columns (Climate, Education, Health) -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-3" id="topicsAwardCards">
+        <!-- Rendered by JS -->
+      </div>
+    </div>
+
+  </main>
+  <!-- STAGE FOOTER: Minimal, unobtrusive -->
+  <footer class="border-t border-slate-800/80 bg-[#070e1a]/90 py-1.5 px-4 text-center text-[10px] text-slate-500 flex items-center justify-between">
+    <span>Senior Model United Nations &bull; Diplomatic Showcase</span>
+    <span>Synchronized via High-Precision Realtime Socket / API</span>
+  </footer>
+
+  <!-- FULL DETAILED STANDINGS & RUBRIC BREAKDOWN MODAL -->
+  <div id="standingsModal" class="fixed inset-0 z-50 bg-[#050911]/95 backdrop-blur-xl hidden flex flex-col items-center justify-center p-4">
+    <div class="un-glass-panel rounded-2xl max-w-5xl w-full p-6 border border-amber-500/40 shadow-2xl relative max-h-[90vh] flex flex-col">
+      <div class="flex items-center justify-between pb-4 border-b border-slate-800 flex-shrink-0">
+        <div class="flex items-center space-x-3">
+          <div class="w-9 h-9 rounded-xl bg-amber-500/20 text-amber-400 flex items-center justify-center text-sm font-bold border border-amber-500/30">
+            <i class="fa-solid fa-scale-balanced"></i>
+          </div>
+          <div>
+            <h3 class="text-base font-extrabold text-white">Full Official Scorecard Rankings (<span id="modalGradeName">Grade 11</span>)</h3>
+            <p class="text-xs text-slate-400">Complete breakdown across all 5 rubric criteria, advanced bonuses (+5), and judge evaluations</p>
+          </div>
+        </div>
+        <button onclick="closeStandingsModal()" class="text-slate-400 hover:text-white p-2 rounded-xl bg-slate-800/80 hover:bg-slate-700 transition cursor-pointer">
+          <i class="fa-solid fa-xmark text-sm"></i>
+        </button>
+      </div>
+
+      <div class="overflow-y-auto my-4 flex-grow">
+        <table class="w-full text-left text-xs text-slate-300">
+          <thead class="bg-slate-900/90 text-slate-400 uppercase text-[10px] tracking-wider sticky top-0 border-b border-slate-800">
+            <tr>
+              <th class="py-2.5 px-3">Rank</th>
+              <th class="py-2.5 px-3">Delegation</th>
+              <th class="py-2.5 px-2 text-center">Mentor</th>
+              <th class="py-2.5 px-2 text-center">Prep (/3)</th>
+              <th class="py-2.5 px-2 text-center">Speak (/3)</th>
+              <th class="py-2.5 px-2 text-center">Vocab (/3)</th>
+              <th class="py-2.5 px-2 text-center">Team (/3)</th>
+              <th class="py-2.5 px-2 text-center">Q&A (/3)</th>
+              <th class="py-2.5 px-2 text-center font-bold text-sky-400">Base (/15)</th>
+              <th class="py-2.5 px-2 text-center font-bold text-amber-400">Bonus (+5)</th>
+              <th class="py-2.5 px-3 text-right font-black text-white">Avg Total (/20)</th>
+            </tr>
+          </thead>
+          <tbody id="fullJudgeTableBody" class="divide-y divide-slate-800">
+            <!-- Rendered by JS -->
+          </tbody>
+        </table>
+      </div>
+
+      <div class="pt-3 border-t border-slate-800 flex items-center justify-between text-xs text-slate-400 flex-shrink-0">
+        <span>Evaluations by: Kevin Ta (Judge 1), Mr. D (Judge 2), Chi Nguyen (Judge 3)</span>
+        <button onclick="closeStandingsModal()" class="px-4 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-bold transition">
+          Close
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- CEREMONY REVEAL MODAL -->
+  <div id="revealModal" class="fixed inset-0 z-50 bg-[#050911]/98 backdrop-blur-2xl hidden flex flex-col items-center justify-center p-4 overflow-y-auto">
+    <button onclick="closeRevealModal()" class="fixed top-6 right-6 text-slate-400 hover:text-white p-2.5 rounded-full bg-slate-800/80 text-lg transition z-50 cursor-pointer">
+      <i class="fa-solid fa-xmark"></i>
+    </button>
+
+    <div class="max-w-4xl w-full text-center py-6">
+      <div class="diplomatic-badge inline-flex items-center space-x-2 px-4 py-1.5 rounded-full text-[#f5cf6a] text-xs font-black uppercase tracking-widest mb-3">
+        <i class="fa-solid fa-crown"></i>
+        <span>Official General Assembly Honors &bull; Senior MUN</span>
+      </div>
+
+      <h1 class="text-3xl sm:text-5xl font-extrabold font-mun gold-gradient-text tracking-wide mb-3">
+        Showcase Honors & Awards
+      </h1>
+      <p class="text-slate-300 text-sm max-w-lg mx-auto mb-6" id="revealGradeSubtitle">
+        Celebrating outstanding diplomatic presentations and global solutions
+      </p>
+
+      <div id="revealChampionCard" class="un-glass-panel rounded-3xl p-6 sm:p-8 border-2 border-amber-400 bg-gradient-to-b from-amber-950/60 via-slate-900 to-slate-950 shadow-2xl shadow-amber-500/25 max-w-xl mx-auto mb-8 transform scale-100 transition duration-500">
+        <div class="text-5xl mb-2 gold-crown-glow">👑</div>
+        <div class="text-xs uppercase font-black text-amber-400 tracking-widest mb-2">Grand Champion Delegation</div>
+        <img id="revealChampionFlag" src="/assets/flags/china.svg" alt="Flag" class="w-32 h-20 mx-auto object-cover rounded-xl flag-box mb-3 border-2 border-amber-300">
+        <h2 id="revealChampionCountry" class="text-3xl sm:text-4xl font-black text-white mb-1">China</h2>
+        <div id="revealChampionMentor" class="text-xs font-semibold text-amber-300 mb-1">Mentor: Hao</div>
+        <div id="revealChampionDelegates" class="text-xs text-slate-400 mb-4">Delegates: Ngan, G. Dat, U Nhieu, Rabbit</div>
+        
+        <div class="inline-flex items-center space-x-3 px-6 py-2.5 rounded-2xl bg-amber-500/20 border border-amber-500/40">
+          <span class="text-xs font-bold text-amber-300">Final Official Score:</span>
+          <span id="revealChampionScore" class="text-2xl font-black text-white">18.5 <span class="text-xs text-slate-400 font-normal">/ 20</span></span>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-xl mx-auto" id="revealRunnersUpGrid">
+        <!-- Rendered by JS -->
+      </div>
+    </div>
+  </div>
+  <!-- LEADERBOARD SCRIPT -->
+  <script>
+    let currentGrade = 'Grade 11';
+    let leaderboardCache = null;
+    let presentationTimerCache = null;
+    let roundTimerCache = null;
+
+    function openStandingsModal() {
+      document.getElementById('standingsModal').classList.remove('hidden');
+    }
+    function closeStandingsModal() {
+      document.getElementById('standingsModal').classList.add('hidden');
+    }
+
+    function openRevealModal() {
+      document.getElementById('revealModal').classList.remove('hidden');
+      triggerConfetti();
+      renderRevealContent();
+    }
+    function closeRevealModal() {
+      document.getElementById('revealModal').classList.add('hidden');
+    }
+
+    function toggleFullScreen() {
+      if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen().catch(err => console.error(err));
+      } else {
+        if (document.exitFullscreen) document.exitFullscreen();
+      }
+    }
+
+    function triggerConfetti() {
+      if (typeof confetti === 'function') {
+        confetti({ particleCount: 80, spread: 70, origin: { y: 0.6 } });
+        setTimeout(() => confetti({ particleCount: 50, angle: 60, spread: 55, origin: { x: 0 } }), 300);
+        setTimeout(() => confetti({ particleCount: 50, angle: 120, spread: 55, origin: { x: 1 } }), 600);
+      }
+    }
+
+    function fmtSec(sec) {
+      const s = Math.max(0, Math.floor(sec || 0));
+      const m = Math.floor(s / 60);
+      const rem = s % 60;
+      return `${String(m).padStart(2, '0')}:${String(rem).padStart(2, '0')}`;
+    }
+
+    function updateUnifiedTimerHUD(presState, roundState) {
+      const ping = document.getElementById('unifiedTimerPing');
+      const icon = document.getElementById('unifiedTimerIcon');
+      const title = document.getElementById('unifiedTimerTitle');
+      const subtitle = document.getElementById('unifiedTimerSubtitle');
+      const clock = document.getElementById('unifiedTimerClock');
+      const ribbon = document.getElementById('stageSpeechRibbon');
+
+      if (presState && presState.running) {
+        ping.className = 'w-2.5 h-2.5 rounded-full bg-sky-400 animate-ping';
+        icon.className = 'fa-solid fa-microphone text-sky-400';
+        title.textContent = 'SPEECH COUNTDOWN';
+        title.className = 'text-[9px] uppercase font-black tracking-wider text-sky-400 flex items-center gap-1';
+        subtitle.textContent = (presState.team ? presState.team.name : (presState.presentingCountry || 'Speaking'));
+        clock.textContent = fmtSec(presState.remaining);
+        clock.className = 'font-mono text-2xl sm:text-3xl font-black text-sky-300 tracking-widest leading-none drop-shadow';
+
+        if (ribbon && presState.team) {
+          ribbon.classList.remove('hidden');
+          ribbon.classList.add('flex');
+          document.getElementById('ribbonCountryFlag').src = presState.team.flag;
+          document.getElementById('ribbonCountryName').textContent = presState.team.name + ' Delegation';
+          document.getElementById('ribbonTopic').textContent = (presState.presentingTopic === 'climate' ? 'Climate Change' : presState.presentingTopic === 'education' ? 'Education' : presState.presentingTopic === 'health' ? 'Health Issues' : 'General Presentation');
+          document.getElementById('ribbonMentor').textContent = presState.team.mentor || 'Assigned Mentor';
+          document.getElementById('ribbonDelegates').textContent = presState.team.delegates ? presState.team.delegates.join(', ') : '-';
+        }
+        return;
+      }
+
+      if (ribbon) {
+        ribbon.classList.add('hidden');
+        ribbon.classList.remove('flex');
+      }
+
+      if (roundState && roundState.running) {
+        ping.className = 'w-2.5 h-2.5 rounded-full bg-emerald-400 animate-ping';
+        icon.className = 'fa-solid fa-stopwatch text-emerald-400';
+        title.textContent = 'VOTING COUNTDOWN';
+        title.className = 'text-[9px] uppercase font-black tracking-wider text-emerald-400 flex items-center gap-1';
+        subtitle.textContent = (roundState.activeTopic ? roundState.activeTopic.toUpperCase() : 'ROUND');
+        clock.textContent = fmtSec(roundState.remaining);
+        clock.className = 'font-mono text-2xl sm:text-3xl font-black text-white tracking-widest leading-none drop-shadow';
+        return;
+      }
+
+      ping.className = 'w-2 h-2 rounded-full bg-slate-500';
+      icon.className = 'fa-solid fa-circle-check text-slate-400';
+      title.textContent = 'STAGE STATUS';
+      title.className = 'text-[9px] uppercase font-black tracking-wider text-slate-400 flex items-center gap-1';
+      subtitle.textContent = 'Chamber In Session';
+      clock.textContent = '--:--';
+      clock.className = 'font-mono text-2xl sm:text-3xl font-black text-slate-500 tracking-widest leading-none drop-shadow';
+    }
+
+    async function fetchLeaderboard() {
+      try {
+        const tRes = await fetch('/api/timer');
+        if (tRes.ok) {
+          const tData = await tRes.json();
+          presentationTimerCache = tData.presentationTimer;
+          roundTimerCache = tData.roundTimer;
+          updateUnifiedTimerHUD(presentationTimerCache, roundTimerCache);
+        }
+
+        const res = await fetch('/api/leaderboard');
+        if (!res.ok) return;
+        const data = await res.json();
+        leaderboardCache = data;
+
+        const targetGrade = data.currentGrade || data.activeGrade;
+        if (targetGrade && targetGrade !== currentGrade) {
+          currentGrade = targetGrade;
+        }
+
+        renderAll();
+      } catch (err) {
+        console.error('Error syncing leaderboard:', err);
+      }
+    }
+
+    function renderAll() {
+      if (!leaderboardCache) return;
+      const gradeList = leaderboardCache.grades || leaderboardCache.resultsByGrade || {};
+      const gData = gradeList[currentGrade] || {};
+
+      document.getElementById('liveChamberBadge').textContent = currentGrade;
+      document.getElementById('displayGradeTitle').textContent = currentGrade;
+      document.getElementById('modalGradeName').textContent = currentGrade;
+
+      renderOlympicPodium(gData.judgeTop3);
+      renderTopicsAwards(gData.topicRankings);
+      renderStandingsTable(gData.judgeRanking);
+    }
+
+    function renderOlympicPodium(top3) {
+      const container = document.getElementById('judgesTop3Podium');
+      container.innerHTML = '';
+
+      if (!top3 || top3.length === 0) {
+        container.innerHTML = '<div class="w-full text-center text-slate-500 text-xs py-8"><i class="fa-solid fa-clock mr-1.5"></i> Awaiting judge evaluations for this grade chamber...</div>';
+        return;
+      }
+
+      const first = top3.find(t => t.rank === 1) || null;
+      const second = top3.find(t => t.rank === 2) || (top3.length > 1 && top3[0] !== first ? top3[0] : (top3.length > 1 ? top3[1] : null));
+      const third = top3.find(t => t.rank === 3) || (top3.length > 2 ? top3[2] : null);
+
+      const podiumSlots = [
+        { item: second, place: 2, label: '2nd Place', icon: '🥈', pedestalClass: 'podium-pedestal-2', borderClass: 'border-slate-400/60', textClass: 'text-slate-300' },
+        { item: first, place: 1, label: 'Grand Champion', icon: '👑', pedestalClass: 'podium-pedestal-1', borderClass: 'border-amber-400 ring-2 ring-amber-400/40 shadow-xl shadow-amber-500/20', textClass: 'text-amber-300 font-extrabold' },
+        { item: third, place: 3, label: '3rd Place', icon: '🥉', pedestalClass: 'podium-pedestal-3', borderClass: 'border-amber-700/60', textClass: 'text-amber-500' }
+      ];
+
+      podiumSlots.forEach(slot => {
+        const col = document.createElement('div');
+        col.className = 'podium-col';
+
+        if (!slot.item) {
+          col.innerHTML = `
+            <div class="un-glass-panel rounded-2xl p-3 border border-slate-800/60 text-center w-full mb-1 opacity-40">
+              <div class="text-lg mb-1">${slot.icon}</div>
+              <div class="text-[9px] text-slate-500 uppercase font-bold">${slot.label}</div>
+              <div class="text-[11px] text-slate-600 mt-1">Awaiting Score</div>
+            </div>
+            <div class="${slot.pedestalClass}">
+              <span class="text-xl font-black text-slate-500">${slot.place}</span>
+            </div>
+          `;
+          container.appendChild(col);
+          return;
+        }
+
+        const team = slot.item.team;
+        const isGold = slot.place === 1;
+
+        col.innerHTML = `
+          <div class="un-glass-panel rounded-2xl p-3 sm:p-3.5 border text-center w-full mb-1 transition duration-300 hover:-translate-y-1 ${slot.borderClass} ${isGold ? 'bg-gradient-to-b from-amber-950/50 via-slate-900 to-slate-950' : 'bg-slate-900/85'}">
+            <div class="flex items-center justify-between mb-1">
+              <span class="text-xl ${isGold ? 'gold-crown-glow' : ''}">${slot.icon}</span>
+              <span class="text-[9px] uppercase font-black tracking-wider px-2 py-0.5 rounded-full bg-slate-950/80 ${slot.textClass} border border-white/10">
+                ${slot.item.isTie ? `Tied #${slot.item.rank}` : slot.label}
+              </span>
+            </div>
+
+            <img src="${team.flag}" alt="${team.name}" class="w-12 h-8 sm:w-14 sm:h-9 mx-auto object-cover rounded flag-box mb-1 border ${isGold ? 'border-amber-400' : 'border-slate-600'}">
+            <h3 class="text-sm sm:text-base font-black text-white tracking-wide truncate">${team.name}</h3>
+            <div class="text-[10px] text-amber-300/90 font-semibold truncate">${team.mentor ? `Mentor: ${team.mentor}` : ''}</div>
+            <div class="text-[9px] text-slate-400 mb-1 truncate">Delegates: ${team.delegates ? team.delegates.join(', ') : '-'}</div>
+
+            <div class="pt-1 border-t border-slate-800/80 flex items-center justify-between text-xs">
+              <span class="text-slate-400 text-[10px]">Judge:</span>
+              <span class="text-xs sm:text-sm font-black text-white">${slot.item.avgTotalScore} <span class="text-[9px] text-slate-400 font-normal">/ 20</span></span>
+            </div>
+          </div>
+
+          <div class="${slot.pedestalClass}">
+            <span class="text-lg sm:text-xl font-black ${isGold ? 'text-amber-200 drop-shadow' : 'text-slate-300'}">${slot.place}</span>
+            <span class="text-[8px] uppercase font-extrabold tracking-widest ${isGold ? 'text-amber-300' : 'text-slate-400'}">${isGold ? 'GOLD' : slot.place === 2 ? 'SILVER' : 'BRONZE'}</span>
+          </div>
+        `;
+        container.appendChild(col);
+      });
+    }
+
+    function renderTopicsAwards(rankings) {
+      const container = document.getElementById('topicsAwardCards');
+      container.innerHTML = '';
+
+      const topics = [
+        { id: 'climate', name: 'Topic 1: Climate Change', award: 'Best Climate Solution', icon: 'fa-earth-americas', color: 'text-emerald-400', border: 'border-emerald-500/30' },
+        { id: 'education', name: 'Topic 2: Education', award: 'Best Education Solution', icon: 'fa-book-open', color: 'text-sky-400', border: 'border-sky-500/30' },
+        { id: 'health', name: 'Topic 3: Health Issues', award: 'Best Health Solution', icon: 'fa-heart-pulse', color: 'text-rose-400', border: 'border-rose-500/30' }
+      ];
+
+      topics.forEach(meta => {
+        const list = rankings ? (rankings[meta.id] || []) : [];
+        const maxVotes = list.length > 0 ? list[0].votes : 0;
+        const winners = maxVotes > 0 ? list.filter(item => item.votes === maxVotes) : [];
+
+        const card = document.createElement('div');
+        card.className = `p-2.5 rounded-xl bg-slate-900/80 border ${meta.border} flex flex-col justify-between`;
+
+        let content = '';
+        if (winners.length > 0) {
+          content = winners.map(w => `
+            <div class="flex items-center space-x-2 my-0.5 p-1 bg-slate-950/70 rounded border border-slate-800">
+              <img src="${w.team.flag}" alt="${w.team.name}" class="w-7 h-4.5 object-cover rounded flag-box flex-shrink-0">
+              <div class="flex-grow overflow-hidden">
+                <div class="text-[8px] text-slate-400 font-semibold uppercase">${w.isTie ? 'Tied Winner' : 'Winner'}</div>
+                <div class="text-xs font-black text-white truncate">${w.team.name}</div>
+                <div class="text-[10px] font-bold ${meta.color}">${w.votes} student votes</div>
+              </div>
+            </div>
+          `).join('');
+        } else {
+          content = '<div class="text-center text-slate-500 text-[10px] py-1">Awaiting student votes...</div>';
+        }
+
+        card.innerHTML = `
+          <div>
+            <div class="flex items-center justify-between pb-1 border-b border-slate-800/80">
+              <div class="flex items-center space-x-1.5">
+                <i class="fa-solid ${meta.icon} ${meta.color} text-[10px]"></i>
+                <span class="text-[10px] font-bold text-slate-200">${meta.name}</span>
+              </div>
+              <span class="text-[8px] uppercase font-bold ${meta.color}">${meta.award}</span>
+            </div>
+            <div class="pt-1">${content}</div>
+          </div>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    function renderStandingsTable(list) {
+      const tbody = document.getElementById('fullJudgeTableBody');
+      tbody.innerHTML = '';
+
+      if (!list || list.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="11" class="text-center py-6 text-slate-500 text-xs">No evaluations submitted yet.</td></tr>';
+        return;
+      }
+
+      list.forEach(item => {
+        const team = item.team;
+        const row = document.createElement('tr');
+        row.className = 'hover:bg-slate-800/50 transition';
+
+        let rankBadge = `<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-slate-800 text-slate-400">#${item.rank}</span>`;
+        if (item.rank === 1) rankBadge = '<span class="px-2 py-0.5 rounded text-[10px] font-extrabold bg-amber-500/20 text-amber-300 border border-amber-500/40">🥇 #1</span>';
+        else if (item.rank === 2) rankBadge = '<span class="px-2 py-0.5 rounded text-[10px] font-extrabold bg-slate-400/20 text-slate-200 border border-slate-400/40">🥈 #2</span>';
+        else if (item.rank === 3) rankBadge = '<span class="px-2 py-0.5 rounded text-[10px] font-extrabold bg-amber-700/20 text-amber-400 border border-amber-700/40">🥉 #3</span>';
+
+        const crit = item.criteriaAverages || {};
+
+        row.innerHTML = `
+          <td class="py-2 px-3 whitespace-nowrap">${rankBadge}</td>
+          <td class="py-2 px-3">
+            <div class="flex items-center space-x-2">
+              <img src="${team.flag}" alt="${team.name}" class="w-6 h-4 object-cover rounded flag-box flex-shrink-0">
+              <span class="font-bold text-white text-xs">${team.name}</span>
+            </div>
+          </td>
+          <td class="py-2 px-2 text-center text-slate-300">${team.mentor || '-'}</td>
+          <td class="py-2 px-2 text-center text-slate-400">${crit.preparation || '-'}</td>
+          <td class="py-2 px-2 text-center text-slate-400">${crit.speaking || '-'}</td>
+          <td class="py-2 px-2 text-center text-slate-400">${crit.vocabulary || '-'}</td>
+          <td class="py-2 px-2 text-center text-slate-400">${crit.teamwork || '-'}</td>
+          <td class="py-2 px-2 text-center text-slate-400">${crit.qna || '-'}</td>
+          <td class="py-2 px-2 text-center font-bold text-sky-400">${item.avgBaseScore}</td>
+          <td class="py-2 px-2 text-center font-bold text-amber-400">${item.bonusCount > 0 ? `+5 (${item.bonusCount})` : '0'}</td>
+          <td class="py-2 px-3 text-right font-black text-white text-xs sm:text-sm">${item.avgTotalScore} <span class="text-[10px] text-slate-400 font-normal">/ 20</span></td>
+        `;
+        tbody.appendChild(row);
+      });
+    }
+
+    function renderRevealContent() {
+      if (!leaderboardCache) return;
+      const gradeList = leaderboardCache.grades || leaderboardCache.resultsByGrade || {};
+      const gData = gradeList[currentGrade] || {};
+      const top3 = gData.judgeTop3 || [];
+
+      document.getElementById('revealGradeSubtitle').textContent = `Celebrating outstanding diplomatic presentations in ${currentGrade}`;
+
+      const champ = top3.find(t => t.rank === 1) || (top3.length > 0 ? top3[0] : null);
+      if (champ) {
+        document.getElementById('revealChampionCard').classList.remove('hidden');
+        document.getElementById('revealChampionFlag').src = champ.team.flag;
+        document.getElementById('revealChampionCountry').textContent = champ.team.name;
+        document.getElementById('revealChampionMentor').textContent = `Mentor: ${champ.team.mentor || 'Assigned'}`;
+        document.getElementById('revealChampionDelegates').textContent = `Delegates: ${champ.team.delegates ? champ.team.delegates.join(', ') : '-'}`;
+        document.getElementById('revealChampionScore').innerHTML = `${champ.avgTotalScore} <span class="text-xs text-slate-400 font-normal">/ 20</span>`;
+      } else {
+        document.getElementById('revealChampionCard').classList.add('hidden');
+      }
+
+      const runnersGrid = document.getElementById('revealRunnersUpGrid');
+      runnersGrid.innerHTML = '';
+
+      const runners = top3.filter(t => t !== champ).slice(0, 2);
+      runners.forEach(item => {
+        const medal = item.rank === 2 ? '🥈 1st Runner-Up' : '🥉 2nd Runner-Up';
+        const card = document.createElement('div');
+        card.className = 'un-glass-panel rounded-2xl p-4 border border-slate-700 bg-slate-900/90 text-center';
+        card.innerHTML = `
+          <div class="text-xs font-bold text-slate-400 uppercase mb-2">${medal}</div>
+          <img src="${item.team.flag}" alt="${item.team.name}" class="w-14 h-9 mx-auto object-cover rounded flag-box mb-2">
+          <div class="text-lg font-bold text-white">${item.team.name}</div>
+          <div class="text-xs text-amber-300 font-semibold mb-2">Score: ${item.avgTotalScore} / 20</div>
+          <div class="text-[10px] text-slate-400 truncate">Delegates: ${item.team.delegates ? item.team.delegates.join(', ') : '-'}</div>
+        `;
+        runnersGrid.appendChild(card);
+      });
+    }
+
+    fetchLeaderboard();
+    setInterval(fetchLeaderboard, 1000);
+  </script>
+</body>
+</html>

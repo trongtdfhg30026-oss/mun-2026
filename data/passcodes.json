@@ -1,0 +1,34 @@
+{
+  "Grade 10": {
+    "china": "HUY-G10-CN",
+    "australia": "WIL-G10-AU",
+    "france": "HAO-G10-FR",
+    "south_korea": "WIL-G10-KR",
+    "usa": "HUY-G10-US",
+    "japan": "HAO-G10-JP"
+  },
+  "Grade 8": {
+    "germany": "HAO-G8-DE",
+    "uk": "HUY-G8-UK",
+    "france": "WIL-G8-FR",
+    "usa": "HAO-G8-US",
+    "italy": "WIL-G8-IT",
+    "japan": "HUY-G8-JP"
+  },
+  "Grade 7": {
+    "germany": "WIL-G7-DE",
+    "france": "WIL-G7-FR",
+    "italy": "HAO-G7-IT",
+    "brazil": "HUY-G7-BR",
+    "russia": "HUY-G7-RU",
+    "spain": "HAO-G7-ES"
+  },
+  "Grade 11": {
+    "south_korea": "WIL-G11-KR",
+    "south_africa": "HUY-G11-ZA",
+    "france": "HUY-G11-FR",
+    "china": "HAO-G11-CN",
+    "russia": "HAO-G11-RU",
+    "japan": "WIL-G11-JP"
+  }
+}

@@ -1,0 +1,57 @@
+{
+  "settings": {
+    "adminPin": "admin2026",
+    "studentVotingOpen": true,
+    "judgeVotingOpen": true,
+    "allowVoteUpdate": true,
+    "judgePasscode": "judge2026",
+    "activePhase": "locked",
+    "activeGrade": "Grade 11"
+  },
+  "countries": [
+    {
+      "id": "china",
+      "name": "China",
+      "nameVi": "Trung Quốc",
+      "flag": "/assets/flags/china.svg",
+      "color": "#DE2910"
+    },
+    {
+      "id": "south_africa",
+      "name": "South Africa",
+      "nameVi": "Nam Phi",
+      "flag": "/assets/flags/south_africa.svg",
+      "color": "#007A3D"
+    },
+    {
+      "id": "south_korea",
+      "name": "South Korea",
+      "nameVi": "Hàn Quốc",
+      "flag": "/assets/flags/south_korea.svg",
+      "color": "#0047A0"
+    },
+    {
+      "id": "russia",
+      "name": "Russia",
+      "nameVi": "Nga",
+      "flag": "/assets/flags/russia.svg",
+      "color": "#1C3578"
+    },
+    {
+      "id": "japan",
+      "name": "Japan",
+      "nameVi": "Nhật Bản",
+      "flag": "/assets/flags/japan.svg",
+      "color": "#BC002D"
+    },
+    {
+      "id": "france",
+      "name": "France",
+      "nameVi": "Pháp",
+      "flag": "/assets/flags/france.svg",
+      "color": "#002395"
+    }
+  ],
+  "studentVotes": [],
+  "judgeScores": []
+}

@@ -1,0 +1,358 @@
+{
+  "Grade 7": [
+    {
+      "no": 1,
+      "id": "spain",
+      "name": "Spain",
+      "flag": "/assets/flags/spain.svg",
+      "color": "#C60B1E",
+      "mentor": "Hao",
+      "delegates": [
+        "An",
+        "H Lam",
+        "Nhan",
+        "Thinh"
+      ]
+    },
+    {
+      "no": 2,
+      "id": "germany",
+      "name": "Germany",
+      "flag": "/assets/flags/germany.svg",
+      "color": "#000000",
+      "mentor": "William",
+      "delegates": [
+        "Phuong Anh",
+        "Khanh",
+        "Hieu",
+        "Loi"
+      ]
+    },
+    {
+      "no": 3,
+      "id": "russia",
+      "name": "Russia",
+      "flag": "/assets/flags/russia.svg",
+      "color": "#1C3578",
+      "mentor": "Huy",
+      "delegates": [
+        "Vy",
+        "Van",
+        "Tai",
+        "P Hao"
+      ]
+    },
+    {
+      "no": 4,
+      "id": "italy",
+      "name": "Italy",
+      "flag": "/assets/flags/italy.svg",
+      "color": "#009246",
+      "mentor": "Hao",
+      "delegates": [
+        "Huy",
+        "Linh",
+        "Trung",
+        "Lam"
+      ]
+    },
+    {
+      "no": 5,
+      "id": "brazil",
+      "name": "Brazil",
+      "flag": "/assets/flags/brazil.svg",
+      "color": "#009B3A",
+      "mentor": "Huy",
+      "delegates": [
+        "Bich",
+        "Nhu",
+        "Bao",
+        "Anh",
+        "Hao"
+      ]
+    },
+    {
+      "no": 6,
+      "id": "france",
+      "name": "France",
+      "flag": "/assets/flags/france.svg",
+      "color": "#002395",
+      "mentor": "William",
+      "delegates": [
+        "Thuy",
+        "Phat",
+        "Nghiem",
+        "Quang",
+        "Tuong"
+      ]
+    }
+  ],
+  "Grade 8": [
+    {
+      "no": 1,
+      "id": "usa",
+      "name": "USA",
+      "flag": "/assets/flags/usa.svg",
+      "color": "#3C3B6E",
+      "mentor": "Hao",
+      "delegates": [
+        "Phat",
+        "Lucas",
+        "Son",
+        "Annie"
+      ]
+    },
+    {
+      "no": 2,
+      "id": "germany",
+      "name": "Germany",
+      "flag": "/assets/flags/germany.svg",
+      "color": "#000000",
+      "mentor": "Hao",
+      "delegates": [
+        "Sophie",
+        "Tina",
+        "Ocean",
+        "Hi"
+      ]
+    },
+    {
+      "no": 3,
+      "id": "japan",
+      "name": "Japan",
+      "flag": "/assets/flags/japan.svg",
+      "color": "#BC002D",
+      "mentor": "Huy",
+      "delegates": [
+        "Misa",
+        "Dang",
+        "Leo",
+        "Phu"
+      ]
+    },
+    {
+      "no": 4,
+      "id": "uk",
+      "name": "UK",
+      "flag": "/assets/flags/uk.svg",
+      "color": "#012169",
+      "mentor": "Huy",
+      "delegates": [
+        "Tiffany",
+        "Michael",
+        "Vicki",
+        "Zoe"
+      ]
+    },
+    {
+      "no": 5,
+      "id": "france",
+      "name": "France",
+      "flag": "/assets/flags/france.svg",
+      "color": "#002395",
+      "mentor": "William",
+      "delegates": [
+        "Tuan",
+        "Kira",
+        "Felix",
+        "Tai"
+      ]
+    },
+    {
+      "no": 6,
+      "id": "italy",
+      "name": "Italy",
+      "flag": "/assets/flags/italy.svg",
+      "color": "#009246",
+      "mentor": "William",
+      "delegates": [
+        "Nhu",
+        "Nancy",
+        "Jonathan",
+        "Toa"
+      ]
+    }
+  ],
+  "Grade 10": [
+    {
+      "no": 1,
+      "id": "japan",
+      "name": "Japan",
+      "flag": "/assets/flags/japan.svg",
+      "color": "#BC002D",
+      "mentor": "Hao",
+      "delegates": [
+        "Tuan",
+        "Khang",
+        "Doan",
+        "Oanh",
+        "Phuc"
+      ]
+    },
+    {
+      "no": 2,
+      "id": "france",
+      "name": "France",
+      "flag": "/assets/flags/france.svg",
+      "color": "#002395",
+      "mentor": "Hao",
+      "delegates": [
+        "Triet",
+        "Dong",
+        "Phung",
+        "Khoi",
+        "Xuyen",
+        "Bang"
+      ]
+    },
+    {
+      "no": 3,
+      "id": "usa",
+      "name": "USA",
+      "flag": "/assets/flags/usa.svg",
+      "color": "#3C3B6E",
+      "mentor": "Huy",
+      "delegates": [
+        "G. An",
+        "Loc",
+        "Anh",
+        "Duy",
+        "T. Loc"
+      ]
+    },
+    {
+      "no": 4,
+      "id": "china",
+      "name": "China",
+      "flag": "/assets/flags/china.svg",
+      "color": "#DE2910",
+      "mentor": "Huy",
+      "delegates": [
+        "Nhan",
+        "Chau",
+        "G. Han",
+        "Tan",
+        "Minh",
+        "Nghi"
+      ]
+    },
+    {
+      "no": 5,
+      "id": "australia",
+      "name": "Australia",
+      "flag": "/assets/flags/australia.svg",
+      "color": "#00008B",
+      "mentor": "William",
+      "delegates": [
+        "Q. Nhan",
+        "My",
+        "Tam",
+        "Trong",
+        "T. Vy"
+      ]
+    },
+    {
+      "no": 6,
+      "id": "south_korea",
+      "name": "South Korea",
+      "flag": "/assets/flags/south_korea.svg",
+      "color": "#0047A0",
+      "mentor": "William",
+      "delegates": [
+        "Vy",
+        "Bao",
+        "Thinh",
+        "Ngan",
+        "Han"
+      ]
+    }
+  ],
+  "Grade 11": [
+    {
+      "no": 1,
+      "id": "china",
+      "name": "China",
+      "flag": "/assets/flags/china.svg",
+      "color": "#DE2910",
+      "mentor": "Hao",
+      "delegates": [
+        "Ngan",
+        "G. Dat",
+        "U Nhieu",
+        "Rabbit (Tho"
+      ]
+    },
+    {
+      "no": 2,
+      "id": "russia",
+      "name": "Russia",
+      "flag": "/assets/flags/russia.svg",
+      "color": "#1C3578",
+      "mentor": "Hao",
+      "delegates": [
+        "K Nhieu",
+        "Binh Minh",
+        "Khien",
+        "Phat"
+      ]
+    },
+    {
+      "no": 3,
+      "id": "south_africa",
+      "name": "South Africa",
+      "flag": "/assets/flags/south_africa.svg",
+      "color": "#007A3D",
+      "mentor": "Huy",
+      "delegates": [
+        "Nhan",
+        "Bao",
+        "Tri",
+        "QT"
+      ]
+    },
+    {
+      "no": 4,
+      "id": "france",
+      "name": "France",
+      "flag": "/assets/flags/france.svg",
+      "color": "#002395",
+      "mentor": "Huy",
+      "delegates": [
+        "Hung",
+        "Joe",
+        "Thai",
+        "T. Dat",
+        "Dang"
+      ]
+    },
+    {
+      "no": 5,
+      "id": "japan",
+      "name": "Japan",
+      "flag": "/assets/flags/japan.svg",
+      "color": "#BC002D",
+      "mentor": "William",
+      "delegates": [
+        "Donald",
+        "Nhieu Y",
+        "Khoi",
+        "Chau",
+        "Nhat"
+      ]
+    },
+    {
+      "no": 6,
+      "id": "south_korea",
+      "name": "South Korea",
+      "flag": "/assets/flags/south_korea.svg",
+      "color": "#0047A0",
+      "mentor": "William",
+      "delegates": [
+        "Trung",
+        "Tuyen",
+        "Phan Thi Nhu Y",
+        "Tuan An"
+      ]
+    }
+  ]
+}
