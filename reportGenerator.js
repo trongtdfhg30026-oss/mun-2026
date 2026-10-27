@@ -20,6 +20,7 @@ function generateExcelWorkbook(db, teamsByGrade, topics, gradeFilter) {
   ]);
 
   grades.forEach(g => {
+    const isJunior = !['Grade 7', 'Grade 8', 'Grade 10', 'Grade 11'].includes(g);
     const teams = teamsByGrade[g] || [];
     const gScores = db.judgeScores.filter(s => s.grade === g);
     const gBallots = db.studentVotes.filter(v => v.grade === g);
@@ -43,13 +44,16 @@ function generateExcelWorkbook(db, teamsByGrade, topics, gradeFilter) {
         if (s.comments && s.comments.trim()) comments.push(s.judgeName + ': ' + s.comments.trim());
       });
 
-      let cVotes = 0, eVotes = 0, hVotes = 0;
+      const isJunior = !['Grade 7', 'Grade 8', 'Grade 10', 'Grade 11'].includes(g);
+      let cVotes = 0, eVotes = 0, hVotes = 0, favVotes = 0;
       gBallots.forEach(b => {
         const tv = b.topicVotes || {};
         if (Array.isArray(tv.climate) && tv.climate.includes(t.id)) cVotes++;
         if (Array.isArray(tv.education) && tv.education.includes(t.id)) eVotes++;
         if (Array.isArray(tv.health) && tv.health.includes(t.id)) hVotes++;
+        if (Array.isArray(tv.favorites) && tv.favorites.includes(t.id)) favVotes++;
       });
+      const totVotes = isJunior ? (favVotes || cVotes) : (cVotes + eVotes + hVotes);
 
       return {
         grade: g,
@@ -68,7 +72,7 @@ function generateExcelWorkbook(db, teamsByGrade, topics, gradeFilter) {
         cVotes,
         eVotes,
         hVotes,
-        totVotes: cVotes + eVotes + hVotes,
+        totVotes, isJunior,
         commentsStr: comments.join(' | ')
       };
     });
@@ -96,8 +100,8 @@ function generateExcelWorkbook(db, teamsByGrade, topics, gradeFilter) {
         ts.avgTeam,
         ts.avgQna,
         ts.avgBase,
-        ts.bonusCount > 0 ? ('YES (+' + (ts.bonusCount * 5) + ' pts)') : 'None (0)',
-        ts.avgTotal,
+        ts.bonusCount > 0 ? ('YES (+' + (ts.isJunior ? (ts.bonusCount * 2) : (ts.bonusCount * 5)) + ' pts)') : 'None (0)',
+        ts.avgTotal + (ts.isJunior ? '/10' : '/20'),
         ts.cVotes,
         ts.eVotes,
         ts.hVotes,
@@ -199,6 +203,7 @@ function generateVisualHtmlReport(db, teamsByGrade, topics, gradeFilter) {
   let gradesHtml = '';
 
   grades.forEach(g => {
+    const isJunior = !['Grade 7', 'Grade 8', 'Grade 10', 'Grade 11'].includes(g);
     const teams = teamsByGrade[g] || [];
     const gScores = db.judgeScores.filter(s => s.grade === g);
     const gBallots = db.studentVotes.filter(v => v.grade === g);
@@ -280,9 +285,9 @@ function generateVisualHtmlReport(db, teamsByGrade, topics, gradeFilter) {
         '<td style="text-align:center;">' + ts.avgVocab + '</td>' +
         '<td style="text-align:center;">' + ts.avgTeam + '</td>' +
         '<td style="text-align:center;">' + ts.avgQna + '</td>' +
-        '<td style="text-align:center;font-weight:600;">' + ts.avgBase + '/15</td>' +
-        '<td style="text-align:center;color:#b45309;font-weight:600;">' + (ts.bonusCount > 0 ? ('+' + (ts.bonusCount * 5)) : '0') + '</td>' +
-        '<td style="text-align:center;font-size:15px;font-weight:800;color:#0f172a;background:#f8fafc;">' + ts.avgTotal + '</td>' +
+        '<td style="text-align:center;font-weight:600;">' + ts.avgBase + (isJunior ? '/8' : '/15') + '</td>' +
+        '<td style="text-align:center;color:#b45309;font-weight:600;">' + (ts.bonusCount > 0 ? ('+' + (isJunior ? 2 : 5)) : '0') + '</td>' +
+        '<td style="text-align:center;font-size:15px;font-weight:800;color:#0f172a;background:#f8fafc;">' + ts.avgTotal + (isJunior ? ' <span style="font-size:10px;color:#64748b;">/10</span>' : ' <span style="font-size:10px;color:#64748b;">/20</span>') + '</td>' +
         '<td style="text-align:center;color:#0284c7;font-weight:700;">' + ts.totVotes + '</td>' +
         '<td style="font-size:11px;color:#64748b;max-width:220px;">' + (ts.comments.join('<br>') || '—') + '</td>' +
       '</tr>';
@@ -304,9 +309,9 @@ function generateVisualHtmlReport(db, teamsByGrade, topics, gradeFilter) {
           '<th style="width:55px;">Vocab</th>' +
           '<th style="width:55px;">Team</th>' +
           '<th style="width:55px;">Q&A</th>' +
-          '<th style="width:70px;">Base (/15)</th>' +
-          '<th style="width:65px;">Bonus (+5)</th>' +
-          '<th style="width:85px;">TOTAL (/20)</th>' +
+          '<th style="width:70px;">' + (isJunior ? 'Base (/8)' : 'Base (/15)') + '</th>' +
+          '<th style="width:65px;">' + (isJunior ? 'Bonus (+2)' : 'Bonus (+5)') + '</th>' +
+          '<th style="width:85px;">' + (isJunior ? 'TOTAL (/10)' : 'TOTAL (/20)') + '</th>' +
           '<th style="width:75px;">Votes</th>' +
           '<th>Judge Feedback</th>' +
         '</tr></thead>' +

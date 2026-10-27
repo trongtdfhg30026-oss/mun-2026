@@ -82,23 +82,60 @@
           </div>
         </div>
 
-        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 mt-4">
-          <button onclick="setStageActiveGrade('Grade 11')" id="adminGradeBtn_G11" class="px-4 py-3 rounded-xl font-bold text-sm transition shadow cursor-pointer border flex items-center justify-center space-x-2 bg-slate-900 text-slate-300 hover:text-white border-slate-700">
-            <i class="fa-solid fa-medal text-amber-400"></i>
-            <span>Grade 11</span>
-          </button>
-          <button onclick="setStageActiveGrade('Grade 10')" id="adminGradeBtn_G10" class="px-4 py-3 rounded-xl font-bold text-sm transition shadow cursor-pointer border flex items-center justify-center space-x-2 bg-slate-900 text-slate-300 hover:text-white border-slate-700">
-            <i class="fa-solid fa-medal text-blue-400"></i>
-            <span>Grade 10</span>
-          </button>
-          <button onclick="setStageActiveGrade('Grade 8')" id="adminGradeBtn_G8" class="px-4 py-3 rounded-xl font-bold text-sm transition shadow cursor-pointer border flex items-center justify-center space-x-2 bg-slate-900 text-slate-300 hover:text-white border-slate-700">
-            <i class="fa-solid fa-medal text-emerald-400"></i>
-            <span>Grade 8</span>
-          </button>
-          <button onclick="setStageActiveGrade('Grade 7')" id="adminGradeBtn_G7" class="px-4 py-3 rounded-xl font-bold text-sm transition shadow cursor-pointer border flex items-center justify-center space-x-2 bg-slate-900 text-slate-300 hover:text-white border-slate-700">
-            <i class="fa-solid fa-medal text-rose-400"></i>
-            <span>Grade 7</span>
-          </button>
+        <!-- Primary Division Grades (1A1 - 3) -->
+        <div class="mt-4 pt-3 border-t border-slate-800/80">
+          <div class="flex items-center space-x-2 text-xs font-black uppercase tracking-wider text-amber-400 mb-2.5">
+            <i class="fa-solid fa-star"></i>
+            <span data-i18n="primaryDivTitle">🌟 Tiểu Học &bull; Diễu Hành Quốc Gia (Primary &bull; Parade of Nations)</span>
+          </div>
+          <div class="grid grid-cols-2 sm:grid-cols-5 gap-2.5">
+            <button onclick="setStageActiveGrade('Grade 1A1')" id="adminGradeBtn_G1A1" class="px-3 py-2.5 rounded-xl font-bold text-xs transition shadow cursor-pointer border flex items-center justify-center space-x-1.5 bg-slate-900 text-slate-300 hover:text-white border-slate-700">
+              <i class="fa-solid fa-shapes text-amber-400 text-xs"></i>
+              <span>Grade 1A1</span>
+            </button>
+            <button onclick="setStageActiveGrade('Grade 1A2')" id="adminGradeBtn_G1A2" class="px-3 py-2.5 rounded-xl font-bold text-xs transition shadow cursor-pointer border flex items-center justify-center space-x-1.5 bg-slate-900 text-slate-300 hover:text-white border-slate-700">
+              <i class="fa-solid fa-shapes text-amber-400 text-xs"></i>
+              <span>Grade 1A2</span>
+            </button>
+            <button onclick="setStageActiveGrade('Grade 2A1')" id="adminGradeBtn_G2A1" class="px-3 py-2.5 rounded-xl font-bold text-xs transition shadow cursor-pointer border flex items-center justify-center space-x-1.5 bg-slate-900 text-slate-300 hover:text-white border-slate-700">
+              <i class="fa-solid fa-shapes text-sky-400 text-xs"></i>
+              <span>Grade 2A1</span>
+            </button>
+            <button onclick="setStageActiveGrade('Grade 2A2')" id="adminGradeBtn_G2A2" class="px-3 py-2.5 rounded-xl font-bold text-xs transition shadow cursor-pointer border flex items-center justify-center space-x-1.5 bg-slate-900 text-slate-300 hover:text-white border-slate-700">
+              <i class="fa-solid fa-shapes text-sky-400 text-xs"></i>
+              <span>Grade 2A2</span>
+            </button>
+            <button onclick="setStageActiveGrade('Grade 3')" id="adminGradeBtn_G3" class="px-3 py-2.5 rounded-xl font-bold text-xs transition shadow cursor-pointer border flex items-center justify-center space-x-1.5 bg-slate-900 text-slate-300 hover:text-white border-slate-700 col-span-2 sm:col-span-1">
+              <i class="fa-solid fa-shapes text-emerald-400 text-xs"></i>
+              <span>Grade 3</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Senior Division Grades (7 - 11) -->
+        <div class="mt-4 pt-3 border-t border-slate-800/80">
+          <div class="flex items-center space-x-2 text-xs font-black uppercase tracking-wider text-blue-400 mb-2.5">
+            <i class="fa-solid fa-landmark"></i>
+            <span data-i18n="seniorDivTitle">🏛️ Trung Học &bull; Tranh Biện Model UN (Senior &bull; MUN Showcase)</span>
+          </div>
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
+            <button onclick="setStageActiveGrade('Grade 11')" id="adminGradeBtn_G11" class="px-4 py-3 rounded-xl font-bold text-sm transition shadow cursor-pointer border flex items-center justify-center space-x-2 bg-slate-900 text-slate-300 hover:text-white border-slate-700">
+              <i class="fa-solid fa-medal text-amber-400"></i>
+              <span>Grade 11</span>
+            </button>
+            <button onclick="setStageActiveGrade('Grade 10')" id="adminGradeBtn_G10" class="px-4 py-3 rounded-xl font-bold text-sm transition shadow cursor-pointer border flex items-center justify-center space-x-2 bg-slate-900 text-slate-300 hover:text-white border-slate-700">
+              <i class="fa-solid fa-medal text-blue-400"></i>
+              <span>Grade 10</span>
+            </button>
+            <button onclick="setStageActiveGrade('Grade 8')" id="adminGradeBtn_G8" class="px-4 py-3 rounded-xl font-bold text-sm transition shadow cursor-pointer border flex items-center justify-center space-x-2 bg-slate-900 text-slate-300 hover:text-white border-slate-700">
+              <i class="fa-solid fa-medal text-emerald-400"></i>
+              <span>Grade 8</span>
+            </button>
+            <button onclick="setStageActiveGrade('Grade 7')" id="adminGradeBtn_G7" class="px-4 py-3 rounded-xl font-bold text-sm transition shadow cursor-pointer border flex items-center justify-center space-x-2 bg-slate-900 text-slate-300 hover:text-white border-slate-700">
+              <i class="fa-solid fa-medal text-rose-400"></i>
+              <span>Grade 7</span>
+            </button>
+          </div>
         </div>
       </div>
 
@@ -532,14 +569,14 @@
                 <th class="py-3 px-3">Judge Name</th>
                 <th class="py-3 px-3">Grade</th>
                 <th class="py-3 px-3">Country</th>
-                <th class="py-3 px-2 text-center">Prep (/3)</th>
-                <th class="py-3 px-2 text-center">Speak (/3)</th>
-                <th class="py-3 px-2 text-center">Vocab (/3)</th>
-                <th class="py-3 px-2 text-center">Team (/3)</th>
-                <th class="py-3 px-2 text-center">Q&A (/3)</th>
-                <th class="py-3 px-2 text-center font-bold text-blue-400">Base (/15)</th>
-                <th class="py-3 px-2 text-center font-bold text-amber-400">Bonus</th>
-                <th class="py-3 px-3 text-right font-bold text-white">Total (/20)</th>
+                <th class="py-3 px-2 text-center" title="Preparation (Senior) / Costume & Visuals (Primary)">Prep / Costume (/3)</th>
+                <th class="py-3 px-2 text-center" title="Speaking (Senior) / Voice & Script (Primary)">Speak / Script (/3)</th>
+                <th class="py-3 px-2 text-center" title="Vocabulary (Senior) / Catwalk & Bow (Primary)">Vocab / Walk (/2-3)</th>
+                <th class="py-3 px-2 text-center" title="Teamwork (Senior only)">Team (/3)</th>
+                <th class="py-3 px-2 text-center" title="Active Q&A (Senior only)">Q&A (/3)</th>
+                <th class="py-3 px-2 text-center font-bold text-blue-400">Base Score</th>
+                <th class="py-3 px-2 text-center font-bold text-amber-400">Bonus (+2/+5)</th>
+                <th class="py-3 px-3 text-right font-bold text-white">Total Score</th>
                 <th class="py-3 px-2 text-center">Delete</th>
               </tr>
             </thead>
@@ -598,6 +635,8 @@
         confirmResetTitle: "XÁC NHẬN MINH CHỨNG & RESET CHO LỚP TIẾP THEO:\n\n1. Hệ thống tự động tải xuống file Excel chính thức (.xlsx) lưu điểm.\n2. Mở biên bản minh chứng trực quan (HTML Report) để in/lưu PDF.\n3. Lưu trữ minh chứng vĩnh viễn trong data/archives/.\n4. Đặt lại bảng điểm và phiếu bầu trực tiếp cho khối tiếp theo.\n\nNhập 'RESET' để xác nhận thực hiện:",
         cancelResetMsg: "Đã hủy thao tác. Không có dữ liệu nào bị thay đổi.",
         successResetMsg: "THÀNH CÔNG: Đã xuất minh chứng Excel và Hồ sơ trực quan. Phòng đã được làm sạch và sẵn sàng cho khối tiếp theo!",
+        primaryDivTitle: "🌟 Tiểu Học • Diễu Hành Quốc Gia (Primary • Parade of Nations)",
+        seniorDivTitle: "🏛️ Trung Học • Tranh Biện Model UN (Senior • MUN Showcase)",
         stageGradeTitle: "Khối Lớp Đang Tranh Biện (Active Stage Grade)",
         stageGradeSub: "Bấm chọn khối lớp đang biểu diễn trên sân khấu. Màn hình Leaderboard và bảng chấm sẽ lập tức chuyển theo.",
         stageSyncNotice: "Đồng bộ tức thì đến Máy Chiếu Leaderboard",
@@ -647,6 +686,8 @@
         confirmResetTitle: "CONFIRM EVIDENCE ARCHIVE & NEXT GRADE RESET:\n\n1. System automatically downloads the official Excel evidence (.xlsx).\n2. Opens the visual evidence audit dossier for PDF/print.\n3. Archives permanent evidence in data/archives/.\n4. Resets live ballots and scorecards for the next grade chamber.\n\nType 'RESET' to confirm:",
         cancelResetMsg: "Operation cancelled. No live data was modified.",
         successResetMsg: "SUCCESS: Official Excel evidence and dossier archived. Live chamber is reset and ready for the next grade!",
+        primaryDivTitle: "🌟 Primary Division • Parade of Nations (Grades 1A1, 1A2, 2A1, 2A2, 3)",
+        seniorDivTitle: "🏛️ Senior Division • Model UN Showcase (Grades 7, 8, 10, 11)",
         stageGradeTitle: "Active Stage Grade Chamber",
         stageGradeSub: "Select active grade competing on stage. Leaderboard projector and scoring forms sync automatically.",
         stageSyncNotice: "Real-time auto sync to Stage Leaderboard",
@@ -841,6 +882,7 @@
     function populatePresCountrySelect() {
       const g = document.getElementById('presGradeSelect')?.value || 'Grade 11';
       const cSelect = document.getElementById('presCountrySelect');
+      const tSelect = document.getElementById('presTopicSelect');
       if (!cSelect) return;
       cSelect.innerHTML = '';
       const teams = cachedTeamsByGrade[g] || [];
@@ -855,6 +897,29 @@
         }
         cSelect.appendChild(opt);
       });
+
+      if (tSelect) {
+        const curr = tSelect.value;
+        if (isJunior) {
+          tSelect.innerHTML = `
+            <option value="parade">🌟 Diễu Hành: Trang Phục & Catwalk</option>
+            <option value="greeting">🎤 Lời Chào & Kịch Bản Quốc Gia</option>
+            <option value="facts">🗺️ Mở Rộng: Văn Hóa & Địa Lý (+2)</option>
+            <option value="general">💬 Thuyết Trình Chung & Giao Lưu</option>
+          `;
+        } else {
+          tSelect.innerHTML = `
+            <option value="climate">Topic 1: Climate Change</option>
+            <option value="education">Topic 2: Education</option>
+            <option value="health">Topic 3: Health Issues</option>
+            <option value="general">General Speech & Q&A</option>
+          `;
+        }
+        if (curr && tSelect.querySelector(`option[value="${curr}"]`)) {
+          tSelect.value = curr;
+        }
+      }
+
       updatePresCurrentPill();
     }
 
@@ -1009,6 +1074,37 @@ function updateTimerUi(t) {
         } catch(e) {}
 
         const tbody = document.getElementById('liveDelegationsTableBody');
+        const thead = tbody?.parentElement?.querySelector('thead');
+        const isJunior = !['Grade 7', 'Grade 8', 'Grade 10', 'Grade 11'].includes(grade);
+
+        if (thead) {
+          if (isJunior) {
+            thead.innerHTML = `
+              <tr>
+                <th class="p-4">Student & Country</th>
+                <th class="p-4">Homeroom Teacher / Costume</th>
+                <th class="p-4">Student PIN</th>
+                <th class="p-3 text-center" colspan="3">🌟 Class Favorite Ballots (2 Choices)</th>
+                <th class="p-3 text-center">Official Ballot</th>
+                <th class="p-3 text-center">Current Round Status</th>
+              </tr>
+            `;
+          } else {
+            thead.innerHTML = `
+              <tr>
+                <th class="p-4">Delegation</th>
+                <th class="p-4">Mentor</th>
+                <th class="p-4">Passcode</th>
+                <th class="p-3 text-center">Topic 1: Climate</th>
+                <th class="p-3 text-center">Topic 2: Education</th>
+                <th class="p-3 text-center">Topic 3: Health</th>
+                <th class="p-3 text-center">Official Ballot</th>
+                <th class="p-3 text-center">Current Round Status</th>
+              </tr>
+            `;
+          }
+        }
+
         if (tbody && data.delegations) {
           tbody.innerHTML = data.delegations.map(d => {
             const renderTopicBadge = (count) => {
@@ -1025,6 +1121,30 @@ function updateTimerUi(t) {
               ? '<span class="text-rose-400 font-bold text-xs"><i class="fa-solid fa-triangle-exclamation mr-1"></i>Chưa đủ phiếu</span>'
               : '<span class="text-emerald-400 font-bold text-xs"><i class="fa-solid fa-check mr-1"></i>Đã xong lượt</span>';
 
+            const displayName = d.studentName ? `${d.studentName} (${d.country})` : d.name;
+            const subDetail = isJunior ? (d.costume || 'National Costume') : ((/william/i.test(d.mentor) || /wiliam/i.test(d.mentor)) ? 'William' : (d.mentor || '—'));
+
+            if (isJunior) {
+              return `
+                <tr class="hover:bg-slate-900/60 transition ${d.missingCurrent && data.timer?.remaining === 0 ? 'bg-rose-950/20' : ''}">
+                  <td class="p-4 whitespace-nowrap">
+                    <div class="flex items-center space-x-3">
+                      <img src="${d.flag}" class="w-7 h-5 object-cover rounded border border-slate-700 flex-shrink-0 shadow-sm">
+                      <div>
+                        <span class="font-bold text-white text-sm tracking-wide">${displayName}</span>
+                        ${d.isEmcee ? '<span class="ml-1.5 text-[9px] bg-amber-500/20 text-amber-300 px-1 rounded font-bold">🎙️ Emcee</span>' : ''}
+                      </div>
+                    </div>
+                  </td>
+                  <td class="p-4 whitespace-nowrap text-slate-300 font-semibold text-xs max-w-xs truncate">${subDetail}</td>
+                  <td class="p-4 whitespace-nowrap font-mono text-amber-400 font-bold tracking-wider text-xs">${d.passcode}</td>
+                  <td class="p-4 whitespace-nowrap text-center" colspan="3">${renderTopicBadge(d.favoritesCount || d.climateCount)}</td>
+                  <td class="p-4 whitespace-nowrap text-center">${ballotBadge}</td>
+                  <td class="p-4 whitespace-nowrap text-center font-semibold">${roundStatus}</td>
+                </tr>
+              `;
+            }
+
             return `
               <tr class="hover:bg-slate-900/60 transition ${d.missingCurrent && data.timer?.remaining === 0 ? 'bg-rose-950/20' : ''}">
                 <td class="p-4 whitespace-nowrap">
@@ -1033,7 +1153,7 @@ function updateTimerUi(t) {
                     <span class="font-bold text-white text-sm tracking-wide">${d.name}</span>
                   </div>
                 </td>
-                <td class="p-4 whitespace-nowrap text-slate-300 font-semibold">${(/william/i.test(d.mentor) || /wiliam/i.test(d.mentor)) ? 'William' : (d.mentor || '—')}</td>
+                <td class="p-4 whitespace-nowrap text-slate-300 font-semibold">${subDetail}</td>
                 <td class="p-4 whitespace-nowrap font-mono text-amber-400 font-bold tracking-wider text-xs">${d.passcode}</td>
                 <td class="p-4 whitespace-nowrap text-center">${renderTopicBadge(d.climateCount)}</td>
                 <td class="p-4 whitespace-nowrap text-center">${renderTopicBadge(d.educationCount)}</td>
@@ -1149,16 +1269,21 @@ function init() {
       } catch(e) {}
     }
 
+    const ALL_STAGE_GRADES = [
+      'Grade 1A1', 'Grade 1A2', 'Grade 2A1', 'Grade 2A2', 'Grade 3',
+      'Grade 11', 'Grade 10', 'Grade 8', 'Grade 7'
+    ];
+
     function updateAdminStageGradeUi(grade) {
       if (!grade) return;
-      ['Grade 11', 'Grade 10', 'Grade 8', 'Grade 7'].forEach(g => {
-        const btnId = 'adminGradeBtn_' + g.replace('Grade ', 'G');
+      ALL_STAGE_GRADES.forEach(g => {
+        const btnId = 'adminGradeBtn_' + g.replace(/Grade\s*/i, 'G').replace(/\s+/g, '');
         const btn = document.getElementById(btnId);
         if (!btn) return;
         if (g === grade) {
-          btn.className = 'px-5 py-3 rounded-xl font-black text-sm transition shadow cursor-pointer border flex items-center space-x-2 bg-amber-500 text-slate-950 border-amber-400 ring-2 ring-amber-400/50';
+          btn.className = 'px-3.5 py-2.5 rounded-xl font-black text-xs sm:text-sm transition shadow cursor-pointer border flex items-center justify-center space-x-1.5 bg-amber-500 text-slate-950 border-amber-400 ring-2 ring-amber-400/50';
         } else {
-          btn.className = 'px-5 py-3 rounded-xl font-bold text-sm transition shadow cursor-pointer border flex items-center space-x-2 bg-slate-900 text-slate-300 hover:text-white border-slate-700';
+          btn.className = 'px-3.5 py-2.5 rounded-xl font-bold text-xs sm:text-sm transition shadow cursor-pointer border flex items-center justify-center space-x-1.5 bg-slate-900 text-slate-300 hover:text-white border-slate-700';
         }
       });
       const text = document.getElementById('currentStageGradeDisplay');
@@ -1272,15 +1397,34 @@ function init() {
         const tr = document.createElement('tr');
         tr.className = 'hover:bg-slate-800/40 transition';
         const tv = v.topicVotes || {};
+        const isJunior = v.division === 'junior' || !['Grade 7', 'Grade 8', 'Grade 10', 'Grade 11'].includes(v.grade);
+
+        const team = (cachedTeamsByGrade[v.grade] || []).find(t => t.id === v.voterCountry);
+        const voterDisplay = team ? (team.studentName ? `${team.studentName} (${team.country})` : team.name) : v.voterCountry;
+
+        const resolveVotesStr = (list) => {
+          if (!Array.isArray(list) || list.length === 0) return '—';
+          return list.map(id => {
+            const match = (cachedTeamsByGrade[v.grade] || []).find(t => t.id === id);
+            return match ? (match.studentName || match.name) : id;
+          }).join(', ');
+        };
+
+        const v1 = resolveVotesStr(tv.climate);
+        const v2 = resolveVotesStr(tv.education);
+        const v3 = resolveVotesStr(tv.health);
+
         tr.innerHTML = `
           <td class="py-3 px-3 text-slate-400 text-[11px]">${new Date(v.timestamp).toLocaleTimeString()}</td>
-          <td class="py-3 px-3 text-amber-400 font-semibold">${v.grade || '-'}</td>
-          <td class="py-3 px-3 font-bold text-white uppercase">${v.voterCountry}</td>
-          <td class="py-3 px-3 text-emerald-400 font-bold">${tv.climate || '-'}</td>
-          <td class="py-3 px-3 text-blue-400 font-bold">${tv.education || '-'}</td>
-          <td class="py-3 px-3 text-rose-400 font-bold">${tv.health || '-'}</td>
+          <td class="py-3 px-3 text-amber-400 font-semibold whitespace-nowrap">
+            ${v.grade || '-'} ${isJunior ? '<span class="text-[9px] bg-amber-500/20 text-amber-300 px-1 rounded font-bold">Primary</span>' : ''}
+          </td>
+          <td class="py-3 px-3 font-bold text-white whitespace-nowrap">${voterDisplay}</td>
+          <td class="py-3 px-3 text-emerald-400 font-medium">${isJunior ? `⭐ ${resolveVotesStr(tv.favorites || tv.climate)}` : v1}</td>
+          <td class="py-3 px-3 text-blue-400 font-medium">${isJunior ? '— (Class Choice)' : v2}</td>
+          <td class="py-3 px-3 text-rose-400 font-medium">${isJunior ? '— (Class Choice)' : v3}</td>
           <td class="py-3 px-2 text-center">
-            <button onclick="deleteEntry('student', '${v.id}')" class="text-rose-400 hover:text-rose-300 p-1">
+            <button onclick="deleteEntry('student', '${v.id}')" class="text-rose-400 hover:text-rose-300 p-1 cursor-pointer">
               <i class="fa-solid fa-trash-can"></i>
             </button>
           </td>
@@ -1300,20 +1444,40 @@ function init() {
       scores.forEach(s => {
         const tr = document.createElement('tr');
         tr.className = 'hover:bg-slate-800/40 transition';
+
+        const isJunior = s.division === 'junior' || !['Grade 7', 'Grade 8', 'Grade 10', 'Grade 11'].includes(s.grade);
+        const team = (cachedTeamsByGrade[s.grade] || []).find(t => t.id === s.countryId);
+        const displayName = team ? (team.studentName ? `${team.studentName} (${team.country})` : team.name) : s.countryId;
+
+        const c1 = isJunior ? (s.scores.costume !== undefined ? s.scores.costume : s.scores.preparation) : s.scores.preparation;
+        const c2 = isJunior ? (s.scores.script !== undefined ? s.scores.script : s.scores.speaking) : s.scores.speaking;
+        const c3 = isJunior ? (s.scores.presentation !== undefined ? s.scores.presentation : s.scores.vocabulary) : s.scores.vocabulary;
+        const c4 = isJunior ? '—' : s.scores.teamwork;
+        const c5 = isJunior ? '—' : s.scores.qna;
+
+        const baseMax = isJunior ? 8 : 15;
+        const bonusStr = s.advancedBonus ? (isJunior ? '+2' : '+5') : '0';
+        const totalMax = isJunior ? 10 : 20;
+
         tr.innerHTML = `
-          <td class="py-3 px-3 font-semibold text-white">${s.judgeName}</td>
-          <td class="py-3 px-3 text-slate-400 font-semibold">${s.grade}</td>
-          <td class="py-3 px-3 font-bold text-amber-300 uppercase">${s.countryId}</td>
-          <td class="py-3 px-2 text-center">${s.scores.preparation}</td>
-          <td class="py-3 px-2 text-center">${s.scores.speaking}</td>
-          <td class="py-3 px-2 text-center">${s.scores.vocabulary}</td>
-          <td class="py-3 px-2 text-center">${s.scores.teamwork}</td>
-          <td class="py-3 px-2 text-center">${s.scores.qna}</td>
-          <td class="py-3 px-2 text-center font-bold text-blue-400">${s.baseScore}/15</td>
-          <td class="py-3 px-2 text-center font-bold text-amber-400">${s.advancedBonus ? '+5' : '0'}</td>
-          <td class="py-3 px-3 text-right font-black text-white text-sm">${s.totalScore}</td>
+          <td class="py-3 px-3 font-semibold text-white whitespace-nowrap">
+            <div class="flex items-center space-x-1.5">
+              <span>${s.judgeName}</span>
+              ${isJunior ? '<span class="text-[9px] text-amber-300 font-bold bg-amber-500/20 px-1 rounded">Primary</span>' : ''}
+            </div>
+          </td>
+          <td class="py-3 px-3 text-slate-400 font-semibold whitespace-nowrap">${s.grade}</td>
+          <td class="py-3 px-3 font-bold text-amber-300 whitespace-nowrap">${displayName}</td>
+          <td class="py-3 px-2 text-center" title="${isJunior ? 'Costume & Visuals' : 'Preparation'}">${c1}</td>
+          <td class="py-3 px-2 text-center" title="${isJunior ? 'Script: Voice & Pronunciation' : 'Speaking'}">${c2}</td>
+          <td class="py-3 px-2 text-center" title="${isJunior ? 'Presentation: Walk & Bow' : 'Vocabulary'}">${c3}</td>
+          <td class="py-3 px-2 text-center text-slate-500" title="${isJunior ? 'N/A' : 'Teamwork'}">${c4}</td>
+          <td class="py-3 px-2 text-center text-slate-500" title="${isJunior ? 'N/A' : 'Q&A'}">${c5}</td>
+          <td class="py-3 px-2 text-center font-bold text-blue-400">${s.baseScore}/${baseMax}</td>
+          <td class="py-3 px-2 text-center font-bold text-amber-400">${bonusStr}</td>
+          <td class="py-3 px-3 text-right font-black text-white text-sm">${s.totalScore}/${totalMax}</td>
           <td class="py-3 px-2 text-center">
-            <button onclick="deleteEntry('judge', '${s.id}')" class="text-rose-400 hover:text-rose-300 p-1">
+            <button onclick="deleteEntry('judge', '${s.id}')" class="text-rose-400 hover:text-rose-300 p-1 cursor-pointer">
               <i class="fa-solid fa-trash-can"></i>
             </button>
           </td>
@@ -1546,72 +1710,128 @@ function init() {
           </div>
         `;
       } else if (currentPasscodeTab === 'grade') {
-        // Group by Grade
-        const grades = ['Grade 11', 'Grade 10', 'Grade 8', 'Grade 7'];
-        container.innerHTML = `
-          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            ${grades.map(grade => {
-              const teams = passcodeDirectoryData.filter(t => t.grade === grade);
-              return `
-                <div class="bg-slate-900/90 rounded-2xl border border-slate-800 p-4 shadow-lg">
-                  <div class="flex items-center justify-between pb-3 mb-3 border-b border-slate-800">
-                    <span class="text-xs font-black text-amber-400 uppercase tracking-wider">${grade}</span>
-                    <span class="text-[10px] text-slate-400 font-bold">${teams.length} Delegations</span>
-                  </div>
+        const juniorGrades = ['Grade 1A1', 'Grade 1A2', 'Grade 2A1', 'Grade 2A2', 'Grade 3'];
+        const seniorGrades = ['Grade 11', 'Grade 10', 'Grade 8', 'Grade 7'];
 
-                  <div class="space-y-2">
-                    ${teams.map(t => `
-                      <div class="p-2 rounded-xl bg-slate-950/70 border border-slate-800 flex items-center justify-between gap-1.5">
-                        <div class="min-w-0">
-                          <div class="flex items-center space-x-1.5 truncate">
-                            <img src="${t.flag}" class="w-4 h-3 object-cover rounded border border-slate-700 flex-shrink-0">
-                            <span class="text-xs font-bold text-white truncate">${t.countryName}</span>
-                          </div>
-                          <div class="text-[9px] text-slate-400 truncate">Mentor: ${(/william/i.test(t.mentor) || /wiliam/i.test(t.mentor)) ? 'William' : t.mentor}</div>
-                        </div>
-
-                        <div class="flex items-center space-x-1 flex-shrink-0">
-                          <code class="px-1.5 py-0.5 rounded bg-slate-900 text-amber-300 font-mono font-bold text-[10px] border border-slate-700">
-                            ${mask(t.passcode)}
-                          </code>
-                          <button onclick="copyToClipboard('${t.passcode}', '${t.countryName}')" class="p-1 rounded bg-slate-800 hover:bg-amber-500 hover:text-slate-950 text-slate-300 transition text-[10px]">
-                            <i class="fa-solid fa-copy"></i>
-                          </button>
-                        </div>
-                      </div>
-                    `).join('')}
+        const renderGradeCard = (grade, isJunior) => {
+          const teams = passcodeDirectoryData.filter(t => t.grade === grade);
+          return `
+            <div class="bg-slate-900/90 rounded-2xl border ${isJunior ? 'border-amber-500/30' : 'border-slate-800'} p-4 shadow-lg flex flex-col justify-between">
+              <div>
+                <div class="flex items-center justify-between pb-3 mb-3 border-b border-slate-800">
+                  <div class="flex items-center space-x-2">
+                    <span class="w-6 h-6 rounded-lg ${isJunior ? 'bg-amber-500/20 text-amber-300' : 'bg-blue-500/20 text-blue-300'} flex items-center justify-center text-xs">
+                      <i class="fa-solid ${isJunior ? 'fa-star' : 'fa-landmark'}"></i>
+                    </span>
+                    <span class="text-xs font-black ${isJunior ? 'text-amber-400' : 'text-blue-400'} uppercase tracking-wider">${grade}</span>
                   </div>
+                  <span class="text-[10px] text-slate-400 font-bold">${teams.length} ${isJunior ? 'Students' : 'Delegations'}</span>
                 </div>
-              `;
-            }).join('')}
+
+                <div class="space-y-2 max-h-96 overflow-y-auto pr-1">
+                  ${teams.map(t => `
+                    <div class="p-2 rounded-xl bg-slate-950/70 border border-slate-800 flex items-center justify-between gap-1.5 hover:border-slate-700 transition">
+                      <div class="min-w-0">
+                        <div class="flex items-center space-x-1.5 truncate">
+                          <img src="${t.flag}" class="w-4 h-3 object-cover rounded border border-slate-700 flex-shrink-0">
+                          <span class="text-xs font-bold text-white truncate">${t.countryName}</span>
+                          ${t.isEmcee ? '<span class="text-[9px] text-amber-300 font-extrabold bg-amber-500/20 px-1 rounded flex-shrink-0">Emcee</span>' : ''}
+                        </div>
+                        <div class="text-[9px] text-slate-400 truncate">${isJunior ? (t.costume || 'National Costume') : 'Mentor: ' + ((/william/i.test(t.mentor) || /wiliam/i.test(t.mentor)) ? 'William' : t.mentor)}</div>
+                      </div>
+
+                      <div class="flex items-center space-x-1 flex-shrink-0">
+                        <code class="px-1.5 py-0.5 rounded bg-slate-900 text-amber-300 font-mono font-bold text-[10px] border border-slate-700">
+                          ${mask(t.passcode)}
+                        </code>
+                        <button onclick="copyToClipboard('${t.passcode}', '${t.countryName}')" class="p-1 rounded bg-slate-800 hover:bg-amber-500 hover:text-slate-950 text-slate-300 transition text-[10px] cursor-pointer">
+                          <i class="fa-solid fa-copy"></i>
+                        </button>
+                      </div>
+                    </div>
+                  `).join('')}
+                </div>
+              </div>
+            </div>
+          `;
+        };
+
+        container.innerHTML = `
+          <div class="space-y-6">
+            <div>
+              <div class="flex items-center space-x-2 text-xs font-black uppercase tracking-wider text-amber-400 mb-3">
+                <i class="fa-solid fa-star"></i>
+                <span>🌟 Primary Division &bull; Parade of Nations (Grades 1A1, 1A2, 2A1, 2A2, 3)</span>
+              </div>
+              <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+                ${juniorGrades.map(g => renderGradeCard(g, true)).join('')}
+              </div>
+            </div>
+
+            <div>
+              <div class="flex items-center space-x-2 text-xs font-black uppercase tracking-wider text-blue-400 mb-3">
+                <i class="fa-solid fa-landmark"></i>
+                <span>🏛️ Senior Division &bull; Model United Nations Showcase (Grades 7, 8, 10, 11)</span>
+              </div>
+              <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                ${seniorGrades.map(g => renderGradeCard(g, false)).join('')}
+              </div>
+            </div>
           </div>
         `;
       } else if (currentPasscodeTab === 'judges') {
-        // Group by Judges & Master
-        container.innerHTML = `
-          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            ${passcodeJudgesData.map(j => `
-              <div class="bg-slate-900/90 rounded-2xl border border-amber-500/30 p-5 shadow-lg flex flex-col justify-between">
-                <div>
-                  <div class="w-10 h-10 rounded-xl bg-amber-500/20 text-amber-300 flex items-center justify-center text-lg mb-3">
-                    <i class="fa-solid fa-user-tie"></i>
-                  </div>
-                  <div class="text-sm font-black text-white font-sans">${j.name}</div>
-                  <div class="text-[11px] text-amber-400 font-bold mb-3">${j.title}</div>
-                  <div class="text-[11px] text-slate-400 mb-4">Official credential for chamber evaluation & portal unlock.</div>
-                </div>
+        const primaryJudges = passcodeJudgesData.filter(j => j.division === 'junior' || /primary|mai|phương/i.test(j.name || j.title));
+        const seniorJudges = passcodeJudgesData.filter(j => j.division === 'senior' || !primaryJudges.includes(j));
 
-                <div class="p-3 rounded-xl bg-slate-950 border border-slate-800 flex items-center justify-between">
-                  <code class="font-mono font-black text-xs text-amber-300 tracking-wider">
-                    ${mask(j.passcode)}
-                  </code>
-                  <button onclick="copyToClipboard('${j.passcode}', '${j.name}')" class="px-2.5 py-1 rounded-lg bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs flex items-center space-x-1 cursor-pointer">
-                    <i class="fa-solid fa-copy text-[10px]"></i>
-                    <span>Copy</span>
-                  </button>
+        const renderJudgeCard = (j, isPrimary) => `
+          <div class="bg-slate-900/90 rounded-2xl border ${isPrimary ? 'border-amber-500/40 bg-gradient-to-b from-amber-950/20 to-slate-900' : 'border-blue-500/30'} p-5 shadow-lg flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between mb-3">
+                <div class="w-10 h-10 rounded-xl ${isPrimary ? 'bg-amber-500/20 text-amber-300' : 'bg-blue-500/20 text-blue-300'} flex items-center justify-center text-lg shadow">
+                  <i class="fa-solid ${isPrimary ? 'fa-star' : 'fa-user-tie'}"></i>
                 </div>
+                <span class="text-[10px] font-extrabold uppercase px-2 py-0.5 rounded ${isPrimary ? 'bg-amber-500/15 text-amber-300 border border-amber-500/30' : 'bg-blue-500/15 text-blue-300 border border-blue-500/30'}">
+                  ${isPrimary ? 'Primary (Grades 1-3)' : 'Senior (Grades 7-11)'}
+                </span>
               </div>
-            `).join('')}
+              <div class="text-base font-black text-white font-sans mb-0.5">${j.name}</div>
+              <div class="text-xs font-bold ${isPrimary ? 'text-amber-400' : 'text-blue-400'} mb-2">${j.title}</div>
+              <div class="text-[11px] text-slate-400 mb-4">Official credential for chamber evaluation & portal unlock.</div>
+            </div>
+
+            <div class="p-3 rounded-xl bg-slate-950 border border-slate-800 flex items-center justify-between">
+              <code class="font-mono font-black text-xs text-amber-300 tracking-wider">
+                ${mask(j.passcode)}
+              </code>
+              <button onclick="copyToClipboard('${j.passcode}', '${j.name}')" class="px-2.5 py-1 rounded-lg bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs flex items-center space-x-1 cursor-pointer">
+                <i class="fa-solid fa-copy text-[10px]"></i>
+                <span>Copy</span>
+              </button>
+            </div>
+          </div>
+        `;
+
+        container.innerHTML = `
+          <div class="space-y-6">
+            <div>
+              <div class="flex items-center space-x-2 text-xs font-black uppercase tracking-wider text-amber-400 mb-3">
+                <i class="fa-solid fa-star"></i>
+                <span>🌟 Ban Giám Khảo Tiểu Học (Primary School Judges &bull; Grades 1 - 3)</span>
+              </div>
+              <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-4">
+                ${primaryJudges.map(j => renderJudgeCard(j, true)).join('')}
+              </div>
+            </div>
+
+            <div>
+              <div class="flex items-center space-x-2 text-xs font-black uppercase tracking-wider text-blue-400 mb-3">
+                <i class="fa-solid fa-scale-balanced"></i>
+                <span>🏛️ Ban Giám Khảo Trung Học (Senior MUN Judges &bull; Grades 7 - 11)</span>
+              </div>
+              <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                ${seniorJudges.map(j => renderJudgeCard(j, false)).join('')}
+              </div>
+            </div>
           </div>
         `;
       }

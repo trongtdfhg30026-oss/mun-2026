@@ -266,7 +266,8 @@ const TOPICS = [
 const JUNIOR_GRADES = ['Grade 1A1', 'Grade 1A2', 'Grade 2A1', 'Grade 2A2', 'Grade 3'];
 function isJuniorGrade(grade) {
   if (!grade) return false;
-  return JUNIOR_GRADES.includes(grade) || /^Grade [123]/i.test(grade);
+  if (['Grade 7', 'Grade 8', 'Grade 10', 'Grade 11'].includes(grade)) return false;
+  return JUNIOR_GRADES.includes(grade) || /^Grade\s*[123]/i.test(grade.trim());
 }
 
 const JUNIOR_RUBRIC = {
@@ -582,11 +583,17 @@ app.get('/api/passcodes', (req, res) => {
 
   const directory = [];
   for (const [grade, teams] of Object.entries(TEAMS_BY_GRADE)) {
+    const isJunior = isJuniorGrade(grade);
     teams.forEach(t => {
       directory.push({
         grade,
+        division: t.division || (isJunior ? 'junior' : 'senior'),
         countryId: t.id,
-        countryName: t.name,
+        countryName: t.studentName ? `${t.studentName} (${t.country})` : t.name,
+        studentName: t.studentName || t.name,
+        country: t.country || t.name,
+        costume: t.costume || '',
+        isEmcee: Boolean(t.isEmcee),
         flag: t.flag,
         mentor: t.mentor,
         delegates: t.delegates || [],
@@ -968,6 +975,7 @@ app.get("/api/admin/live-delegations", (req, res) => {
   const db = loadDb();
   const teams = TEAMS_BY_GRADE[grade] || [];
   const currentPhase = db.settings.activePhase || "all";
+  const isJunior = isJuniorGrade(grade);
 
   const delegations = teams.map(t => {
     const key = grade + "_" + t.id;
@@ -978,16 +986,26 @@ app.get("/api/admin/live-delegations", (req, res) => {
     const climateCount = Array.isArray(tVotes.climate) ? tVotes.climate.length : 0;
     const educationCount = Array.isArray(tVotes.education) ? tVotes.education.length : 0;
     const healthCount = Array.isArray(tVotes.health) ? tVotes.health.length : 0;
+    const favoritesCount = Array.isArray(tVotes.favorites) ? tVotes.favorites.length : Math.max(climateCount, educationCount, healthCount);
 
     let missingCurrent = false;
-    if (currentPhase === "climate" && climateCount < 2) missingCurrent = true;
-    if (currentPhase === "education" && educationCount < 2) missingCurrent = true;
-    if (currentPhase === "health" && healthCount < 2) missingCurrent = true;
-    if (currentPhase === "all" && (climateCount < 2 || educationCount < 2 || healthCount < 2)) missingCurrent = true;
+    if (isJunior) {
+      if (currentPhase === "all" && favoritesCount < 2) missingCurrent = true;
+    } else {
+      if (currentPhase === "climate" && climateCount < 2) missingCurrent = true;
+      if (currentPhase === "education" && educationCount < 2) missingCurrent = true;
+      if (currentPhase === "health" && healthCount < 2) missingCurrent = true;
+      if (currentPhase === "all" && (climateCount < 2 || educationCount < 2 || healthCount < 2)) missingCurrent = true;
+    }
 
     return {
       id: t.id,
       name: t.name,
+      studentName: t.studentName || t.name,
+      country: t.country || t.name,
+      costume: t.costume || '',
+      isEmcee: Boolean(t.isEmcee),
+      division: t.division || (isJunior ? 'junior' : 'senior'),
       flag: t.flag,
       mentor: t.mentor,
       delegates: t.delegates,
@@ -995,17 +1013,19 @@ app.get("/api/admin/live-delegations", (req, res) => {
       climateCount,
       educationCount,
       healthCount,
+      favoritesCount,
       isSubmitted: Boolean(submittedVote),
       missingCurrent,
       lastSeen: draft.updatedAt || null
     };
   });
 
-  const missingList = delegations.filter(d => d.missingCurrent).map(d => d.name);
+  const missingList = delegations.filter(d => d.missingCurrent).map(d => d.studentName || d.name);
   const isTimedOut = roundTimerState.remaining === 0 && !roundTimerState.running && missingList.length > 0;
 
   res.json({
     grade,
+    isJunior,
     currentPhase,
     timer: roundTimerState,
     delegations,
@@ -1347,7 +1367,7 @@ app.get('/api/leaderboard', (req, res) => {
 // Admin: Set Active Phase
 
 // Set Active Stage Grade (Controls which grade displays on Leaderboard / Projector)
-app.post('/api/admin/grade', (req, res) => {
+app.post(['/api/admin/grade', '/api/admin/stage-grade'], (req, res) => {
   const db = loadDb();
   const { pin, token, grade } = req.body;
   if (!verifyAdminPin(pin, token || req.headers['x-admin-token'])) {
