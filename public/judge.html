@@ -70,9 +70,15 @@
           </label>
           <div class="relative">
             <select id="gateJudgeSelect" onchange="onGateJudgeSelectChange()" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-sm text-white font-semibold focus:outline-none focus:border-amber-400 transition appearance-none cursor-pointer">
-              <option value="Kevin Ta">Kevin Ta &bull; Judge 1</option>
-              <option value="Mr. D">Mr. D &bull; Judge 2</option>
-              <option value="Chi Nguyen">Chi Nguyen &bull; Judge 3</option>
+              <optgroup label="🌟 Primary School Judges (Grades 1 - 3)">
+                <option value="Cô Mai" selected>Cô Mai &bull; Primary Judge 1</option>
+                <option value="Cô Phương">Cô Phương &bull; Primary Judge 2</option>
+              </optgroup>
+              <optgroup label="🏛️ Senior MUN Judges (Grades 7 - 11)">
+                <option value="Kevin Ta">Kevin Ta &bull; Judge 1</option>
+                <option value="Mr. D">Mr. D &bull; Judge 2</option>
+                <option value="Chi Nguyen">Chi Nguyen &bull; Judge 3</option>
+              </optgroup>
             </select>
             <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-slate-400">
               <i class="fa-solid fa-chevron-down text-xs"></i>
@@ -127,10 +133,16 @@
               <label class="block text-[11px] font-semibold text-slate-400 uppercase tracking-wider mb-1">
                 Judge Name <span class="text-rose-400">*</span>
               </label>
-              <select id="judgeNameInput" class="w-full bg-slate-800 border border-slate-600 rounded-lg px-3 py-1.5 text-xs font-bold text-amber-300 focus:outline-none focus:border-amber-400 transition cursor-pointer" onchange="saveJudgeIdentity()">
-                <option value="Kevin Ta">Kevin Ta (Judge 1)</option>
-                <option value="Mr. D">Mr. D (Judge 2)</option>
-                <option value="Chi Nguyen">Chi Nguyen (Judge 3)</option>
+              <select id="judgeNameInput" class="w-full bg-slate-800 border border-slate-600 rounded-lg px-3 py-1.5 text-xs font-bold text-amber-300 focus:outline-none focus:border-amber-400 transition cursor-pointer" onchange="onJudgeNameInputChange()">
+                <optgroup label="🌟 Primary School Judges (Grades 1 - 3)">
+                  <option value="Cô Mai">Cô Mai (Primary Judge 1)</option>
+                  <option value="Cô Phương">Cô Phương (Primary Judge 2)</option>
+                </optgroup>
+                <optgroup label="🏛️ Senior MUN Judges (Grades 7 - 11)">
+                  <option value="Kevin Ta">Kevin Ta (Judge 1)</option>
+                  <option value="Mr. D">Mr. D (Judge 2)</option>
+                  <option value="Chi Nguyen">Chi Nguyen (Judge 3)</option>
+                </optgroup>
               </select>
             </div>
             <div>
@@ -459,6 +471,47 @@
       }
     ];
 
+    function populateJudgeGrades() {
+      const gSelect = document.getElementById('judgeGradeSelect');
+      if (!gSelect || !teamsByGrade || Object.keys(teamsByGrade).length === 0) return;
+
+      const currentVal = gSelect.value;
+      gSelect.innerHTML = '';
+
+      const juniorGrades = ['Grade 1A1', 'Grade 1A2', 'Grade 2A1', 'Grade 2A2', 'Grade 3'].filter(g => teamsByGrade[g]);
+      const seniorGrades = ['Grade 11', 'Grade 10', 'Grade 8', 'Grade 7'].filter(g => teamsByGrade[g]);
+
+      if (juniorGrades.length > 0) {
+        const optgJunior = document.createElement('optgroup');
+        optgJunior.label = '🌟 Primary: Parade of Nations (Grade 1 - 3)';
+        juniorGrades.forEach(g => {
+          const opt = document.createElement('option');
+          opt.value = g;
+          opt.textContent = `${g} • Parade of Nations (${teamsByGrade[g].length} Students)`;
+          optgJunior.appendChild(opt);
+        });
+        gSelect.appendChild(optgJunior);
+      }
+
+      if (seniorGrades.length > 0) {
+        const optgSenior = document.createElement('optgroup');
+        optgSenior.label = '🏛️ Senior: Model UN Showcase (Grade 7 - 11)';
+        seniorGrades.forEach(g => {
+          const opt = document.createElement('option');
+          opt.value = g;
+          opt.textContent = `${g} • MUN Showcase (${teamsByGrade[g].length} Delegations)`;
+          optgSenior.appendChild(opt);
+        });
+        gSelect.appendChild(optgSenior);
+      }
+
+      if (currentVal && teamsByGrade[currentVal]) {
+        gSelect.value = currentVal;
+      } else if (selectedGrade && teamsByGrade[selectedGrade]) {
+        gSelect.value = selectedGrade;
+      }
+    }
+
     async function init() {
       try {
         const res = await fetch('/api/teams');
@@ -592,6 +645,7 @@
           teamsByGrade = await res.json();
         } catch (e) {}
       }
+      populateJudgeGrades();
 
       // Update badge in header if present
       const badge = document.getElementById('judgeAuthBadge');
@@ -631,16 +685,48 @@
       const grade = document.getElementById('judgeGradeSelect').value;
       localStorage.setItem('mun_judge_name', name);
       localStorage.setItem('mun_judge_grade', grade);
-      document.getElementById('summaryJudgeName').textContent = name || '(No Name Entered)';
+      const summaryName = document.getElementById('summaryJudgeName');
+      if (summaryName) summaryName.textContent = name || '(No Name Entered)';
     }
 
     function loadJudgeIdentity() {
-      const name = localStorage.getItem('mun_judge_name') || 'Kevin Ta';
-      const grade = localStorage.getItem('mun_judge_grade') || 'Grade 11';
-      document.getElementById('judgeNameInput').value = name;
-      document.getElementById('judgeGradeSelect').value = grade;
+      const name = localStorage.getItem('mun_judge_name') || 'Cô Mai';
+      const isJuniorJudge = (name === 'Cô Mai' || name === 'Cô Phương' || name === 'Co Mai' || name === 'Co Phuong');
+      const savedGrade = localStorage.getItem('mun_judge_grade');
+      const grade = savedGrade || (isJuniorJudge ? 'Grade 1A1' : 'Grade 11');
+
+      const nameSelect = document.getElementById('judgeNameInput');
+      if (nameSelect) {
+        const opts = Array.from(nameSelect.options);
+        const match = opts.find(o => o.value === name || o.value.normalize('NFD').replace(/[\u0300-\u036f]/g, '') === name.normalize('NFD').replace(/[\u0300-\u036f]/g, ''));
+        if (match) nameSelect.value = match.value;
+      }
+
+      const gradeSelect = document.getElementById('judgeGradeSelect');
+      if (gradeSelect) gradeSelect.value = grade;
+
       selectedGrade = grade;
-      document.getElementById('summaryJudgeName').textContent = name || '(No Name Entered)';
+      const summaryName = document.getElementById('summaryJudgeName');
+      if (summaryName) summaryName.textContent = name || '(No Name Entered)';
+    }
+
+    function onJudgeNameInputChange() {
+      const name = document.getElementById('judgeNameInput').value.trim();
+      const isJuniorJudge = (name === 'Cô Mai' || name === 'Cô Phương' || name === 'Co Mai' || name === 'Co Phuong');
+      const currentGradeIsJunior = isJuniorGrade(selectedGrade);
+
+      if (isJuniorJudge && !currentGradeIsJunior) {
+        selectedGrade = 'Grade 1A1';
+        const gradeSelect = document.getElementById('judgeGradeSelect');
+        if (gradeSelect) gradeSelect.value = 'Grade 1A1';
+      } else if (!isJuniorJudge && currentGradeIsJunior) {
+        selectedGrade = 'Grade 11';
+        const gradeSelect = document.getElementById('judgeGradeSelect');
+        if (gradeSelect) gradeSelect.value = 'Grade 11';
+      }
+
+      saveJudgeIdentity();
+      handleJudgeGradeChange();
     }
 
     function handleJudgeGradeChange() {

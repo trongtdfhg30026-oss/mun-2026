@@ -367,21 +367,53 @@ const RUBRIC = {
 
 
 // Official MUN Judge Credentials & Accounts
+function normalizeJudgeKey(name) {
+  if (!name) return '';
+  return String(name).trim().toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/đ/g, 'd').replace(/Đ/g, 'D');
+}
+
 const JUDGE_ACCOUNTS = {
+  "Cô Mai": {
+    title: "Primary Judge 1",
+    name: "Cô Mai",
+    division: "junior",
+    passcodes: ["COMAI2026", "COMAI#2026", "MAI2026", "CÔMAI2026", "COMAI", "JUDGE2026"]
+  },
+  "Co Mai": {
+    title: "Primary Judge 1",
+    name: "Cô Mai",
+    division: "junior",
+    passcodes: ["COMAI2026", "COMAI#2026", "MAI2026", "CÔMAI2026", "COMAI", "JUDGE2026"]
+  },
+  "Cô Phương": {
+    title: "Primary Judge 2",
+    name: "Cô Phương",
+    division: "junior",
+    passcodes: ["COPHUONG2026", "COPHUONG#2026", "PHUONG2026", "CÔPHƯƠNG2026", "COPHUONG", "JUDGE2026"]
+  },
+  "Co Phuong": {
+    title: "Primary Judge 2",
+    name: "Cô Phương",
+    division: "junior",
+    passcodes: ["COPHUONG2026", "COPHUONG#2026", "PHUONG2026", "CÔPHƯƠNG2026", "COPHUONG", "JUDGE2026"]
+  },
   "Kevin Ta": {
     title: "Judge 1",
     name: "Kevin Ta",
-    passcodes: ["KEVINTA2026", "KEVINTA#2026", "KEVIN2026"]
+    division: "senior",
+    passcodes: ["KEVINTA2026", "KEVINTA#2026", "KEVIN2026", "JUDGE2026"]
   },
   "Mr. D": {
     title: "Judge 2",
     name: "Mr. D",
-    passcodes: ["MRD2026", "MRD#2026"]
+    division: "senior",
+    passcodes: ["MRD2026", "MRD#2026", "JUDGE2026"]
   },
   "Chi Nguyen": {
     title: "Judge 3",
     name: "Chi Nguyen",
-    passcodes: ["CHINGUYEN2026", "CHINGUYEN#2026", "CHI2026"]
+    division: "senior",
+    passcodes: ["CHINGUYEN2026", "CHINGUYEN#2026", "CHI2026", "JUDGE2026"]
   }
 };
 
@@ -410,28 +442,44 @@ function verifyJudgePasscodeInternal(passcode, judgeName) {
   if (!passcode) return { valid: false };
   const clean = String(passcode).trim().replace(/\s+/g, '').toUpperCase();
 
-  // 1. Direct match with specific Judge Account
-  if (judgeName && JUDGE_ACCOUNTS[judgeName]) {
-    const acc = JUDGE_ACCOUNTS[judgeName];
-    for (const p of acc.passcodes) {
-      if (safeCompare(clean, p)) {
-        return { valid: true, isMaster: true, judgeName: acc.name, title: acc.title };
+  // 1. Direct match with specific Judge Account (supporting accents & case)
+  if (judgeName) {
+    const rawKey = Object.keys(JUDGE_ACCOUNTS).find(k => k.toLowerCase() === judgeName.trim().toLowerCase());
+    const normKey = Object.keys(JUDGE_ACCOUNTS).find(k => normalizeJudgeKey(k) === normalizeJudgeKey(judgeName));
+    const targetKey = rawKey || normKey;
+    if (targetKey && JUDGE_ACCOUNTS[targetKey]) {
+      const acc = JUDGE_ACCOUNTS[targetKey];
+      for (const p of acc.passcodes) {
+        if (safeCompare(clean, p)) {
+          return { valid: true, isMaster: true, judgeName: acc.name, title: acc.title, division: acc.division };
+        }
       }
     }
   }
 
   // 2. Master Judge or Admin Passcode
-  if (isJudgeMasterPasscode(clean)) {
+  if (isJudgeMasterPasscode(clean) || clean === "JUDGE2026" || clean === "ADMIN2026") {
     let matchedJudge = judgeName || null;
+    let matchedTitle = null;
+    let matchedDiv = null;
     if (!matchedJudge) {
       for (const [name, acc] of Object.entries(JUDGE_ACCOUNTS)) {
         if (acc.passcodes.some(p => safeCompare(clean, p))) {
-          matchedJudge = name;
+          matchedJudge = acc.name;
+          matchedTitle = acc.title;
+          matchedDiv = acc.division;
           break;
         }
       }
+    } else {
+      const match = Object.values(JUDGE_ACCOUNTS).find(a => normalizeJudgeKey(a.name) === normalizeJudgeKey(matchedJudge));
+      if (match) {
+        matchedJudge = match.name;
+        matchedTitle = match.title;
+        matchedDiv = match.division;
+      }
     }
-    return { valid: true, isMaster: true, judgeName: matchedJudge || 'Honorable Judge' };
+    return { valid: true, isMaster: true, judgeName: matchedJudge || 'Honorable Judge', title: matchedTitle, division: matchedDiv };
   }
 
   // 3. Delegation Country Passcode (Observer mode)
@@ -500,7 +548,23 @@ app.get('/api/config', (req, res) => {
     settings: db.settings,
     rubric: RUBRIC,
     seniorRubric: RUBRIC,
-    juniorRubric: JUNIOR_RUBRIC
+    juniorRubric: JUNIOR_RUBRIC,
+    primaryJudges: [
+      { name: 'Cô Mai', title: 'Primary Judge 1', division: 'junior' },
+      { name: 'Cô Phương', title: 'Primary Judge 2', division: 'junior' }
+    ],
+    seniorJudges: [
+      { name: 'Kevin Ta', title: 'Judge 1', division: 'senior' },
+      { name: 'Mr. D', title: 'Judge 2', division: 'senior' },
+      { name: 'Chi Nguyen', title: 'Judge 3', division: 'senior' }
+    ],
+    judges: [
+      { name: 'Cô Mai', title: 'Primary Judge 1', division: 'junior' },
+      { name: 'Cô Phương', title: 'Primary Judge 2', division: 'junior' },
+      { name: 'Kevin Ta', title: 'Judge 1', division: 'senior' },
+      { name: 'Mr. D', title: 'Judge 2', division: 'senior' },
+      { name: 'Chi Nguyen', title: 'Judge 3', division: 'senior' }
+    ]
   });
 });
 
@@ -536,9 +600,11 @@ app.get('/api/passcodes', (req, res) => {
     passcodes: COUNTRY_PASSCODES,
     directory,
     judges: [
-      { name: 'Kevin Ta', title: 'Judge 1', passcode: 'KEVINTA2026' },
-      { name: 'Mr. D', title: 'Judge 2', passcode: 'MRD2026' },
-      { name: 'Chi Nguyen', title: 'Judge 3', passcode: 'CHINGUYEN2026' }
+      { name: 'Cô Mai', title: 'Primary Judge 1 (Grades 1-3)', division: 'junior', passcode: 'COMAI2026' },
+      { name: 'Cô Phương', title: 'Primary Judge 2 (Grades 1-3)', division: 'junior', passcode: 'COPHUONG2026' },
+      { name: 'Kevin Ta', title: 'Senior Judge 1 (Grades 7-11)', division: 'senior', passcode: 'KEVINTA2026' },
+      { name: 'Mr. D', title: 'Senior Judge 2 (Grades 7-11)', division: 'senior', passcode: 'MRD2026' },
+      { name: 'Chi Nguyen', title: 'Senior Judge 3 (Grades 7-11)', division: 'senior', passcode: 'CHINGUYEN2026' }
     ]
   });
 });

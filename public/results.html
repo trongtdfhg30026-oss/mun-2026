@@ -193,7 +193,7 @@
       </div>
 
       <div class="pt-3 border-t border-slate-800 flex items-center justify-between text-xs text-slate-400 flex-shrink-0">
-        <span>Evaluations by: Kevin Ta (Judge 1), Mr. D (Judge 2), Chi Nguyen (Judge 3)</span>
+        <span id="evaluatorsSummaryText">Evaluations by: Kevin Ta (Judge 1), Mr. D (Judge 2), Chi Nguyen (Judge 3)</span>
         <button onclick="closeStandingsModal()" class="px-4 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-bold transition">
           Close
         </button>
@@ -392,6 +392,15 @@
         if (champSubtitle) champSubtitle.textContent = 'Top 3 delegations by Official Judge Scoring (Base 15 + Advanced Bonus 5 = Max 20 Points)';
         if (awardsStripTitle) awardsStripTitle.textContent = 'Students' Choice Global Solutions Awards';
         if (awardsStripDesc) awardsStripDesc.textContent = 'Decided independently by peer delegation ballots';
+      }
+
+      const evalSummary = document.getElementById('evaluatorsSummaryText');
+      if (evalSummary) {
+        if (isJunior) {
+          evalSummary.textContent = 'Evaluations by Primary Judges: Cô Mai (Judge 1), Cô Phương (Judge 2)';
+        } else {
+          evalSummary.textContent = 'Evaluations by Senior Judges: Kevin Ta (Judge 1), Mr. D (Judge 2), Chi Nguyen (Judge 3)';
+        }
       }
 
       renderOlympicPodium(gData.judgeTop3);
