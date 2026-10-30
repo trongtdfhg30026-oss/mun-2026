@@ -6,7 +6,7 @@
     "allowVoteUpdate": true,
     "judgePasscode": "judge2026",
     "activePhase": "all",
-    "activeGrade": "Grade 7"
+    "activeGrade": "Grade 8"
   },
   "countries": [
     {
@@ -576,6 +576,126 @@
       "comments": "So important to know what you have written and to practise before the presentation. Keep on trying!",
       "division": "senior",
       "timestamp": "2026-10-30T01:49:40.000Z"
+    },
+    {
+      "id": "score_g8_usa_judge1_1793326001",
+      "judgeName": "Kevin Ta",
+      "grade": "Grade 8",
+      "countryId": "usa",
+      "scores": {
+        "preparation": 2,
+        "speaking": 2.5,
+        "vocabulary": 2,
+        "teamwork": 2,
+        "qna": 2
+      },
+      "baseScore": 10.5,
+      "advancedBonus": true,
+      "bonusPoints": 5,
+      "totalScore": 15.5,
+      "comments": "Strong diplomatic stance and well-prepared resolutions.",
+      "division": "senior",
+      "timestamp": "2026-10-30T03:00:01.000Z"
+    },
+    {
+      "id": "score_g8_usa_judge2_1793326002",
+      "judgeName": "Mr. D",
+      "grade": "Grade 8",
+      "countryId": "usa",
+      "scores": {
+        "preparation": 2.5,
+        "speaking": 2,
+        "vocabulary": 2,
+        "teamwork": 2,
+        "qna": 2
+      },
+      "baseScore": 10.5,
+      "advancedBonus": true,
+      "bonusPoints": 5,
+      "totalScore": 15.5,
+      "comments": "Clear speaking pace and convincing policy arguments.",
+      "division": "senior",
+      "timestamp": "2026-10-30T03:00:02.000Z"
+    },
+    {
+      "id": "score_g8_usa_judge3_1793326003",
+      "judgeName": "Chi Nguyen",
+      "grade": "Grade 8",
+      "countryId": "usa",
+      "scores": {
+        "preparation": 2,
+        "speaking": 2,
+        "vocabulary": 2.5,
+        "teamwork": 2,
+        "qna": 2
+      },
+      "baseScore": 10.5,
+      "advancedBonus": true,
+      "bonusPoints": 5,
+      "totalScore": 15.5,
+      "comments": "Engaging delivery and comprehensive responses in Q&A.",
+      "division": "senior",
+      "timestamp": "2026-10-30T03:00:03.000Z"
+    },
+    {
+      "id": "score_g8_italy_judge1_1793326004",
+      "judgeName": "Kevin Ta",
+      "grade": "Grade 8",
+      "countryId": "italy",
+      "scores": {
+        "preparation": 2,
+        "speaking": 2,
+        "vocabulary": 2,
+        "teamwork": 2,
+        "qna": 3
+      },
+      "baseScore": 11,
+      "advancedBonus": false,
+      "bonusPoints": 0,
+      "totalScore": 11,
+      "comments": "Good effort and steady teamwork throughout presentation.",
+      "division": "senior",
+      "timestamp": "2026-10-30T03:00:04.000Z"
+    },
+    {
+      "id": "score_g8_italy_judge2_1793326005",
+      "judgeName": "Mr. D",
+      "grade": "Grade 8",
+      "countryId": "italy",
+      "scores": {
+        "preparation": 2,
+        "speaking": 2,
+        "vocabulary": 2,
+        "teamwork": 3,
+        "qna": 2
+      },
+      "baseScore": 11,
+      "advancedBonus": false,
+      "bonusPoints": 0,
+      "totalScore": 11,
+      "comments": "Solid basic facts presented with decent pronunciation.",
+      "division": "senior",
+      "timestamp": "2026-10-30T03:00:05.000Z"
+    },
+    {
+      "id": "score_g8_italy_judge3_1793326006",
+      "judgeName": "Chi Nguyen",
+      "grade": "Grade 8",
+      "countryId": "italy",
+      "scores": {
+        "preparation": 2,
+        "speaking": 2,
+        "vocabulary": 2,
+        "teamwork": 2,
+        "qna": 2
+      },
+      "baseScore": 10,
+      "advancedBonus": false,
+      "bonusPoints": 0,
+      "totalScore": 10,
+      "comments": "Collaborative delegation spirit and respectful posture.",
+      "division": "senior",
+      "timestamp": "2026-10-30T03:00:06.000Z"
     }
   ]
 }
