@@ -1643,6 +1643,43 @@ app.post('/api/admin/reset', (req, res) => {
   res.json({ success: true, message: 'Successfully reset ' + target + ' data.' });
 });
 
+// Admin Full Database Backup JSON Endpoint
+app.get("/api/admin/backup", (req, res) => {
+  const pin = req.query.pin || req.headers["x-admin-pin"];
+  const token = req.headers["x-admin-token"];
+  if (!verifyAdminPin(pin, token)) {
+    return res.status(401).json({ success: false, error: "Unauthorized PIN" });
+  }
+  const db = loadDb();
+  res.setHeader("Content-Type", "application/json");
+  res.setHeader("Content-Disposition", "attachment; filename=mun_backup_" + Date.now() + ".json");
+  res.send(JSON.stringify(db, null, 2));
+});
+
+// Admin Full Database Restore JSON Endpoint
+app.post("/api/admin/restore", (req, res) => {
+  const { pin, token, backupData } = req.body;
+  if (!verifyAdminPin(pin, token || req.headers["x-admin-token"])) {
+    return res.status(401).json({ success: false, error: "Unauthorized PIN" });
+  }
+  if (!backupData || typeof backupData !== "object") {
+    return res.status(400).json({ success: false, error: "Invalid backup JSON structure" });
+  }
+  const db = loadDb();
+  if (Array.isArray(backupData.judgeScores)) db.judgeScores = backupData.judgeScores;
+  if (Array.isArray(backupData.studentVotes)) db.studentVotes = backupData.studentVotes;
+  if (backupData.settings && typeof backupData.settings === "object") {
+    db.settings = { ...db.settings, ...backupData.settings };
+  }
+  saveDb(db);
+  res.json({
+    success: true,
+    message: "Restored successfully: " + (db.judgeScores ? db.judgeScores.length : 0) + " judge scores and " + (db.studentVotes ? db.studentVotes.length : 0) + " student ballots.",
+    judgeScoresCount: db.judgeScores ? db.judgeScores.length : 0,
+    studentVotesCount: db.studentVotes ? db.studentVotes.length : 0
+  });
+});
+
 // Admin Delete Entry
 app.post('/api/admin/delete-entry', (req, res) => {
   const db = loadDb();

@@ -1007,6 +1007,7 @@
         if (res.ok && data.success) {
           const scoreKey = `${selectedGrade}_${currentCountryId}`;
           judgeScoresCache[scoreKey] = data.score;
+          saveScoreToLocalVault(payload, data.score);
           renderCountryTabs();
 
           const teams = teamsByGrade[selectedGrade] || [];
@@ -1047,8 +1048,60 @@
         renderCountryTabs();
         loadCountryScoreData(currentCountryId);
         renderOverviewTable();
+        await syncLocalVaultWithServer();
       } catch (e) {
         console.error(e);
+      }
+    }
+
+        function saveScoreToLocalVault(payload, scoreObj) {
+      try {
+        const vault = JSON.parse(localStorage.getItem("mun_judge_vault_v2") || "{}");
+        const key = `${payload.grade}_${payload.countryId}_${payload.judgeName.toLowerCase()}`;
+        vault[key] = { payload, score: scoreObj, savedAt: new Date().toISOString() };
+        localStorage.setItem("mun_judge_vault_v2", JSON.stringify(vault));
+      } catch (e) {
+        console.warn("Local vault write error:", e);
+      }
+    }
+
+    async function syncLocalVaultWithServer() {
+      try {
+        const vault = JSON.parse(localStorage.getItem("mun_judge_vault_v2") || "{}");
+        const judgeName = document.getElementById("judgeNameInput").value.trim().toLowerCase();
+        if (!judgeName || !currentPasscode) return;
+
+        let recoveredCount = 0;
+        for (const [key, item] of Object.entries(vault)) {
+          if (!item || !item.payload) continue;
+          const p = item.payload;
+          if (p.judgeName && p.judgeName.toLowerCase() === judgeName) {
+            const cacheKey = `${p.grade}_${p.countryId}`;
+            if (!judgeScoresCache[cacheKey]) {
+              try {
+                p.passcode = currentPasscode;
+                const res = await fetch("/api/judge/score", {
+                  method: "POST",
+                  headers: { "Content-Type": "application/json" },
+                  body: JSON.stringify(p)
+                });
+                const resData = await res.json();
+                if (res.ok && resData.success) {
+                  judgeScoresCache[cacheKey] = resData.score;
+                  recoveredCount++;
+                }
+              } catch (e) {}
+            }
+          }
+        }
+        if (recoveredCount > 0) {
+          munToast.success(`Auto-recovered ${recoveredCount} score(s) from this device back to server!`);
+          renderCountryTabs();
+          loadCountryScoreData(currentCountryId);
+          renderOverviewTable();
+        }
+      } catch (e) {
+        console.warn("Sync vault error:", e);
       }
     }
 
