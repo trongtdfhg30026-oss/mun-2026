@@ -280,7 +280,7 @@ const TOPICS = [
   }
 ];
 
-const JUNIOR_GRADES = ['Grade 1A1', 'Grade 1A2', 'Grade 2A1', 'Grade 2A2', 'Grade 3'];
+const JUNIOR_GRADES = [];
 function isJuniorGrade(grade) {
   if (!grade) return false;
   if (['Grade 7', 'Grade 8', 'Grade 10', 'Grade 11'].includes(grade)) return false;
@@ -391,30 +391,6 @@ function normalizeJudgeKey(name) {
 }
 
 const JUDGE_ACCOUNTS = {
-  "Cô Mai": {
-    title: "Primary Judge 1",
-    name: "Cô Mai",
-    division: "junior",
-    passcodes: ["COMAI2026", "COMAI#2026", "MAI2026", "CÔMAI2026", "COMAI", "JUDGE2026"]
-  },
-  "Co Mai": {
-    title: "Primary Judge 1",
-    name: "Cô Mai",
-    division: "junior",
-    passcodes: ["COMAI2026", "COMAI#2026", "MAI2026", "CÔMAI2026", "COMAI", "JUDGE2026"]
-  },
-  "Cô Phương": {
-    title: "Primary Judge 2",
-    name: "Cô Phương",
-    division: "junior",
-    passcodes: ["COPHUONG2026", "COPHUONG#2026", "PHUONG2026", "CÔPHƯƠNG2026", "COPHUONG", "JUDGE2026"]
-  },
-  "Co Phuong": {
-    title: "Primary Judge 2",
-    name: "Cô Phương",
-    division: "junior",
-    passcodes: ["COPHUONG2026", "COPHUONG#2026", "PHUONG2026", "CÔPHƯƠNG2026", "COPHUONG", "JUDGE2026"]
-  },
   "Kevin Ta": {
     title: "Judge 1",
     name: "Kevin Ta",
@@ -567,10 +543,7 @@ app.get('/api/config', (req, res) => {
     rubric: RUBRIC,
     seniorRubric: RUBRIC,
     juniorRubric: JUNIOR_RUBRIC,
-    primaryJudges: [
-      { name: 'Cô Mai', title: 'Primary Judge 1', division: 'junior' },
-      { name: 'Cô Phương', title: 'Primary Judge 2', division: 'junior' }
-    ],
+    primaryJudges: [],
     seniorJudges: [
       { name: 'Kevin Ta', title: 'Judge 1', division: 'senior' },
       { name: 'Mr. D', title: 'Judge 2', division: 'senior' },

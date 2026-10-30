@@ -39,13 +39,7 @@
                 <option value="Grade 10">Grade 10</option>
                 <option value="Grade 11">Grade 11</option>
               </optgroup>
-              <optgroup label="Primary Parade">
-                <option value="Grade 3">Grade 3</option>
-                <option value="Grade 2A1">Grade 2A1</option>
-                <option value="Grade 2A2">Grade 2A2</option>
-                <option value="Grade 1A1">Grade 1A1</option>
-                <option value="Grade 1A2">Grade 1A2</option>
-              </optgroup>
+              
             </select>
           </div>
           <h1 class="font-mun text-base font-black tracking-wide text-white group-hover:text-amber-200 transition">
@@ -348,8 +342,7 @@
       renderAll();
     }
     function isJuniorGrade(g) {
-      if (!g) return false;
-      return !['Grade 7', 'Grade 8', 'Grade 10', 'Grade 11'].includes(g);
+      return false;
     }
     let leaderboardCache = null;
     let presentationTimerCache = null;

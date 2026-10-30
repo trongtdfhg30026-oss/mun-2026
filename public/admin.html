@@ -60,82 +60,46 @@
     <!-- Admin Dashboard -->
     <div id="adminDashboard" class="hidden flex flex-col gap-10 sm:gap-12 pb-16">
       <!-- TOP LEVEL: ACTIVE STAGE GRADE CONTROLLER -->
-      <div class="un-glass-panel rounded-2xl mb-8 sm:mb-10 p-5 sm:p-6 border-amber-500/40 bg-gradient-to-r from-slate-950 via-slate-900 to-amber-950/30 shadow-xl">
-        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-4 border-b border-slate-800">
+      <div class="un-glass-panel rounded-2xl mb-6 p-4 sm:p-5 border-amber-500/40 bg-gradient-to-r from-slate-950 via-slate-900 to-amber-950/30 shadow-xl">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-slate-800">
           <div class="flex items-center space-x-3">
-            <div class="w-10 h-10 rounded-xl bg-amber-500/20 text-amber-400 flex items-center justify-center text-lg shadow">
+            <div class="w-9 h-9 rounded-xl bg-amber-500/20 text-amber-400 flex items-center justify-center text-base shadow">
               <i class="fa-solid fa-graduation-cap"></i>
             </div>
             <div>
-              <h2 class="text-lg font-bold text-white flex items-center gap-2">
-                <span data-i18n="stageGradeTitle">Khối Lớp Đang Tranh Biện (Active Stage Grade)</span>
+              <h2 class="text-base font-bold text-white flex items-center gap-2">
+                <span data-i18n="stageGradeTitle">Active Stage Grade</span>
                 <span id="currentStageGradeDisplay" class="px-2.5 py-0.5 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/30 text-xs font-mono font-bold">Grade 11</span>
               </h2>
-              <p data-i18n="stageGradeSub" class="text-xs text-slate-400 mt-0.5">
-                <span data-i18n="stageGradeSubText">Bấm chọn khối lớp đang biểu diễn trên sân khấu. Màn hình Leaderboard và bảng chấm sẽ lập tức chuyển theo.</span>
+              <p data-i18n="stageGradeSub" class="text-[11px] text-slate-400">
+                <span data-i18n="stageGradeSubText">Select active grade competing on stage. Leaderboard projector and scoring sheets sync automatically.</span>
               </p>
             </div>
           </div>
-          <div class="flex items-center space-x-2 text-xs text-slate-400 bg-slate-900 px-3 py-1.5 rounded-lg border border-slate-800">
+          <div class="flex items-center space-x-2 text-[11px] text-slate-400 bg-slate-900 px-3 py-1.5 rounded-lg border border-slate-800">
             <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-            <span data-i18n="stageSyncNotice">Đồng bộ tức thì đến Máy Chiếu Leaderboard</span>
+            <span data-i18n="stageSyncNotice">Real-time sync to Leaderboard</span>
           </div>
         </div>
 
-        <!-- Primary Division Grades (1A1 - 3) -->
-        <div class="mt-4 pt-3 border-t border-slate-800/80">
-          <div class="flex items-center space-x-2 text-xs font-black uppercase tracking-wider text-amber-400 mb-2.5">
-            <i class="fa-solid fa-star"></i>
-            <span data-i18n="primaryDivTitle">🌟 Tiểu Học &bull; Diễu Hành Quốc Gia (Primary &bull; Parade of Nations)</span>
-          </div>
-          <div class="grid grid-cols-2 sm:grid-cols-5 gap-2.5">
-            <button onclick="setStageActiveGrade('Grade 1A1')" id="adminGradeBtn_G1A1" class="px-3 py-2.5 rounded-xl font-bold text-xs transition shadow cursor-pointer border flex items-center justify-center space-x-1.5 bg-slate-900 text-slate-300 hover:text-white border-slate-700">
-              <i class="fa-solid fa-shapes text-amber-400 text-xs"></i>
-              <span>Grade 1A1</span>
-            </button>
-            <button onclick="setStageActiveGrade('Grade 1A2')" id="adminGradeBtn_G1A2" class="px-3 py-2.5 rounded-xl font-bold text-xs transition shadow cursor-pointer border flex items-center justify-center space-x-1.5 bg-slate-900 text-slate-300 hover:text-white border-slate-700">
-              <i class="fa-solid fa-shapes text-amber-400 text-xs"></i>
-              <span>Grade 1A2</span>
-            </button>
-            <button onclick="setStageActiveGrade('Grade 2A1')" id="adminGradeBtn_G2A1" class="px-3 py-2.5 rounded-xl font-bold text-xs transition shadow cursor-pointer border flex items-center justify-center space-x-1.5 bg-slate-900 text-slate-300 hover:text-white border-slate-700">
-              <i class="fa-solid fa-shapes text-sky-400 text-xs"></i>
-              <span>Grade 2A1</span>
-            </button>
-            <button onclick="setStageActiveGrade('Grade 2A2')" id="adminGradeBtn_G2A2" class="px-3 py-2.5 rounded-xl font-bold text-xs transition shadow cursor-pointer border flex items-center justify-center space-x-1.5 bg-slate-900 text-slate-300 hover:text-white border-slate-700">
-              <i class="fa-solid fa-shapes text-sky-400 text-xs"></i>
-              <span>Grade 2A2</span>
-            </button>
-            <button onclick="setStageActiveGrade('Grade 3')" id="adminGradeBtn_G3" class="px-3 py-2.5 rounded-xl font-bold text-xs transition shadow cursor-pointer border flex items-center justify-center space-x-1.5 bg-slate-900 text-slate-300 hover:text-white border-slate-700 col-span-2 sm:col-span-1">
-              <i class="fa-solid fa-shapes text-emerald-400 text-xs"></i>
-              <span>Grade 3</span>
-            </button>
-          </div>
-        </div>
-
-        <!-- Senior Division Grades (7 - 11) -->
-        <div class="mt-4 pt-3 border-t border-slate-800/80">
-          <div class="flex items-center space-x-2 text-xs font-black uppercase tracking-wider text-blue-400 mb-2.5">
-            <i class="fa-solid fa-landmark"></i>
-            <span data-i18n="seniorDivTitle">🏛️ Trung Học &bull; Tranh Biện Model UN (Senior &bull; MUN Showcase)</span>
-          </div>
-          <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
-            <button onclick="setStageActiveGrade('Grade 11')" id="adminGradeBtn_G11" class="px-4 py-3 rounded-xl font-bold text-sm transition shadow cursor-pointer border flex items-center justify-center space-x-2 bg-slate-900 text-slate-300 hover:text-white border-slate-700">
-              <i class="fa-solid fa-medal text-amber-400"></i>
-              <span>Grade 11</span>
-            </button>
-            <button onclick="setStageActiveGrade('Grade 10')" id="adminGradeBtn_G10" class="px-4 py-3 rounded-xl font-bold text-sm transition shadow cursor-pointer border flex items-center justify-center space-x-2 bg-slate-900 text-slate-300 hover:text-white border-slate-700">
-              <i class="fa-solid fa-medal text-blue-400"></i>
-              <span>Grade 10</span>
-            </button>
-            <button onclick="setStageActiveGrade('Grade 8')" id="adminGradeBtn_G8" class="px-4 py-3 rounded-xl font-bold text-sm transition shadow cursor-pointer border flex items-center justify-center space-x-2 bg-slate-900 text-slate-300 hover:text-white border-slate-700">
-              <i class="fa-solid fa-medal text-emerald-400"></i>
-              <span>Grade 8</span>
-            </button>
-            <button onclick="setStageActiveGrade('Grade 7')" id="adminGradeBtn_G7" class="px-4 py-3 rounded-xl font-bold text-sm transition shadow cursor-pointer border flex items-center justify-center space-x-2 bg-slate-900 text-slate-300 hover:text-white border-slate-700">
-              <i class="fa-solid fa-medal text-rose-400"></i>
-              <span>Grade 7</span>
-            </button>
-          </div>
+        <!-- 4 Senior Grades (7, 8, 10, 11) -->
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5 mt-3">
+          <button onclick="setStageActiveGrade('Grade 11')" id="adminGradeBtn_G11" class="px-4 py-2.5 rounded-xl font-bold text-xs sm:text-sm transition shadow cursor-pointer border flex items-center justify-center space-x-2 bg-slate-900 text-slate-300 hover:text-white border-slate-700">
+            <i class="fa-solid fa-medal text-amber-400"></i>
+            <span>Grade 11</span>
+          </button>
+          <button onclick="setStageActiveGrade('Grade 10')" id="adminGradeBtn_G10" class="px-4 py-2.5 rounded-xl font-bold text-xs sm:text-sm transition shadow cursor-pointer border flex items-center justify-center space-x-2 bg-slate-900 text-slate-300 hover:text-white border-slate-700">
+            <i class="fa-solid fa-medal text-blue-400"></i>
+            <span>Grade 10</span>
+          </button>
+          <button onclick="setStageActiveGrade('Grade 8')" id="adminGradeBtn_G8" class="px-4 py-2.5 rounded-xl font-bold text-xs sm:text-sm transition shadow cursor-pointer border flex items-center justify-center space-x-2 bg-slate-900 text-slate-300 hover:text-white border-slate-700">
+            <i class="fa-solid fa-medal text-emerald-400"></i>
+            <span>Grade 8</span>
+          </button>
+          <button onclick="setStageActiveGrade('Grade 7')" id="adminGradeBtn_G7" class="px-4 py-2.5 rounded-xl font-bold text-xs sm:text-sm transition shadow cursor-pointer border flex items-center justify-center space-x-2 bg-slate-900 text-slate-300 hover:text-white border-slate-700">
+            <i class="fa-solid fa-medal text-rose-400"></i>
+            <span>Grade 7</span>
+          </button>
         </div>
       </div>
 
@@ -272,19 +236,10 @@
             <div class="flex items-center space-x-2">
               <span class="text-xs uppercase font-extrabold text-slate-300">Live Grade Monitor:</span>
               <select id="monitorGradeSelect" onchange="fetchLiveDelegationStatus()" class="bg-slate-900 border border-slate-700 rounded-lg px-3 py-1.5 text-xs font-bold text-amber-400 focus:outline-none focus:border-amber-400">
-                <optgroup label="🌟 Primary: Parade of Nations (Grade 1 - 3)">
-                  <option value="Grade 1A1">Grade 1A1</option>
-                  <option value="Grade 1A2">Grade 1A2</option>
-                  <option value="Grade 2A1">Grade 2A1</option>
-                  <option value="Grade 2A2">Grade 2A2</option>
-                  <option value="Grade 3">Grade 3</option>
-                </optgroup>
-                <optgroup label="🏛️ Senior: Model UN Showcase (Grade 7 - 11)">
-                  <option value="Grade 11" selected>Grade 11</option>
-                  <option value="Grade 10">Grade 10</option>
-                  <option value="Grade 8">Grade 8</option>
-                  <option value="Grade 7">Grade 7</option>
-                </optgroup>
+                <option value="Grade 11" selected>Grade 11</option>
+                <option value="Grade 10">Grade 10</option>
+                <option value="Grade 8">Grade 8</option>
+                <option value="Grade 7">Grade 7</option>
               </select>
             </div>
             <div class="text-[11px] text-slate-400 flex items-center gap-2">
@@ -386,19 +341,10 @@
           <div class="flex flex-wrap items-center gap-3">
             <span class="text-xs font-bold text-slate-300 uppercase" data-i18n="presPresentingLabel">Đoàn đang thuyết trình:</span>
             <select id="presGradeSelect" onchange="onPresGradeChange()" class="bg-slate-950 border border-slate-700 rounded-lg px-3 py-1.5 text-xs font-bold text-sky-400 focus:outline-none">
-              <optgroup label="🌟 Primary: Parade of Nations (Grade 1 - 3)">
-                  <option value="Grade 1A1">Grade 1A1</option>
-                  <option value="Grade 1A2">Grade 1A2</option>
-                  <option value="Grade 2A1">Grade 2A1</option>
-                  <option value="Grade 2A2">Grade 2A2</option>
-                  <option value="Grade 3">Grade 3</option>
-                </optgroup>
-                <optgroup label="🏛️ Senior: Model UN Showcase (Grade 7 - 11)">
-                  <option value="Grade 11" selected>Grade 11</option>
-                  <option value="Grade 10">Grade 10</option>
-                  <option value="Grade 8">Grade 8</option>
-                  <option value="Grade 7">Grade 7</option>
-                </optgroup>
+              <option value="Grade 11" selected>Grade 11</option>
+                <option value="Grade 10">Grade 10</option>
+                <option value="Grade 8">Grade 8</option>
+                <option value="Grade 7">Grade 7</option>
             </select>
             <select id="presCountrySelect" onchange="onPresCountryChange()" class="bg-slate-950 border border-slate-700 rounded-lg px-3 py-1.5 text-xs font-bold text-white focus:outline-none">
               <!-- populated dynamically -->
@@ -432,7 +378,7 @@
               </div>
               <h2 data-i18n="evidenceCardTitle" class="text-lg sm:text-xl font-extrabold text-white">Lưu Trữ Minh Chứng Đầy Đủ & Đặt Lại Cho Khối Kế Tiếp</h2>
               <p class="text-xs text-slate-300 leading-relaxed max-w-2xl mt-1">
-                Before advancing to the next grade level, click this button to automatically export the complete official <strong>Audit Evidence CSV for ALL teams</strong> (every delegation, criteria score, raw ballots and comments). It automatically creates a server snapshot in <code>data/archives/</code> and resets live ballots for the next grade.
+                Click to export official Excel evidence and archive permanent audit dossiers before advancing to the next grade chamber.
               </p>
             </div>
           </div>
@@ -701,7 +647,7 @@
         exportExcelBtn: "📊 Export Official Excel Report",
         resetGradeBtn: "Download Evidence & Reset Next Grade",
         passcodeSecTitle: "Delegation & Judge Access Passcodes Directory",
-        passcodeSecSub: "Each country delegation has an exclusive passcode to enter the Judge Chamber (/judge). Share with mentors and judges.",
+        passcodeSecSub: "Organized by Mentor and Grade. Click Copy to share with mentors and judges.",
         
         judgeTableTitle: "Live Judges' Evaluation Scorecards",
         timerStart: "Start",
@@ -1366,10 +1312,7 @@ function updateTimerUi(t) {
       } catch(e) {}
     }
 
-    const ALL_STAGE_GRADES = [
-      'Grade 1A1', 'Grade 1A2', 'Grade 2A1', 'Grade 2A2', 'Grade 3',
-      'Grade 11', 'Grade 10', 'Grade 8', 'Grade 7'
-    ];
+    const ALL_STAGE_GRADES = ['Grade 11', 'Grade 10', 'Grade 8', 'Grade 7'];
 
     function updateAdminStageGradeUi(grade) {
       if (!grade) return;
@@ -1854,25 +1797,9 @@ function updateTimerUi(t) {
         };
 
         container.innerHTML = `
-          <div class="space-y-6">
-            <div>
-              <div class="flex items-center space-x-2 text-xs font-black uppercase tracking-wider text-amber-400 mb-3">
-                <i class="fa-solid fa-star"></i>
-                <span>🌟 Primary Division &bull; Parade of Nations (Grades 1A1, 1A2, 2A1, 2A2, 3)</span>
-              </div>
-              <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4">
-                ${juniorGrades.map(g => renderGradeCard(g, true)).join('')}
-              </div>
-            </div>
-
-            <div>
-              <div class="flex items-center space-x-2 text-xs font-black uppercase tracking-wider text-blue-400 mb-3">
-                <i class="fa-solid fa-landmark"></i>
-                <span>🏛️ Senior Division &bull; Model United Nations Showcase (Grades 7, 8, 10, 11)</span>
-              </div>
-              <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-                ${seniorGrades.map(g => renderGradeCard(g, false)).join('')}
-              </div>
+          <div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+              ${seniorGrades.map(g => renderGradeCard(g, false)).join("")}
             </div>
           </div>
         `;
@@ -1909,25 +1836,9 @@ function updateTimerUi(t) {
         `;
 
         container.innerHTML = `
-          <div class="space-y-6">
-            <div>
-              <div class="flex items-center space-x-2 text-xs font-black uppercase tracking-wider text-amber-400 mb-3">
-                <i class="fa-solid fa-star"></i>
-                <span>${currentAdminLang === "en" ? "🌟 Primary Division Judges (Grades 1 - 3)" : "🌟 Ban Giám Khảo Tiểu Học (Lớp 1 - 3)"}</span>
-              </div>
-              <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-4">
-                ${primaryJudges.map(j => renderJudgeCard(j, true)).join('')}
-              </div>
-            </div>
-
-            <div>
-              <div class="flex items-center space-x-2 text-xs font-black uppercase tracking-wider text-blue-400 mb-3">
-                <i class="fa-solid fa-scale-balanced"></i>
-                <span>${currentAdminLang === "en" ? "🏛️ Senior Division Judges (Grades 7 - 11)" : "🏛️ Ban Giám Khảo Trung Học (Lớp 7 - 11)"}</span>
-              </div>
-              <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                ${seniorJudges.map(j => renderJudgeCard(j, false)).join('')}
-              </div>
+          <div>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+              ${seniorJudges.map(j => renderJudgeCard(j, false)).join("")}
             </div>
           </div>
         `;
