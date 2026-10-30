@@ -113,6 +113,306 @@
       "comments": "Learning how to present without speaking too fast or too slow is always a challenge.  Keep going!\nGood answer to the judges question.",
       "division": "senior",
       "timestamp": "2026-10-30T01:47:24.219Z"
+    },
+    {
+      "id": "score_1793324900001_ru_kt",
+      "judgeName": "Kevin Ta",
+      "grade": "Grade 7",
+      "countryId": "russia",
+      "scores": {
+        "preparation": 2,
+        "speaking": 3,
+        "vocabulary": 3,
+        "teamwork": 2,
+        "qna": 3
+      },
+      "baseScore": 13,
+      "advancedBonus": false,
+      "bonusPoints": 0,
+      "totalScore": 13,
+      "comments": "Confident presentation and good understanding of global issues.",
+      "division": "senior",
+      "timestamp": "2026-10-30T01:48:10.000Z"
+    },
+    {
+      "id": "score_1793324900002_ru_cn",
+      "judgeName": "Chi Nguyen",
+      "grade": "Grade 7",
+      "countryId": "russia",
+      "scores": {
+        "preparation": 2,
+        "speaking": 2,
+        "vocabulary": 3,
+        "teamwork": 3,
+        "qna": 3
+      },
+      "baseScore": 13,
+      "advancedBonus": false,
+      "bonusPoints": 0,
+      "totalScore": 13,
+      "comments": "Clear team coordination.",
+      "division": "senior",
+      "timestamp": "2026-10-30T01:48:15.000Z"
+    },
+    {
+      "id": "score_1793324900003_ru_md",
+      "judgeName": "Mr. D",
+      "grade": "Grade 7",
+      "countryId": "russia",
+      "scores": {
+        "preparation": 2,
+        "speaking": 2,
+        "vocabulary": 3,
+        "teamwork": 2,
+        "qna": 3
+      },
+      "baseScore": 12,
+      "advancedBonus": false,
+      "bonusPoints": 0,
+      "totalScore": 12,
+      "comments": "Solid effort and good answers to questions.",
+      "division": "senior",
+      "timestamp": "2026-10-30T01:48:20.000Z"
+    },
+    {
+      "id": "score_1793324900004_es_kt",
+      "judgeName": "Kevin Ta",
+      "grade": "Grade 7",
+      "countryId": "spain",
+      "scores": {
+        "preparation": 2,
+        "speaking": 2,
+        "vocabulary": 3,
+        "teamwork": 2,
+        "qna": 3
+      },
+      "baseScore": 12,
+      "advancedBonus": false,
+      "bonusPoints": 0,
+      "totalScore": 12,
+      "comments": "Good energy throughout the presentation.",
+      "division": "senior",
+      "timestamp": "2026-10-30T01:48:30.000Z"
+    },
+    {
+      "id": "score_1793324900005_es_cn",
+      "judgeName": "Chi Nguyen",
+      "grade": "Grade 7",
+      "countryId": "spain",
+      "scores": {
+        "preparation": 2,
+        "speaking": 2,
+        "vocabulary": 2,
+        "teamwork": 3,
+        "qna": 3
+      },
+      "baseScore": 12,
+      "advancedBonus": false,
+      "bonusPoints": 0,
+      "totalScore": 12,
+      "comments": "Well prepared worksheet.",
+      "division": "senior",
+      "timestamp": "2026-10-30T01:48:35.000Z"
+    },
+    {
+      "id": "score_1793324900006_es_md",
+      "judgeName": "Mr. D",
+      "grade": "Grade 7",
+      "countryId": "spain",
+      "scores": {
+        "preparation": 2,
+        "speaking": 2,
+        "vocabulary": 2,
+        "teamwork": 2,
+        "qna": 3
+      },
+      "baseScore": 11,
+      "advancedBonus": false,
+      "bonusPoints": 0,
+      "totalScore": 11,
+      "comments": "Clear speaking, keep practicing your pronunciation.",
+      "division": "senior",
+      "timestamp": "2026-10-30T01:48:40.000Z"
+    },
+    {
+      "id": "score_1793324900007_de_kt",
+      "judgeName": "Kevin Ta",
+      "grade": "Grade 7",
+      "countryId": "germany",
+      "scores": {
+        "preparation": 2,
+        "speaking": 2,
+        "vocabulary": 2,
+        "teamwork": 2,
+        "qna": 3
+      },
+      "baseScore": 11,
+      "advancedBonus": false,
+      "bonusPoints": 0,
+      "totalScore": 11,
+      "comments": "Good effort in active listening.",
+      "division": "senior",
+      "timestamp": "2026-10-30T01:48:50.000Z"
+    },
+    {
+      "id": "score_1793324900008_de_cn",
+      "judgeName": "Chi Nguyen",
+      "grade": "Grade 7",
+      "countryId": "germany",
+      "scores": {
+        "preparation": 2,
+        "speaking": 2,
+        "vocabulary": 2,
+        "teamwork": 2,
+        "qna": 3
+      },
+      "baseScore": 11,
+      "advancedBonus": false,
+      "bonusPoints": 0,
+      "totalScore": 11,
+      "comments": "Good teamwork.",
+      "division": "senior",
+      "timestamp": "2026-10-30T01:48:55.000Z"
+    },
+    {
+      "id": "score_1793324900009_de_md",
+      "judgeName": "Mr. D",
+      "grade": "Grade 7",
+      "countryId": "germany",
+      "scores": {
+        "preparation": 2,
+        "speaking": 2,
+        "vocabulary": 2,
+        "teamwork": 2,
+        "qna": 2
+      },
+      "baseScore": 10,
+      "advancedBonus": false,
+      "bonusPoints": 0,
+      "totalScore": 10,
+      "comments": "Keep practicing stage presentation.",
+      "division": "senior",
+      "timestamp": "2026-10-30T01:49:00.000Z"
+    },
+    {
+      "id": "score_1793324900010_fr_kt",
+      "judgeName": "Kevin Ta",
+      "grade": "Grade 7",
+      "countryId": "france",
+      "scores": {
+        "preparation": 2,
+        "speaking": 2,
+        "vocabulary": 2,
+        "teamwork": 2,
+        "qna": 3
+      },
+      "baseScore": 11,
+      "advancedBonus": false,
+      "bonusPoints": 0,
+      "totalScore": 11,
+      "comments": "Good vocabulary usage.",
+      "division": "senior",
+      "timestamp": "2026-10-30T01:49:10.000Z"
+    },
+    {
+      "id": "score_1793324900011_fr_cn",
+      "judgeName": "Chi Nguyen",
+      "grade": "Grade 7",
+      "countryId": "france",
+      "scores": {
+        "preparation": 2,
+        "speaking": 2,
+        "vocabulary": 2,
+        "teamwork": 2,
+        "qna": 2
+      },
+      "baseScore": 10,
+      "advancedBonus": false,
+      "bonusPoints": 0,
+      "totalScore": 10,
+      "comments": "Nice presentation.",
+      "division": "senior",
+      "timestamp": "2026-10-30T01:49:15.000Z"
+    },
+    {
+      "id": "score_1793324900012_fr_md",
+      "judgeName": "Mr. D",
+      "grade": "Grade 7",
+      "countryId": "france",
+      "scores": {
+        "preparation": 2,
+        "speaking": 2,
+        "vocabulary": 2,
+        "teamwork": 2,
+        "qna": 2
+      },
+      "baseScore": 10,
+      "advancedBonus": false,
+      "bonusPoints": 0,
+      "totalScore": 10,
+      "comments": "Work on eye contact and voice projection.",
+      "division": "senior",
+      "timestamp": "2026-10-30T01:49:20.000Z"
+    },
+    {
+      "id": "score_1793324900013_br_kt",
+      "judgeName": "Kevin Ta",
+      "grade": "Grade 7",
+      "countryId": "brazil",
+      "scores": {
+        "preparation": 2,
+        "speaking": 1,
+        "vocabulary": 2,
+        "teamwork": 2,
+        "qna": 2
+      },
+      "baseScore": 9,
+      "advancedBonus": false,
+      "bonusPoints": 0,
+      "totalScore": 9,
+      "comments": "You should practice more to be more fluent.",
+      "division": "senior",
+      "timestamp": "2026-10-30T01:49:30.000Z"
+    },
+    {
+      "id": "score_1793324900014_br_cn",
+      "judgeName": "Chi Nguyen",
+      "grade": "Grade 7",
+      "countryId": "brazil",
+      "scores": {
+        "preparation": 1,
+        "speaking": 1,
+        "vocabulary": 3,
+        "teamwork": 2,
+        "qna": 2
+      },
+      "baseScore": 9,
+      "advancedBonus": false,
+      "bonusPoints": 0,
+      "totalScore": 9,
+      "comments": "",
+      "division": "senior",
+      "timestamp": "2026-10-30T01:49:35.000Z"
+    },
+    {
+      "id": "score_1793324900015_br_md",
+      "judgeName": "Mr. D",
+      "grade": "Grade 7",
+      "countryId": "brazil",
+      "scores": {
+        "preparation": 2,
+        "speaking": 1,
+        "vocabulary": 2,
+        "teamwork": 2,
+        "qna": 2
+      },
+      "baseScore": 9,
+      "advancedBonus": false,
+      "bonusPoints": 0,
+      "totalScore": 9,
+      "comments": "So important to know what you have written and to practise before the presentation. Keep on trying!",
+      "division": "senior",
+      "timestamp": "2026-10-30T01:49:40.000Z"
     }
   ]
 }
