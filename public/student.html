@@ -223,7 +223,7 @@
     </div>
 
     <!-- Success Receipt Card -->
-    <div id="successReceipt" class="hidden un-glass-panel rounded-2xl p-6 sm:p-10 text-center border-emerald-500/40">
+    <div id="receiptContainer" class="hidden un-glass-panel rounded-2xl p-6 sm:p-10 text-center border-emerald-500/40">
       <div class="w-20 h-20 rounded-full bg-emerald-500/20 border-2 border-emerald-400 flex items-center justify-center text-emerald-400 text-3xl mx-auto mb-5 shadow-lg shadow-emerald-500/20 animate-bounce">
         <i class="fa-solid fa-check"></i>
       </div>
@@ -234,7 +234,7 @@
         Ballot Successfully Logged!
       </h2>
       <p class="text-slate-300 text-sm max-w-lg mx-auto mb-6">
-        Thank you, delegation of <span id="receiptVoterName" class="text-amber-400 font-bold"></span> (<span id="receiptGradeName"></span>). Your votes for each topic have been officially added to the General Assembly tally.
+        Thank you, delegation of <span id="receiptVoter" class="text-amber-400 font-bold"></span> (<span id="receiptGradeName"></span>). Your votes for each topic have been officially added to the General Assembly tally.
       </p>
 
       <!-- Topic Choices Breakdown -->
@@ -242,7 +242,7 @@
         <div class="text-xs uppercase font-semibold text-slate-400 mb-3 text-center tracking-wider">
           Your Recorded Topic Votes:
         </div>
-        <div id="receiptChosenList" class="space-y-3">
+        <div id="receiptChoicesList" class="space-y-3">
           <!-- Filled by JS -->
         </div>
         <div class="mt-4 pt-3 border-t border-slate-800 text-[11px] text-slate-500 flex justify-between">
@@ -1093,6 +1093,33 @@
       const list = document.getElementById('receiptChoicesList');
       list.innerHTML = '';
 
+      if (isJuniorGrade(ballot.grade)) {
+        const votedIds = (ballot.topicVotes && (ballot.topicVotes.favorites || ballot.topicVotes.climate)) || [];
+        const row = document.createElement('div');
+        row.className = 'p-3 rounded-lg bg-slate-950/60 border border-slate-800';
+        let flagsHtml = '';
+        votedIds.forEach(cid => {
+          const t = teams.find(x => x.id === cid) || { name: cid, flag: '' };
+          flagsHtml += `
+            <div class="inline-flex items-center space-x-1.5 px-2.5 py-1 rounded bg-slate-800 border border-slate-700 text-xs font-bold text-white">
+              <img src="${t.flag}" class="w-5 h-3.5 object-cover rounded">
+              <span>${t.name}</span>
+            </div>
+          `;
+        });
+        row.innerHTML = `
+          <div class="flex items-center justify-between mb-2">
+            <span class="text-[10px] uppercase font-bold text-slate-400">Favorite Classmates & Costumes</span>
+            <span class="text-emerald-400 font-bold text-[10px] bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20"><i class="fa-solid fa-check mr-1"></i>${votedIds.length} Selections Recorded</span>
+          </div>
+          <div class="flex flex-wrap items-center gap-2">
+            ${flagsHtml || '<span class="text-xs text-slate-500 italic">No choices logged</span>'}
+          </div>
+        `;
+        list.appendChild(row);
+        return;
+      }
+
       TOPICS.forEach(top => {
         const votedIds = (ballot.topicVotes && ballot.topicVotes[top.id]) || [];
         const row = document.createElement('div');
@@ -1122,6 +1149,17 @@
       });
     }
 
+    
+    function resetForNewVote() {
+      localStorage.removeItem('mun_voted_ballot_v2');
+      const receipt = document.getElementById('receiptContainer');
+      if (receipt) receipt.classList.add('hidden');
+      const form = document.getElementById('votingFormContainer');
+      if (form) form.classList.remove('hidden');
+      renderTopics();
+      checkFormReady();
+      if (window.munToast) munToast.info('Ready for new ballot entry.');
+    }
     function checkSavedVote() {
       const saved = localStorage.getItem('mun_voted_ballot_v2');
       if (saved) {

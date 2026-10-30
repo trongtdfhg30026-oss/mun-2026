@@ -162,19 +162,36 @@ app.use(cors());
 app.use(express.json({ limit: '100kb' }));
 app.use(express.urlencoded({ extended: true, limit: '100kb' }));
 
-// Enterprise Security Headers
+// Enterprise Security & Cache-Busting Headers (Guaranteed instant device sync)
 app.use((req, res, next) => {
   res.setHeader('X-Content-Type-Options', 'nosniff');
   res.setHeader('X-Frame-Options', 'SAMEORIGIN');
   res.setHeader('X-XSS-Protection', '1; mode=block');
   res.setHeader('Referrer-Policy', 'strict-origin-when-cross-origin');
+  
+  if (req.path === '/' || req.path.endsWith('.html') || !path.extname(req.path) || req.path.startsWith('/api')) {
+    res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate, max-age=0');
+    res.setHeader('Pragma', 'no-cache');
+    res.setHeader('Expires', '0');
+  }
   next();
 });
 
 // Anti-Spam Rate Limiter
 app.use('/api/', rateLimiterMiddleware);
 
-app.use(express.static(path.join(__dirname, 'public')));
+// Static assets with zero-cache for HTML, JS, CSS
+app.use(express.static(path.join(__dirname, 'public'), {
+  etag: false,
+  maxAge: 0,
+  setHeaders: (res, filePath) => {
+    if (filePath.endsWith('.html') || filePath.endsWith('.js') || filePath.endsWith('.css')) {
+      res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate, max-age=0');
+      res.setHeader('Pragma', 'no-cache');
+      res.setHeader('Expires', '0');
+    }
+  }
+}));
 
 function loadJson(file, def) {
   try {
@@ -1675,11 +1692,19 @@ app.get('/api/network-info', (req, res) => {
   });
 });
 
-// Friendly routes
-app.get('/student', (req, res) => res.sendFile(path.join(__dirname, 'public', 'student.html')));
-app.get('/judge', (req, res) => res.sendFile(path.join(__dirname, 'public', 'judge.html')));
-app.get('/results', (req, res) => res.sendFile(path.join(__dirname, 'public', 'results.html')));
-app.get('/admin', (req, res) => res.sendFile(path.join(__dirname, 'public', 'admin.html')));
+// Friendly routes (Zero cache for instant cross-device sync)
+const sendFreshFile = (res, filename) => {
+  res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate, max-age=0');
+  res.setHeader('Pragma', 'no-cache');
+  res.setHeader('Expires', '0');
+  res.sendFile(path.join(__dirname, 'public', filename));
+};
+
+app.get('/', (req, res) => sendFreshFile(res, 'index.html'));
+app.get('/student', (req, res) => sendFreshFile(res, 'student.html'));
+app.get('/judge', (req, res) => sendFreshFile(res, 'judge.html'));
+app.get('/results', (req, res) => sendFreshFile(res, 'results.html'));
+app.get('/admin', (req, res) => sendFreshFile(res, 'admin.html'));
 
 // Short URL aliases
 app.get('/s', (req, res) => res.redirect('/student'));
