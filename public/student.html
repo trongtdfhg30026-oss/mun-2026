@@ -131,7 +131,7 @@
             <div class="relative">
               <input type="password" id="voterPasscode" placeholder="Enter country passcode"
                 class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-sm font-mono text-white tracking-widest focus:outline-none focus:border-amber-400 transition uppercase"
-                disabled oninput="handlePasscodeChange()">
+                disabled oninput="handlePasscodeChange()" onkeydown="handlePasscodeKeydown(event)">
               <button type="button" onclick="togglePasscodeVisibility()" class="absolute right-3 top-3 text-slate-400 hover:text-white text-xs">
                 <i id="passcodeEyeIcon" class="fa-solid fa-eye"></i>
               </button>
@@ -553,6 +553,41 @@
       checkFormReady();
     }
 
+    function handleCountryChange() {
+      const cSelect = document.getElementById('voterCountrySelect');
+      selectedVoterCountry = cSelect ? cSelect.value : '';
+      currentPasscode = '';
+      isPasscodeVerified = false;
+
+      const pInput = document.getElementById('voterPasscode');
+      const errDiv = document.getElementById('passcodeError');
+      const rosterCard = document.getElementById('delegationRosterCard');
+
+      if (errDiv) errDiv.classList.add('hidden');
+      if (rosterCard) rosterCard.classList.add('hidden');
+
+      if (pInput) {
+        pInput.disabled = !selectedVoterCountry;
+        pInput.value = '';
+        if (selectedVoterCountry) {
+          const isJunior = isJuniorGrade(selectedGrade);
+          pInput.placeholder = isJunior ? 'Enter passcode (e.g. G1A1-01 or 1A1)' : 'Enter country passcode';
+          setTimeout(() => pInput.focus(), 50);
+        }
+      }
+
+      renderTopics();
+      checkFormReady();
+    }
+
+    function handlePasscodeKeydown(event) {
+      if (event.key === 'Enter') {
+        event.preventDefault();
+        clearTimeout(passcodeDebounceTimer);
+        verifyDelegationPasscode();
+      }
+    }
+
     let passcodeDebounceTimer = null;
     function handlePasscodeChange() {
       clearTimeout(passcodeDebounceTimer);
@@ -603,11 +638,18 @@
           errDiv.classList.add('hidden');
 
           const team = data.team;
+          const isJunior = isJuniorGrade(selectedGrade);
           document.getElementById('myFlag').src = team.flag;
-          document.getElementById('myCountryName').textContent = `${team.name} (${selectedGrade})`;
-          document.getElementById('myMentorBadge').textContent = `Mentor: ${team.mentor}`;
-          const delText = Array.isArray(team.delegates) ? team.delegates.join(', ') : (team.delegates || '');
-          document.getElementById('myDelegatesList').textContent = `Delegates: ${delText}`;
+          if (isJunior) {
+            document.getElementById('myCountryName').textContent = `${team.studentName} — ${team.country} (${selectedGrade})`;
+            document.getElementById('myMentorBadge').textContent = team.isEmcee ? '🎙️ Official Emcee' : (team.costume || 'National Costume');
+            document.getElementById('myDelegatesList').textContent = `Script: "${team.basicScript || ''}"`;
+          } else {
+            document.getElementById('myCountryName').textContent = `${team.name} (${selectedGrade})`;
+            document.getElementById('myMentorBadge').textContent = `Mentor: ${team.mentor}`;
+            const delText = Array.isArray(team.delegates) ? team.delegates.join(', ') : (team.delegates || '');
+            document.getElementById('myDelegatesList').textContent = `Delegates: ${delText}`;
+          }
 
           rosterCard.classList.remove('hidden');
           renderTopics();
@@ -908,6 +950,23 @@
         submitBtn.className = 'w-full sm:w-auto px-8 py-3.5 rounded-xl font-bold text-sm bg-slate-800 text-rose-400 cursor-not-allowed transition flex items-center justify-center space-x-2 border border-rose-500/30';
         submitBtn.innerHTML = '<i class="fa-solid fa-lock"></i><span>Voting is Currently Locked by Host</span>';
         if (progressText) progressText.textContent = 'Voting is currently closed. Await host announcement.';
+        return;
+      }
+
+      const isJunior = isJuniorGrade(selectedGrade);
+      if (isJunior) {
+        const favCount = (topicVotes.favorites || topicVotes.climate || []).length;
+        if (favCount === 2) {
+          submitBtn.disabled = false;
+          submitBtn.className = 'w-full sm:w-auto px-8 py-3.5 rounded-xl font-extrabold text-sm bg-gradient-to-r from-emerald-500 via-teal-500 to-emerald-600 hover:from-emerald-400 hover:to-teal-400 text-slate-950 cursor-pointer shadow-lg shadow-emerald-500/25 transition transform hover:-translate-y-0.5 flex items-center justify-center space-x-2';
+          submitBtn.innerHTML = '<i class="fa-solid fa-paper-plane"></i><span>Submit Official Ballot (2/2 Selected)</span>';
+          if (progressText) progressText.innerHTML = '<span class="text-emerald-400 font-bold">✓ Ready! 2 favorite classmates selected. Click to submit ballot.</span>';
+        } else {
+          submitBtn.disabled = true;
+          submitBtn.className = 'w-full sm:w-auto px-8 py-3.5 rounded-xl font-bold text-sm bg-slate-800 text-slate-400 cursor-not-allowed transition flex items-center justify-center space-x-2 border border-slate-700';
+          submitBtn.innerHTML = `<i class="fa-solid fa-lock"></i><span>Select 2 Favorite Classmates (${favCount}/2 Selected)</span>`;
+          if (progressText) progressText.innerHTML = `<span class="text-amber-400">Please choose exactly 2 classmates below (${favCount}/2 selected).</span>`;
+        }
         return;
       }
 

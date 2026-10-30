@@ -649,6 +649,32 @@ function handleVerifyJudge(req, res) {
 app.post('/api/judge/verify', handleVerifyJudge);
 app.get('/api/judge/verify', handleVerifyJudge);
 
+// Helper: verify student delegation or primary classmate passcode
+function verifyStudentPasscode(grade, voterCountry, passcode) {
+  if (!grade || !voterCountry || !passcode) return false;
+  const clean = String(passcode).trim().replace(/\s+/g, '').toUpperCase();
+  if (!clean) return false;
+
+  // Master credentials
+  if (clean === "ADMIN2026" || clean === "JUDGE2026") return true;
+
+  // Expected country/student passcode
+  const expectedRaw = (COUNTRY_PASSCODES[grade] && COUNTRY_PASSCODES[grade][voterCountry]) || "";
+  const expected = String(expectedRaw).trim().replace(/\s+/g, '').toUpperCase();
+  if (expected && safeCompare(clean, expected)) return true;
+
+  // Class PIN shortcuts for Junior Division (e.g. "G1A1", "1A1", "G2A1", "2A1", "G3", "3", "JUNIOR", "KIDS")
+  if (isJuniorGrade(grade)) {
+    const classShort = grade.replace(/Grade\s*/i, 'G').replace(/\s+/g, '').toUpperCase();
+    const classNum = grade.replace(/Grade\s*/i, '').replace(/\s+/g, '').toUpperCase();
+    if (safeCompare(clean, classShort) || safeCompare(clean, classNum) || safeCompare(clean, "JUNIOR") || safeCompare(clean, "KIDS")) {
+      return true;
+    }
+  }
+
+  return false;
+}
+
 // Student Delegation Passcode Verification Endpoint
 app.post("/api/student/verify", (req, res) => {
   const ip = getClientIp(req);
@@ -656,29 +682,25 @@ app.post("/api/student/verify", (req, res) => {
   if (!grade || !voterCountry) {
     return res.status(400).json({ success: false, error: "Grade and Country are required." });
   }
-  const clean = String(passcode || "").trim();
-  const expected = String((COUNTRY_PASSCODES[grade] && COUNTRY_PASSCODES[grade][voterCountry]) || "").trim();
-  const isAdmin = safeCompare(clean.toUpperCase(), "ADMIN2026") || safeCompare(clean.toUpperCase(), "JUDGE2026");
-  const isClassPin = isJuniorGrade(grade) && (
-    safeCompare(clean.toUpperCase(), grade.replace(/Grade\s*/i, 'G').replace(/\s+/g, '').toUpperCase()) ||
-    safeCompare(clean.toUpperCase(), grade.replace(/Grade\s*/i, '').replace(/\s+/g, '').toUpperCase()) ||
-    safeCompare(clean.toUpperCase(), "JUNIOR") || safeCompare(clean.toUpperCase(), "KIDS")
-  );
 
-  if (clean && (safeCompare(clean.toUpperCase(), expected.toUpperCase()) || isAdmin || isClassPin)) {
+  const isValid = verifyStudentPasscode(grade, voterCountry, passcode);
+  const teams = TEAMS_BY_GRADE[grade] || [];
+  const team = teams.find(t => t.id === voterCountry);
+
+  if (isValid && team) {
     recordAuthSuccess(ip);
-    const teams = TEAMS_BY_GRADE[grade] || [];
-    const team = teams.find(t => t.id === voterCountry);
     return res.json({
       success: true,
       message: "Delegation authenticated successfully.",
       team
     });
   }
+
   recordAuthFailure(ip);
+  const displayName = team ? (team.studentName ? `${team.studentName} (${team.country})` : team.name) : String(voterCountry).toUpperCase();
   return res.status(401).json({
     success: false,
-    error: "Invalid Passcode for " + voterCountry.toUpperCase() + " (" + grade + "). Please enter your country delegation password."
+    error: "Invalid Passcode for " + displayName + " (" + grade + "). Please enter your country delegation password."
   });
 });
 
@@ -704,19 +726,12 @@ app.post('/api/student/vote', (req, res) => {
   }
 
   // Passcode verification for voter
-  const cleanPass = (passcode || "").trim().toUpperCase();
-  const expectedPass = ((COUNTRY_PASSCODES[grade] && COUNTRY_PASSCODES[grade][voterCountry]) || "").toUpperCase();
-  const isAdmin = cleanPass === "ADMIN2026" || cleanPass === "JUDGE2026";
-  const isClassPin = isJuniorGrade(grade) && (
-    cleanPass === grade.replace(/Grade\s*/i, 'G').replace(/\s+/g, '').toUpperCase() ||
-    cleanPass === grade.replace(/Grade\s*/i, '').replace(/\s+/g, '').toUpperCase() ||
-    cleanPass === "JUNIOR" || cleanPass === "KIDS"
-  );
-
-  if (!cleanPass || (cleanPass !== expectedPass && !isAdmin && !isClassPin)) {
+  if (!verifyStudentPasscode(grade, voterCountry, passcode)) {
+    const voterObj = teams.find(t => t.id === voterCountry);
+    const displayName = voterObj ? (voterObj.studentName ? `${voterObj.studentName} (${voterObj.country})` : voterObj.name) : String(voterCountry).toUpperCase();
     return res.status(401).json({
       success: false,
-      error: `Invalid Passcode for ${String(voterCountry).toUpperCase()} (${grade}). Please enter the correct password.`
+      error: `Invalid Passcode for ${displayName} (${grade}). Please enter the correct password.`
     });
   }
 
@@ -952,10 +967,7 @@ app.post("/api/student/draft", (req, res) => {
   const { grade, voterCountry, passcode, topicVotes } = req.body;
   if (!grade || !voterCountry) return res.status(400).json({ success: false });
 
-  const clean = (passcode || "").trim().toUpperCase();
-  const expected = ((COUNTRY_PASSCODES[grade] && COUNTRY_PASSCODES[grade][voterCountry]) || "").toUpperCase();
-  const isAdmin = clean === "ADMIN2026";
-  if (!clean || (clean !== expected && !isAdmin)) {
+  if (!verifyStudentPasscode(grade, voterCountry, passcode)) {
     return res.status(401).json({ success: false, error: "Unauthorized Passcode" });
   }
 
