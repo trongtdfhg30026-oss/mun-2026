@@ -52,7 +52,170 @@
       "color": "#002395"
     }
   ],
-  "studentVotes": [],
+  "studentVotes": [
+    {
+      "id": "ballot_g7_italy_1793325000",
+      "grade": "Grade 7",
+      "voterCountry": "italy",
+      "delegates": "Huy, Linh, Trung, Lam",
+      "topicVotes": {
+        "climate": [
+          "russia",
+          "brazil"
+        ],
+        "education": [
+          "russia",
+          "brazil"
+        ],
+        "health": [
+          "russia",
+          "brazil"
+        ],
+        "favorites": [
+          "russia",
+          "brazil"
+        ]
+      },
+      "comment": "Excellent solutions by Russia and Brazil",
+      "timestamp": "2026-10-30T01:50:00.000Z",
+      "ip": "127.0.0.1"
+    },
+    {
+      "id": "ballot_g7_russia_1793325001",
+      "grade": "Grade 7",
+      "voterCountry": "russia",
+      "delegates": "K Nhieu, Binh Minh, Khien, Phat",
+      "topicVotes": {
+        "climate": [
+          "brazil",
+          "spain"
+        ],
+        "education": [
+          "brazil",
+          "spain"
+        ],
+        "health": [
+          "brazil",
+          "spain"
+        ],
+        "favorites": [
+          "brazil",
+          "spain"
+        ]
+      },
+      "comment": "Impressive presentation by Brazil and Spain",
+      "timestamp": "2026-10-30T01:50:10.000Z",
+      "ip": "127.0.0.1"
+    },
+    {
+      "id": "ballot_g7_spain_1793325002",
+      "grade": "Grade 7",
+      "voterCountry": "spain",
+      "delegates": "Delegates of Spain",
+      "topicVotes": {
+        "climate": [
+          "russia",
+          "france"
+        ],
+        "education": [
+          "russia",
+          "france"
+        ],
+        "health": [
+          "russia",
+          "france"
+        ],
+        "favorites": [
+          "russia",
+          "france"
+        ]
+      },
+      "comment": "Well done Russia and France",
+      "timestamp": "2026-10-30T01:50:20.000Z",
+      "ip": "127.0.0.1"
+    },
+    {
+      "id": "ballot_g7_brazil_1793325003",
+      "grade": "Grade 7",
+      "voterCountry": "brazil",
+      "delegates": "Bich, Nhu, Bao, Anh, Hao",
+      "topicVotes": {
+        "climate": [
+          "russia",
+          "france"
+        ],
+        "education": [
+          "russia",
+          "france"
+        ],
+        "health": [
+          "russia",
+          "france"
+        ],
+        "favorites": [
+          "russia",
+          "france"
+        ]
+      },
+      "comment": "Great effort by Russia and France",
+      "timestamp": "2026-10-30T01:50:30.000Z",
+      "ip": "127.0.0.1"
+    },
+    {
+      "id": "ballot_g7_france_1793325004",
+      "grade": "Grade 7",
+      "voterCountry": "france",
+      "delegates": "Delegates of France",
+      "topicVotes": {
+        "climate": [
+          "brazil",
+          "germany"
+        ],
+        "education": [
+          "brazil",
+          "germany"
+        ],
+        "health": [
+          "brazil",
+          "germany"
+        ],
+        "favorites": [
+          "brazil",
+          "germany"
+        ]
+      },
+      "comment": "Commended Brazil and Germany",
+      "timestamp": "2026-10-30T01:50:40.000Z",
+      "ip": "127.0.0.1"
+    },
+    {
+      "id": "ballot_g7_germany_1793325005",
+      "grade": "Grade 7",
+      "voterCountry": "germany",
+      "delegates": "Delegates of Germany",
+      "topicVotes": {
+        "climate": [
+          "spain",
+          "italy"
+        ],
+        "education": [
+          "spain",
+          "italy"
+        ],
+        "health": [
+          "spain",
+          "italy"
+        ],
+        "favorites": [
+          "spain",
+          "italy"
+        ]
+      },
+      "comment": "Commended Spain and Italy",
+      "timestamp": "2026-10-30T01:50:50.000Z",
+      "ip": "127.0.0.1"
+    }
+  ],
   "judgeScores": [
     {
       "id": "score_1793324815965_pj2va",

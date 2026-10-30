@@ -871,7 +871,7 @@ app.get("/api/timer", (req, res) => {
     roundTimer: votingTimer,
     presentationTimer,
     currentPhase: db.settings.activePhase || "all",
-    activeGrade: presentationTimerState.presentingGrade || db.settings.activeGrade || "Grade 11"
+    activeGrade: (presentationTimerState.running && presentationTimerState.presentingGrade) ? presentationTimerState.presentingGrade : (db.settings.activeGrade || "Grade 7")
   });
 });
 
@@ -1238,7 +1238,7 @@ function rankWithTies(items, scoreField) {
 // Synchronized Leaderboard & Topic Awards with Tie handling
 app.get('/api/leaderboard', (req, res) => {
   const db = loadDb();
-  const activeGrade = presentationTimerState.presentingGrade || db.settings.activeGrade || "Grade 11";
+  const activeGrade = (presentationTimerState.running && presentationTimerState.presentingGrade) ? presentationTimerState.presentingGrade : (db.settings.activeGrade || "Grade 7");
   const requestedGrade = req.query.grade || activeGrade;
 
   const gradesToProcess = Object.keys(TEAMS_BY_GRADE);
@@ -1369,6 +1369,51 @@ app.get('/api/leaderboard', (req, res) => {
       };
     }
 
+    // Overall Peer Votes Ranking (Students' Choice Award)
+    const peerStats = {};
+    teams.forEach(t => {
+      peerStats[t.id] = { team: t, votes: 0 };
+    });
+    gradeBallots.forEach(b => {
+      const chosenInBallot = new Set();
+      if (b.topicVotes) {
+        Object.keys(b.topicVotes).forEach(topId => {
+          const arr = b.topicVotes[topId] || [];
+          arr.forEach(cid => chosenInBallot.add(cid));
+        });
+      }
+      chosenInBallot.forEach(cid => {
+        if (peerStats[cid]) peerStats[cid].votes += 1;
+      });
+    });
+
+    const peerList = Object.values(peerStats).map(p => {
+      const judgeEntry = judgeRanked.find(j => j.team.id === p.team.id);
+      return {
+        team: p.team,
+        votes: p.votes,
+        avgTotalScore: judgeEntry ? judgeEntry.avgTotalScore : 0,
+        avgBaseScore: judgeEntry ? judgeEntry.avgBaseScore : 0,
+        bonusCount: judgeEntry ? judgeEntry.bonusCount : 0
+      };
+    });
+
+    peerList.sort((a, b) => {
+      if (b.votes !== a.votes) return b.votes - a.votes;
+      return b.avgTotalScore - a.avgTotalScore;
+    });
+
+    for (let i = 0; i < peerList.length; i++) {
+      if (i > 0 && peerList[i].votes === peerList[i - 1].votes) {
+        peerList[i].rank = peerList[i - 1].rank;
+        peerList[i].isTie = true;
+        peerList[i - 1].isTie = true;
+      } else {
+        peerList[i].rank = i + 1;
+        peerList[i].isTie = false;
+      }
+    }
+
     resultsByGrade[g] = {
       grade: g,
       division: isJunior ? 'junior' : 'senior',
@@ -1376,6 +1421,7 @@ app.get('/api/leaderboard', (req, res) => {
       totalBallots: gradeBallots.length,
       totalJudgeEvaluations: gradeScores.length,
       topicRankings,
+      studentsChoiceRanking: peerList,
       judgeRanking: judgeRanked,
       judgeTop3
     };

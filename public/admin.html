@@ -27,7 +27,7 @@
       <div class="flex items-center space-x-3">
         <button id="adminLangToggleBtn" onclick="toggleAdminLanguage()" class="text-xs text-amber-300 bg-amber-500/10 hover:bg-amber-500/20 px-3.5 py-2 rounded-xl border border-amber-500/40 transition flex items-center space-x-1.5 cursor-pointer shadow">
           <span id="adminLangFlag">🇻🇳</span>
-          <span id="adminLangLabel" class="font-bold">Tiếng Việt</span>
+          <span id="adminLangLabel" class="font-bold" data-i18n="langBtn">Tiếng Việt</span>
         </button>
         <a href="/" class="text-xs text-slate-300 hover:text-white px-3.5 py-2 rounded-xl border border-slate-700 bg-slate-800 hover:bg-slate-700 transition flex items-center space-x-1.5 shadow-sm">
           <i class="fa-solid fa-house text-amber-400"></i>
@@ -72,7 +72,7 @@
                 <span id="currentStageGradeDisplay" class="px-2.5 py-0.5 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/30 text-xs font-mono font-bold">Grade 11</span>
               </h2>
               <p data-i18n="stageGradeSub" class="text-xs text-slate-400 mt-0.5">
-                Bấm chọn khối lớp đang biểu diễn trên sân khấu. Màn hình Leaderboard và bảng chấm sẽ lập tức chuyển theo.
+                <span data-i18n="stageGradeSubText">Bấm chọn khối lớp đang biểu diễn trên sân khấu. Màn hình Leaderboard và bảng chấm sẽ lập tức chuyển theo.</span>
               </p>
             </div>
           </div>
@@ -189,18 +189,16 @@
                 <i class="fa-solid fa-triangle-exclamation"></i>
               </div>
               <div>
-                <div class="text-sm font-extrabold uppercase tracking-wide text-rose-300">🚨 THÔNG BÁO HẾT GIỜ (TIME'S UP ALERT)!</div>
-                <div class="text-xs text-slate-200 mt-0.5">Các đội chưa chọn xong 2 phiếu cho lượt này: <strong id="timesUpMissingList" class="text-yellow-300 underline font-mono text-sm"></strong></div>
+                <div class="text-sm font-extrabold uppercase tracking-wide text-rose-300" data-i18n="timesUpAlertTitle">🚨 THÔNG BÁO HẾT GIỜ (TIME'S UP ALERT)!</div>
+                <div class="text-xs text-slate-200 mt-0.5"><span data-i18n="timesUpMissingText">Các đội chưa chọn xong 2 phiếu cho lượt này:</span> <strong id="timesUpMissingList" class="text-yellow-300 underline font-mono text-sm"></strong></div>
               </div>
             </div>
             <div class="flex items-center gap-2 flex-shrink-0">
               <button onclick="add30SecondsTimer()" class="px-3.5 py-2 rounded-lg bg-amber-500 hover:bg-amber-400 text-slate-950 font-extrabold text-xs transition shadow flex items-center space-x-1.5">
                 <i class="fa-solid fa-plus"></i>
-                <span>Gia hạn +30s</span>
+                <span data-i18n="extend30s">Gia hạn +30s</span>
               </button>
-              <button onclick="dismissTimesUpAlert()" class="px-3 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs transition">
-                Đóng
-              </button>
+              <button onclick="dismissTimesUpAlert()" class="px-3 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs transition" data-i18n="dismissBtn">Đóng</button>
             </div>
           </div>
         </div>
@@ -213,7 +211,7 @@
           </div>
           <h2 data-i18n="roundTimerTitle" class="text-xl sm:text-2xl font-bold text-white font-mun">Điều Khiển Thời Gian Bầu Chọn Chủ Đề</h2>
           <p data-i18n="roundTimerSub" class="text-xs sm:text-sm text-slate-400 mt-1 max-w-4xl">
-            Đếm ngược trực tiếp đồng bộ. Khi hết giờ, các đoàn chưa nộp phiếu sẽ được cảnh báo tự động.
+            <span data-i18n="roundTimerSubText">Đếm ngược trực tiếp đồng bộ. Khi hết giờ, các đoàn chưa nộp phiếu sẽ được cảnh báo tự động.</span>
           </p>
         </div>
 
@@ -327,9 +325,9 @@
             <i class="fa-solid fa-microphone-lines"></i>
             <span data-i18n="presTimerSecTitle">Bấm Giờ Thuyết Trình Của Đoàn Ngoại Giao</span>
           </div>
-          <h2 class="text-xl sm:text-2xl font-bold text-white font-mun">Presentation Timer (Bấm Giờ Thuyết Trình)</h2>
+          <h2 class="text-xl sm:text-2xl font-bold text-white font-mun" data-i18n="presTimerTitle">Đồng Hồ Bấm Giờ Thuyết Trình (Presentation Timer)</h2>
           <p data-i18n="presTimerSub" class="text-xs sm:text-sm text-slate-400 mt-1 max-w-4xl">
-            Kiểm soát thời gian phát biểu của từng quốc gia trên sân khấu. Đồng bộ trực tiếp lên máy chiếu và BGK.
+            <span data-i18n="presTimerSubText">Kiểm soát thời gian phát biểu của từng quốc gia trên sân khấu. Đồng bộ trực tiếp lên máy chiếu và BGK.</span>
           </p>
         </div>
 
@@ -386,7 +384,7 @@
         <!-- Presenter Country Selector -->
         <div class="mt-4 flex flex-wrap items-center justify-between gap-3 bg-slate-900/80 p-3.5 rounded-xl border border-slate-800">
           <div class="flex flex-wrap items-center gap-3">
-            <span class="text-xs font-bold text-slate-300 uppercase">Đoàn đang thuyết trình:</span>
+            <span class="text-xs font-bold text-slate-300 uppercase" data-i18n="presPresentingLabel">Đoàn đang thuyết trình:</span>
             <select id="presGradeSelect" onchange="onPresGradeChange()" class="bg-slate-950 border border-slate-700 rounded-lg px-3 py-1.5 text-xs font-bold text-sky-400 focus:outline-none">
               <optgroup label="🌟 Primary: Parade of Nations (Grade 1 - 3)">
                   <option value="Grade 1A1">Grade 1A1</option>
@@ -442,23 +440,23 @@
           <div class="flex flex-wrap items-center gap-2.5 flex-shrink-0">
             <a href="/api/admin/export/excel?grade=all" class="px-4 py-3 rounded-xl text-xs font-extrabold bg-emerald-600 hover:bg-emerald-500 text-white transition flex items-center justify-center space-x-2 shadow-lg shadow-emerald-600/20">
               <i class="fa-solid fa-file-excel"></i>
-              <span>Tải File Excel (.xlsx)</span>
+              <span data-i18n="downloadExcelBtn">Tải File Excel (.xlsx)</span>
             </a>
             <a href="/report?grade=all" target="_blank" class="px-4 py-3 rounded-xl text-xs font-extrabold bg-blue-600 hover:bg-blue-500 text-white transition flex items-center justify-center space-x-2 shadow-lg shadow-blue-600/20">
               <i class="fa-solid fa-file-pdf"></i>
-              <span>Xem & In Biên Bản (Dossier)</span>
+              <span data-i18n="viewDossierBtn">Xem & In Biên Bản (Dossier)</span>
             </a>
             <button onclick="backupEvidenceAndResetForNextGrade()" class="px-5 py-3 rounded-xl text-xs font-extrabold bg-gradient-to-r from-amber-400 via-yellow-400 to-amber-500 hover:from-amber-300 hover:to-yellow-300 text-slate-950 transition shadow-xl shadow-amber-500/25 flex items-center justify-center space-x-2 cursor-pointer">
               <i class="fa-solid fa-rotate-right"></i>
-              <span>Xuất Minh Chứng & Reset Khối Tiếp</span>
+              <span data-i18n="resetNextGradeBtn">Xuất Minh Chứng & Reset Khối Tiếp</span>
             </button>
             <button type="button" onclick="downloadJsonBackup()" class="px-4 py-3 rounded-xl text-xs font-extrabold bg-purple-600 hover:bg-purple-500 text-white transition flex items-center justify-center space-x-2 shadow-lg shadow-purple-600/20 cursor-pointer" title="Download full JSON snapshot">
               <i class="fa-solid fa-cloud-arrow-down"></i>
-              <span>Sao Lưu JSON (Backup)</span>
+              <span data-i18n="backupJsonBtn">Sao Lưu JSON (Backup)</span>
             </button>
             <label class="px-4 py-3 rounded-xl text-xs font-extrabold bg-indigo-600 hover:bg-indigo-500 text-white transition flex items-center justify-center space-x-2 shadow-lg shadow-indigo-600/20 cursor-pointer" title="Restore from backup JSON file">
               <i class="fa-solid fa-cloud-arrow-up"></i>
-              <span>Phục Hồi JSON (Restore)</span>
+              <span data-i18n="restoreJsonBtn">Phục Hồi JSON (Restore)</span>
               <input type="file" id="restoreBackupInput" accept=".json" class="hidden" onchange="handleRestoreBackupFile(event)">
             </label>
           </div>
@@ -494,7 +492,7 @@
             </button>
             <button onclick="toggleAllPasscodeMask()" id="passMaskToggleBtn" class="px-4 py-2 rounded-xl text-xs font-extrabold bg-amber-500/15 hover:bg-amber-500/25 text-amber-300 border border-amber-500/40 hover:border-amber-400 transition flex items-center space-x-2 shadow-sm ml-auto">
               <i id="passMaskIcon" class="fa-solid fa-eye"></i>
-              <span id="passMaskText">Hiện Tất Cả Mật Khẩu</span>
+              <span id="passMaskText" data-i18n="passMaskText">Hiện Tất Cả Mật Khẩu</span>
             </button>
           </div>
         </div>
@@ -502,7 +500,7 @@
         <!-- Dynamic Container Rendered by JS -->
         <div id="passcodesDynamicContainer" class="space-y-6">
           <div class="text-center py-8 text-slate-400 text-xs font-mono">
-            <i class="fa-solid fa-circle-notch fa-spin text-amber-400 mr-2"></i>Đang tải danh mục mật mã...
+            <i class="fa-solid fa-circle-notch fa-spin text-amber-400 mr-2"></i><span data-i18n="loadingPasscodes">Đang tải danh mục mật mã...</span>
           </div>
         </div>
       </div>
@@ -651,7 +649,24 @@
         stageSyncNotice: "Đồng bộ tức thì đến Máy Chiếu Leaderboard",
         tabByMentor: "Theo Mentor",
         tabByGrade: "Theo Lớp",
-        tabJudges: "Ban Giám Khảo"
+        tabJudges: "Ban Giám Khảo",
+        stageGradeSubText: "Bấm chọn khối lớp đang biểu diễn trên sân khấu. Màn hình Leaderboard và bảng chấm sẽ lập tức chuyển theo.",
+        timesUpAlertTitle: "🚨 THÔNG BÁO HẾT GIỜ (TIME'S UP ALERT)!",
+        timesUpMissingText: "Các đội chưa chọn xong 2 phiếu cho lượt này:",
+        extend30s: "Gia hạn +30s",
+        dismissBtn: "Đóng",
+        roundTimerSubText: "Đếm ngược trực tiếp đồng bộ. Khi hết giờ, các đoàn chưa nộp phiếu sẽ được cảnh báo tự động.",
+        presTimerSubText: "Kiểm soát thời gian phát biểu của từng quốc gia trên sân khấu. Đồng bộ trực tiếp lên máy chiếu và BGK.",
+        presPresentingLabel: "Đoàn đang thuyết trình:",
+        downloadExcelBtn: "📊 Tải File Excel (.xlsx)",
+        viewDossierBtn: "📄 Xem & In Biên Bản (Dossier)",
+        resetNextGradeBtn: "🔄 Xuất Minh Chứng & Reset Khối Tiếp",
+        backupJsonBtn: "☁️ Sao Lưu JSON (Backup)",
+        restoreJsonBtn: "📥 Phục Hồi JSON (Restore)",
+        passMaskText: "Hiện Tất Cả Mật Khẩu",
+        loadingPasscodes: "Đang tải danh mục mật mã...",
+        presMinuteUnit: "phút",
+        presSetBtn: "Đặt",
       },
       en: {
         navTitle: "Executive Event Administration & Stage Control",
@@ -725,9 +740,16 @@
       document.querySelectorAll('[data-i18n]').forEach(el => {
         const key = el.getAttribute('data-i18n');
         if (dict[key]) {
-          el.textContent = dict[key];
+          el.innerHTML = dict[key];
         }
       });
+
+      if (typeof renderLiveDelegationsStatus === 'function') {
+        renderLiveDelegationsStatus();
+      }
+      if (typeof renderPasscodesDirectory === 'function' && passcodeDataCache) {
+        renderPasscodesDirectory();
+      }
     }
 
     // Call on load
@@ -911,10 +933,17 @@
         const curr = tSelect.value;
         if (isJunior) {
           tSelect.innerHTML = `
+            ${currentAdminLang === "en" ? `
+            <option value="parade">🌟 Parade: Costume & Catwalk</option>
+            <option value="greeting">🎤 National Greeting & Script</option>
+            <option value="facts">🗺️ Fact Expansion: Culture & Geography (+2)</option>
+            <option value="general">💬 General Speech & Showcase</option>
+          ` : `
             <option value="parade">🌟 Diễu Hành: Trang Phục & Catwalk</option>
             <option value="greeting">🎤 Lời Chào & Kịch Bản Quốc Gia</option>
             <option value="facts">🗺️ Mở Rộng: Văn Hóa & Địa Lý (+2)</option>
             <option value="general">💬 Thuyết Trình Chung & Giao Lưu</option>
+          `}
           `;
         } else {
           tSelect.innerHTML = `
@@ -1127,8 +1156,8 @@ function updateTimerUi(t) {
               : '<span class="px-2.5 py-1 rounded-full bg-slate-800 text-slate-400 font-bold text-[10px] border border-slate-700">⏳ IN PROGRESS</span>';
 
             const roundStatus = d.missingCurrent
-              ? '<span class="text-rose-400 font-bold text-xs"><i class="fa-solid fa-triangle-exclamation mr-1"></i>Chưa đủ phiếu</span>'
-              : '<span class="text-emerald-400 font-bold text-xs"><i class="fa-solid fa-check mr-1"></i>Đã xong lượt</span>';
+              ? (currentAdminLang === "en" ? '<span class="text-rose-400 font-bold text-xs"><i class="fa-solid fa-triangle-exclamation mr-1"></i>Pending votes</span>' : '<span class="text-rose-400 font-bold text-xs"><i class="fa-solid fa-triangle-exclamation mr-1"></i>Chưa đủ phiếu</span>')
+              : (currentAdminLang === "en" ? '<span class="text-emerald-400 font-bold text-xs"><i class="fa-solid fa-check mr-1"></i>Completed</span>' : '<span class="text-emerald-400 font-bold text-xs"><i class="fa-solid fa-check mr-1"></i>Đã xong lượt</span>');
 
             const displayName = d.studentName ? `${d.studentName} (${d.country})` : d.name;
             const subDetail = isJunior ? (d.costume || 'National Costume') : ((/william/i.test(d.mentor) || /wiliam/i.test(d.mentor)) ? 'William' : (d.mentor || '—'));
@@ -1865,7 +1894,7 @@ function updateTimerUi(t) {
             <div>
               <div class="flex items-center space-x-2 text-xs font-black uppercase tracking-wider text-amber-400 mb-3">
                 <i class="fa-solid fa-star"></i>
-                <span>🌟 Ban Giám Khảo Tiểu Học (Primary School Judges &bull; Grades 1 - 3)</span>
+                <span>${currentAdminLang === "en" ? "🌟 Primary Division Judges (Grades 1 - 3)" : "🌟 Ban Giám Khảo Tiểu Học (Lớp 1 - 3)"}</span>
               </div>
               <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-4">
                 ${primaryJudges.map(j => renderJudgeCard(j, true)).join('')}
@@ -1875,7 +1904,7 @@ function updateTimerUi(t) {
             <div>
               <div class="flex items-center space-x-2 text-xs font-black uppercase tracking-wider text-blue-400 mb-3">
                 <i class="fa-solid fa-scale-balanced"></i>
-                <span>🏛️ Ban Giám Khảo Trung Học (Senior MUN Judges &bull; Grades 7 - 11)</span>
+                <span>${currentAdminLang === "en" ? "🏛️ Senior Division Judges (Grades 7 - 11)" : "🏛️ Ban Giám Khảo Trung Học (Lớp 7 - 11)"}</span>
               </div>
               <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
                 ${seniorJudges.map(j => renderJudgeCard(j, false)).join('')}
