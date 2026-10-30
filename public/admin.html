@@ -343,15 +343,15 @@
             <div class="flex items-center gap-2">
               <button onclick="controlPresTimer('start')" class="px-4 py-2.5 rounded-xl font-bold text-xs bg-sky-500 hover:bg-sky-400 text-slate-950 transition flex items-center space-x-1.5 shadow cursor-pointer">
                 <i class="fa-solid fa-play"></i>
-                <span>Bắt đầu</span>
+                <span data-i18n="timerStart">Bắt đầu</span>
               </button>
               <button onclick="controlPresTimer('pause')" class="px-3.5 py-2.5 rounded-xl font-bold text-xs bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 transition flex items-center space-x-1.5 cursor-pointer">
                 <i class="fa-solid fa-pause"></i>
-                <span>Tạm dừng</span>
+                <span data-i18n="timerPause">Tạm dừng</span>
               </button>
               <button onclick="controlPresTimer('reset')" class="px-3.5 py-2.5 rounded-xl font-bold text-xs bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 transition flex items-center space-x-1.5 cursor-pointer">
                 <i class="fa-solid fa-rotate-left"></i>
-                <span>Đặt lại</span>
+                <span data-i18n="timerReset">Đặt lại</span>
               </button>
               <button onclick="add30SecondsPresTimer()" class="px-3.5 py-2.5 rounded-xl font-bold text-xs bg-sky-500/20 hover:bg-sky-500/30 text-sky-300 border border-sky-500/30 transition flex items-center space-x-1 cursor-pointer">
                 <span>+30s</span>
@@ -373,8 +373,8 @@
             <!-- Custom Minute Input -->
             <div class="flex items-center space-x-1.5">
               <input type="number" id="customPresMinutesInput" min="1" max="10" step="0.5" placeholder="10" value="10" class="w-16 bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-1.5 text-xs text-center font-bold text-white focus:outline-none focus:border-sky-400">
-              <span class="text-[11px] text-slate-400 font-bold">phút</span>
-              <button onclick="applyCustomPresMinutes()" class="px-3 py-1.5 rounded-lg text-xs font-bold bg-sky-500/20 hover:bg-sky-500/40 text-sky-300 border border-sky-500/40 transition cursor-pointer">
+              <span class="text-[11px] text-slate-400 font-bold" data-i18n="presMinuteUnit">phút</span>
+              <button onclick="applyCustomPresMinutes()" class="px-3 py-1.5 rounded-lg text-xs font-bold bg-sky-500/20 hover:bg-sky-500/40 text-sky-300 border border-sky-500/40 transition cursor-pointer" data-i18n="presSetBtn">
                 Đặt
               </button>
             </div>
@@ -717,7 +717,26 @@
         stageSyncNotice: "Real-time auto sync to Stage Leaderboard",
         tabByMentor: "Group by Mentor",
         tabByGrade: "Group by Grade",
-        tabJudges: "Judges (Giám Khảo)"
+        tabJudges: "Judges (Panel)",
+        stageGradeSubText: "Click to select active grade competing on stage. Stage Leaderboard and scoring sheets sync automatically.",
+        timesUpAlertTitle: "🚨 TIME'S UP ALERT!",
+        timesUpMissingText: "Delegations that have not completed 2 votes for this round:",
+        extend30s: "Extend +30s",
+        dismissBtn: "Dismiss",
+        roundTimerSubText: "Synchronized live countdown. When time expires, delegations that have not submitted ballots are flagged automatically.",
+        presTimerSubText: "Control speaking time for each country on stage. Synchronized live to projector and judges.",
+        presPresentingLabel: "Speaking on stage:",
+        downloadExcelBtn: "📊 Download Official Excel Report (.xlsx)",
+        viewDossierBtn: "📄 Visual Audit Dossier (Print / PDF)",
+        resetNextGradeBtn: "📥 Archive Evidence & Reset Next Grade",
+        backupJsonBtn: "💾 Backup Database (JSON)",
+        restoreJsonBtn: "📂 Restore Database (JSON)",
+        passMaskText: "Hidden for security",
+        loadingPasscodes: "Loading passcodes directory...",
+        presMinuteUnit: "min",
+        presSetBtn: "Set",
+        minUnit: "min",
+        setCustomMinBtn: "Set"
       }
     };
 

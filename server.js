@@ -1221,12 +1221,25 @@ app.get('/api/judge/scores', (req, res) => {
 // Ranking helper with accurate Tie handling:
 // Standard competition ranking (1224) and tie detection
 function rankWithTies(items, scoreField) {
-  items.sort((a, b) => b[scoreField] - a[scoreField]);
+  items.sort((a, b) => (b[scoreField] || 0) - (a[scoreField] || 0));
+  const hasAnyScore = items.some(item => (item[scoreField] || 0) > 0);
+  if (!hasAnyScore) {
+    items.forEach(item => {
+      item.rank = null;
+      item.isTie = false;
+    });
+    return items;
+  }
   for (let i = 0; i < items.length; i++) {
+    if ((items[i][scoreField] || 0) === 0) {
+      items[i].rank = null;
+      items[i].isTie = false;
+      continue;
+    }
     if (i > 0 && items[i][scoreField] === items[i - 1][scoreField]) {
       items[i].rank = items[i - 1].rank;
-      items[i].isTie = items[i][scoreField] > 0;
-      items[i - 1].isTie = items[i - 1][scoreField] > 0;
+      items[i].isTie = true;
+      items[i - 1].isTie = true;
     } else {
       items[i].rank = i + 1;
       items[i].isTie = false;
@@ -1400,17 +1413,58 @@ app.get('/api/leaderboard', (req, res) => {
 
     peerList.sort((a, b) => {
       if (b.votes !== a.votes) return b.votes - a.votes;
-      return b.avgTotalScore - a.avgTotalScore;
+      return (b.avgTotalScore || 0) - (a.avgTotalScore || 0);
     });
 
-    for (let i = 0; i < peerList.length; i++) {
-      if (i > 0 && peerList[i].votes === peerList[i - 1].votes) {
-        peerList[i].rank = peerList[i - 1].rank;
-        peerList[i].isTie = true;
-        peerList[i - 1].isTie = true;
-      } else {
-        peerList[i].rank = i + 1;
-        peerList[i].isTie = false;
+    const totalVotesInGrade = peerList.reduce((sum, p) => sum + (p.votes || 0), 0);
+
+    if (totalVotesInGrade === 0) {
+      peerList.forEach(p => {
+        p.rank = null;
+        p.isTie = false;
+        p.tieNote = "Awaiting ballots";
+      });
+    } else {
+      let currentRank = 1;
+      for (let i = 0; i < peerList.length; i++) {
+        if ((peerList[i].votes || 0) === 0) {
+          peerList[i].rank = null;
+          peerList[i].isTie = false;
+          peerList[i].tieNote = "No ballots recorded";
+          continue;
+        }
+
+        let groupEnd = i;
+        while (groupEnd + 1 < peerList.length && peerList[groupEnd + 1].votes === peerList[i].votes) {
+          groupEnd++;
+        }
+        const groupSize = groupEnd - i + 1;
+        const groupRank = currentRank;
+
+        if (groupSize > 1) {
+          const maxScoreInGroup = Math.max(...peerList.slice(i, groupEnd + 1).map(p => p.avgTotalScore || 0));
+          const minScoreInGroup = Math.min(...peerList.slice(i, groupEnd + 1).map(p => p.avgTotalScore || 0));
+          const hasDifferentScores = maxScoreInGroup !== minScoreInGroup;
+
+          for (let j = i; j <= groupEnd; j++) {
+            peerList[j].rank = groupRank;
+            peerList[j].isTie = true;
+            if (hasDifferentScores && (peerList[j].avgTotalScore || 0) === maxScoreInGroup) {
+              peerList[j].tieNote = "Tied #" + groupRank + " (Higher Judge Score: " + peerList[j].avgTotalScore.toFixed(2) + ")";
+            } else if (hasDifferentScores) {
+              peerList[j].tieNote = "Tied #" + groupRank + " (Judge Score: " + peerList[j].avgTotalScore.toFixed(2) + ")";
+            } else {
+              peerList[j].tieNote = "Tied #" + groupRank + " (" + peerList[j].votes + " votes)";
+            }
+          }
+        } else {
+          peerList[i].rank = groupRank;
+          peerList[i].isTie = false;
+          peerList[i].tieNote = "-";
+        }
+
+        currentRank += groupSize;
+        i = groupEnd;
       }
     }
 
