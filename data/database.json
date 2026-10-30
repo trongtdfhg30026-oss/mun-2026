@@ -6,7 +6,7 @@
     "allowVoteUpdate": true,
     "judgePasscode": "judge2026",
     "activePhase": "all",
-    "activeGrade": "Grade 11"
+    "activeGrade": "Grade 7"
   },
   "countries": [
     {
@@ -53,5 +53,66 @@
     }
   ],
   "studentVotes": [],
-  "judgeScores": []
+  "judgeScores": [
+    {
+      "id": "score_1793324815965_pj2va",
+      "judgeName": "Kevin Ta",
+      "grade": "Grade 7",
+      "countryId": "italy",
+      "scores": {
+        "preparation": 3,
+        "speaking": 2,
+        "vocabulary": 3,
+        "teamwork": 2,
+        "qna": 3
+      },
+      "baseScore": 13,
+      "advancedBonus": true,
+      "bonusPoints": 5,
+      "totalScore": 18,
+      "comments": "Most of you were fluent. Sometimes, you tried to keep eye-contact.",
+      "division": "senior",
+      "timestamp": "2026-10-30T01:46:55.965Z"
+    },
+    {
+      "id": "score_1793324819059_oz2me",
+      "judgeName": "Chi Nguyen",
+      "grade": "Grade 7",
+      "countryId": "italy",
+      "scores": {
+        "preparation": 2,
+        "speaking": 2,
+        "vocabulary": 3,
+        "teamwork": 2,
+        "qna": 2
+      },
+      "baseScore": 11,
+      "advancedBonus": true,
+      "bonusPoints": 5,
+      "totalScore": 16,
+      "comments": "",
+      "division": "senior",
+      "timestamp": "2026-10-30T01:46:59.059Z"
+    },
+    {
+      "id": "score_1793324844219_8adps",
+      "judgeName": "Mr. D",
+      "grade": "Grade 7",
+      "countryId": "italy",
+      "scores": {
+        "preparation": 2,
+        "speaking": 2,
+        "vocabulary": 3,
+        "teamwork": 2,
+        "qna": 3
+      },
+      "baseScore": 12,
+      "advancedBonus": false,
+      "bonusPoints": 0,
+      "totalScore": 12,
+      "comments": "Learning how to present without speaking too fast or too slow is always a challenge.  Keep going!\nGood answer to the judges question.",
+      "division": "senior",
+      "timestamp": "2026-10-30T01:47:24.219Z"
+    }
+  ]
 }
