@@ -550,8 +550,6 @@ app.get('/api/config', (req, res) => {
       { name: 'Chi Nguyen', title: 'Judge 3', division: 'senior' }
     ],
     judges: [
-      { name: 'Cô Mai', title: 'Primary Judge 1', division: 'junior' },
-      { name: 'Cô Phương', title: 'Primary Judge 2', division: 'junior' },
       { name: 'Kevin Ta', title: 'Judge 1', division: 'senior' },
       { name: 'Mr. D', title: 'Judge 2', division: 'senior' },
       { name: 'Chi Nguyen', title: 'Judge 3', division: 'senior' }
@@ -597,9 +595,7 @@ app.get('/api/passcodes', (req, res) => {
     passcodes: COUNTRY_PASSCODES,
     directory,
     judges: [
-      { name: 'Cô Mai', title: 'Primary Judge 1 (Grades 1-3)', division: 'junior', passcode: 'COMAI2026' },
-      { name: 'Cô Phương', title: 'Primary Judge 2 (Grades 1-3)', division: 'junior', passcode: 'COPHUONG2026' },
-      { name: 'Kevin Ta', title: 'Senior Judge 1 (Grades 7-11)', division: 'senior', passcode: 'KEVINTA2026' },
+      { name: 'Kevin Ta', title: 'Judge 1 (Senior MUN)', division: 'senior', passcode: 'KEVINTA2026' },
       { name: 'Mr. D', title: 'Senior Judge 2 (Grades 7-11)', division: 'senior', passcode: 'MRD2026' },
       { name: 'Chi Nguyen', title: 'Senior Judge 3 (Grades 7-11)', division: 'senior', passcode: 'CHINGUYEN2026' }
     ]
